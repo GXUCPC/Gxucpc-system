@@ -69,10 +69,8 @@ public class DownloadController {
                 .body(resource);
         return resourceResponseEntity;
     }
-
     @Autowired
     private IUserService userService;
-
     @RequestMapping("findAll")
     public List<User> findAll(){
         List<User> users = userService.findAll();
@@ -84,7 +82,6 @@ public class DownloadController {
         String str = "";
         for (User user : users){
             //System.out.println("hh!!!!!hhhhhh!!!!!!!");
-
             byte[] data = user.getFiles();
             //return data;
             //System.out.println(data);
@@ -95,5 +92,4 @@ public class DownloadController {
         return "ok" + "\n" + str;
         //return null;
     }
-
 }

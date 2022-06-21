@@ -6,6 +6,7 @@ package cn.edu.gxu.gxucpcsystem.dao.mongodb;
  * @create 2022-06-21 9:46 AM
  */
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -13,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-
+@Data
 @Document(collection = "File") //指定实体对应MongoDB的哪一个集合
 public class User implements Serializable {
     @Id
@@ -41,7 +42,6 @@ public class User implements Serializable {
     public byte[] getFiles(){
         return files;
     }
-
 }
 //public class User implements Serializable {
 //    @Id
