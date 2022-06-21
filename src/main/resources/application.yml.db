@@ -1,0 +1,6 @@
+server:
+  port: 80
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://admin:mongodb114514@42.192.36.136:2556/File?authSource=admin"

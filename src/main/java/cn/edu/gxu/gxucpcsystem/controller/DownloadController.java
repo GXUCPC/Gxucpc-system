@@ -1,8 +1,11 @@
 package cn.edu.gxu.gxucpcsystem.controller;
 
 
+import cn.edu.gxu.gxucpcsystem.Service.IUserService;
+import cn.edu.gxu.gxucpcsystem.dao.mongodb.User;
 import cn.edu.gxu.gxucpcsystem.domain.UserOfDownload;
 import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @Author Sct
@@ -65,4 +69,31 @@ public class DownloadController {
                 .body(resource);
         return resourceResponseEntity;
     }
+
+    @Autowired
+    private IUserService userService;
+
+    @RequestMapping("findAll")
+    public List<User> findAll(){
+        List<User> users = userService.findAll();
+                return users;
+    }
+    @RequestMapping("find/{testName}")
+    public String find(@PathVariable("testName") String testName){
+        List<User> users = userService.findUserByName(testName);
+        String str = "";
+        for (User user : users){
+            //System.out.println("hh!!!!!hhhhhh!!!!!!!");
+
+            byte[] data = user.getFiles();
+            //return data;
+            //System.out.println(data);
+            str += "\n" + user.get_id() + user.getUserId() +" " + user.getName();
+            // return user.getFiles();
+        }
+        //System.out.println("hhhhhhhh!!!!!!!");
+        return "ok" + "\n" + str;
+        //return null;
+    }
+
 }
