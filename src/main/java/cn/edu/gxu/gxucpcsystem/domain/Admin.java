@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.dao.mysql;
+package cn.edu.gxu.gxucpcsystem.domain;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class admin {
+public class Admin {
     String userName;
     String password;
 }

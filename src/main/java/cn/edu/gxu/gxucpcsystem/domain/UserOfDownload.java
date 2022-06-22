@@ -1,7 +1,5 @@
 package cn.edu.gxu.gxucpcsystem.domain;
-
 import lombok.Data;
-
 /**
  * @Author Sct
  * @Date 2022/6/12 14:27

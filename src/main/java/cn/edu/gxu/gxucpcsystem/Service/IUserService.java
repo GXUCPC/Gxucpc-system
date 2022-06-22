@@ -8,7 +8,7 @@ package cn.edu.gxu.gxucpcsystem.Service;
  * @create 2022-06-20 5:13 PM
  */
 
-import cn.edu.gxu.gxucpcsystem.dao.mongodb.User;
+import cn.edu.gxu.gxucpcsystem.domain.User;
 
 import java.util.List;
 
@@ -19,8 +19,6 @@ public interface IUserService {
      * @param user 返回保存的用户
      */
     void saveUser(User user) ;
-
-
     /**
      * 查询所有用户
      * @return 用户

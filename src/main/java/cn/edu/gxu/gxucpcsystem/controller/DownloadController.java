@@ -2,7 +2,7 @@ package cn.edu.gxu.gxucpcsystem.controller;
 
 
 import cn.edu.gxu.gxucpcsystem.Service.IUserService;
-import cn.edu.gxu.gxucpcsystem.dao.mongodb.User;
+import cn.edu.gxu.gxucpcsystem.domain.User;
 import cn.edu.gxu.gxucpcsystem.domain.UserOfDownload;
 import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Sct
@@ -59,7 +58,6 @@ public class DownloadController {
             // 非IE浏览器
             fileName = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         }
-
         // 3. 下载文件
         byte[] data = Files.readAllBytes(Paths.get(filePath));
         ByteArrayResource resource = new ByteArrayResource(data);
@@ -77,19 +75,26 @@ public class DownloadController {
                 return users;
     }
     @RequestMapping("find/{testName}")
-    public String find(@PathVariable("testName") String testName){
+    public ResponseEntity<ByteArrayResource> find(@PathVariable("testName") String testName){
         List<User> users = userService.findUserByName(testName);
         String str = "";
-        for (User user : users){
-            //System.out.println("hh!!!!!hhhhhh!!!!!!!");
-            byte[] data = user.getFiles();
-            //return data;
-            //System.out.println(data);
-            str += "\n" + user.get_id() + user.getUserId() +" " + user.getName();
-            // return user.getFiles();
+        return getByteArrayResourceResponseEntity(users);
+    }
+    @PostMapping("/congratulations")
+    public ResponseEntity<ByteArrayResource> congratulations(@RequestBody User person){
+        List<User> users = userService.findUserByName(person.getUserId());
+        return getByteArrayResourceResponseEntity(users);
+    }
+    private ResponseEntity<ByteArrayResource> getByteArrayResourceResponseEntity(List<User> users) {
+        for (User group : users){
+            byte[] data = group.getFiles();
+            ByteArrayResource resource = new ByteArrayResource(data);
+            ResponseEntity<ByteArrayResource> resourceResponseEntity = ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + group.getFileName())
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM).contentLength(data.length)
+                    .body(resource);
+            return resourceResponseEntity;
         }
-        //System.out.println("hhhhhhhh!!!!!!!");
-        return "ok" + "\n" + str;
-        //return null;
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.dao.mysql;
+package cn.edu.gxu.gxucpcsystem.domain;
 
 import lombok.Data;
 
@@ -22,6 +22,6 @@ public class Player {
     String userClass;
     String userQQ;
     String userMail;
-    String P_Group;
-    boolean stat;
+    String group;
+    boolean star;
 }
