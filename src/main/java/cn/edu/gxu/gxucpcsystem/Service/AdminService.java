@@ -3,6 +3,7 @@ package cn.edu.gxu.gxucpcsystem.Service;
 import cn.edu.gxu.gxucpcsystem.Service.utils.MD5Utils;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author MaoMao
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @create 2022-06-22 7:56 PM
  */
 
-
+@Service("AdminService")
 public class AdminService {
     @Autowired
     Admin admin;

@@ -10,4 +10,14 @@
         from user d
     </select>
 
+    <insert id="addAdmin">
+        insert into user (user.userName,user.password)
+        values (#{userName},#{password})
+    </insert>
+
+    <delete id="delAdmin">
+        delete into user (user.userName,user.password)
+        values (#{userName},#{password})
+    </delete>
+
 </mapper>
