@@ -21,4 +21,10 @@
         update user set password = #{password}
         where userName = #{userName}
     </update>
+    <select id="verify" resultType="cn.edu.gxu.gxucpcsystem.domain.Admin">
+        select
+            userName,
+            password
+        from user where userName=#{userName}
+    </select>
 </mapper>
