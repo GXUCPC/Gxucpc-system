@@ -1,7 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller;
 
 
-import cn.edu.gxu.gxucpcsystem.Service.IUserService;
+import cn.edu.gxu.gxucpcsystem.dao.mongodb.IUserService;
 import cn.edu.gxu.gxucpcsystem.domain.User;
 import cn.edu.gxu.gxucpcsystem.domain.UserOfDownload;
 import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author Sct

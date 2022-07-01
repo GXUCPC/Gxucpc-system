@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao">
+    <select id="turnToPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select * from information
+            limit 20 offset #{index}
+    </select>
+    <insert id="insertPlayer">
+
+    </insert>
+    <delete id="delPlayer">
+
+    </delete>
+    </mapper>

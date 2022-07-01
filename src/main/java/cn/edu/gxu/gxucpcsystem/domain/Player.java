@@ -15,7 +15,7 @@ public class Player {
     // 用户编号
     int userId;
     boolean userSex;
-    int userAge;
+    String userPhone;
     // 比赛名称
     int contestId;
     String userCourse;

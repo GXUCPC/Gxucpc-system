@@ -1,7 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller;
 
-import cn.edu.gxu.gxucpcsystem.Service.AdminService;
-import cn.edu.gxu.gxucpcsystem.domain.Admin;
+
+import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
@@ -16,8 +16,10 @@ import java.util.Map;
 @RestController
 @RequestMapping( "/login")
 public class LoginController {
+    private Re re;
     @PostMapping
-    public Result login (@RequestBody Map<String,String> loginMap){
-        Admin admin =
+    public Re login (@RequestBody Map<String,String> loginMap){
+        re = null;
+        return re;
     }
 }

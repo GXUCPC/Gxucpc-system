@@ -5,6 +5,7 @@ package cn.edu.gxu.gxucpcsystem.Service;
  * @Description MongoDB 数据操作Service 接口实现
  * @create 2022-06-21 10:34 AM
  */
+import cn.edu.gxu.gxucpcsystem.dao.mongodb.IUserService;
 import cn.edu.gxu.gxucpcsystem.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
