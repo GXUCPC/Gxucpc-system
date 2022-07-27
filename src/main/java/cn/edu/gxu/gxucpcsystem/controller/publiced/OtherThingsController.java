@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static cn.edu.gxu.gxucpcsystem.controller.Code.STATUS_OK;
+
 /**
  * @Author Sct
  * @Date 2022/7/2 0:21
@@ -16,9 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/public")
 @CrossOrigin
 public class OtherThingsController {
-    private final Code code = new Code();
+    /**
+     * 获取请求IP
+     *
+     * @param request HTTP请求头
+     * @return
+     */
     @GetMapping("/ip")
     public Re getReferIp(HttpServletRequest request) {
-        return new Re(code.STATUS_OK, request.getRemoteAddr(), "获取成功");
+        return new Re(STATUS_OK, request.getRemoteAddr(), "获取成功");
     }
 }

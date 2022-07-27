@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ProjectExceptionAdvice {
+    /**
+     * Exception处理
+     *
+     * @param tokenException 处理的Exception信息
+     * @return 异常代码和异常信息
+     */
     @ExceptionHandler(TokenException.class)
     public Re doTokenException(TokenException tokenException) {
         return new Re(tokenException.getCode(), null, tokenException.getMessage());

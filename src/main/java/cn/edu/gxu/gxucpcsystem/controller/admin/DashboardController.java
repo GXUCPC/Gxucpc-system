@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static cn.edu.gxu.gxucpcsystem.controller.Code.STATUS_OK;
+
 /**
  * @Author Sct
  * @Date 2022/7/1 22:26
@@ -16,10 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin/dashboard")
 @CrossOrigin
 public class DashboardController {
-    private final Code code = new Code();
 
     @GetMapping("/operationlog")
-    public Re getOperationLogs() {
-        return new Re(code.STATUS_OK, null, "获取成功");
+    public Re getOperationLogs(HttpServletRequest request) {
+        return new Re(STATUS_OK, null, "获取成功", (String) request.getAttribute("token"));
     }
 }

@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller;
 
+
 /**
  * @author Sct
  * @date 2022/7/1
@@ -13,4 +14,6 @@ public class Code {
     public static final Integer TOKEN_ERROR = 50002;
     // JWT 密钥
     public static final String JWT_KEY = "GxucpcFromGxucaAndGxuAndDXAndICPCAndCCPC";
+    // Token 失效时间(7D)
+    public static final long TTL_MILLIS = 604800000;
 }
