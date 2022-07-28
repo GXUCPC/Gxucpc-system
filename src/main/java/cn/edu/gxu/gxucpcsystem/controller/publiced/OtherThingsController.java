@@ -2,6 +2,7 @@ package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Request;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import static cn.edu.gxu.gxucpcsystem.controller.Code.STATUS_OK;
 @RestController
 @RequestMapping("/api/public")
 @CrossOrigin
+@Slf4j
 public class OtherThingsController {
     /**
      * 获取请求IP

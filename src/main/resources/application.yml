@@ -1,0 +1,21 @@
+server:
+  port: 80
+  tomcat:
+    uri-encoding: UTF-8
+
+logging:
+  config: classpath:log4j2.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://42.192.36.136:3555/gxucpc?useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong
+    username: root
+    password: mysql114514
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://admin:mongodb114514@42.192.36.136:2556/File?authSource=admin
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
