@@ -4,14 +4,12 @@
 <mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.AdminDao">
     <select id="queryAll" resultType="cn.edu.gxu.gxucpcsystem.domain.Admin">
         select d.userName,
-               d.password,
-               d.privilege,
-               d.realName
+               d.password
         from user d
     </select>
     <insert id="addAdmin">
-        insert into user (user.userName, user.password, user.privilege, user.realName)
-        values (#{userName}, #{password}, #{privilege}, #{realName})
+        insert into user (user.userName, user.password)
+        values (#{userName}, #{password})
     </insert>
 
     <delete id="delAdmin">
@@ -21,17 +19,12 @@
     </delete>
     <update id="updateAdmin">
         update user
-        set password  = #{password},
-            userName  = #{username},
-            privilege = #{privilege},
-            realName  = #{realName}
+        set password = #{password}
         where userName = #{userName}
     </update>
     <select id="verify" resultType="cn.edu.gxu.gxucpcsystem.domain.Admin">
         select userName,
-               password,
-               privilege,
-               realName
+               password
         from user
         where userName = #{userName}
     </select>
