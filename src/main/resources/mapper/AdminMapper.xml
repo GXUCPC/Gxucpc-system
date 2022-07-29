@@ -3,28 +3,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.AdminDao">
     <select id="queryAll" resultType="cn.edu.gxu.gxucpcsystem.domain.Admin">
-        select
-            d.userName ,
-            d.password
+        select d.userName,
+               d.password,
+               d.privilege,
+               d.realName
         from user d
     </select>
     <insert id="addAdmin">
-        insert into user (user.userName,user.password)
-        values (#{userName},#{password})
+        insert into user (user.userName, user.password, user.privilege, user.realName)
+        values (#{userName}, #{password}, #{privilege}, #{realName})
     </insert>
 
     <delete id="delAdmin">
-        delete from user
+        delete
+        from user
         where user.userName = #{userName}
     </delete>
     <update id="updateAdmin">
-        update user set password = #{password}
+        update user
+        set password  = #{password},
+            userName  = #{username},
+            privilege = #{privilege},
+            realName  = #{realName}
         where userName = #{userName}
     </update>
     <select id="verify" resultType="cn.edu.gxu.gxucpcsystem.domain.Admin">
-        select
-            userName,
-            password
-        from user where userName=#{userName}
+        select userName,
+               password,
+               privilege,
+               realName
+        from user
+        where userName = #{userName}
     </select>
 </mapper>

@@ -1,6 +1,8 @@
 package cn.edu.gxu.gxucpcsystem.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author MaoMao
@@ -9,7 +11,10 @@ import lombok.Data;
  */
 
 @Data
+@AllArgsConstructor
 public class Admin {
-    String userName;
-    String password;
+    private String userName;
+    private String password;
+    private Integer privilege;
+    private String realName;
 }
