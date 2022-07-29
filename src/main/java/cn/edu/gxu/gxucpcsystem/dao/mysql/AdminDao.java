@@ -15,35 +15,8 @@ public interface AdminDao {
      * @return all
      */
     List<Admin> queryAll();
-
-
-    /**
-     * 添加管理员账户
-     *
-     * @param userName 用户名
-     * @param password 密码
-     * @param privilege 权限
-     * @param realName 真实姓名
-     */
-    void addAdmin(String userName,String password, Integer privilege, String realName);
-
-
-    /**
-     * 删除管理员账户
-     *
-     * @param userName
-     */
-    void delAdmin(String userName);
-
-
-    /**
-     * 修改管理员信息
-     *
-     * @param userName
-     * @param password
-     * @param privilege
-     * @param realName
-     */
-    void updateAdmin(String userName,String password, Integer privilege, String realName);
+    int addAdmin(String userName,String password);
+    int delAdmin(String userName);
+    int updateAdmin(String userName,String password);
     Admin verify (String userName);
 }
