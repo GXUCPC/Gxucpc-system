@@ -12,6 +12,17 @@ spring:
     username: root
     password: mysql114514
     driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #初始状态数量
+      initial-size: 5
+      #最小连接数
+      min-idle: 5
+      #最大连接数
+      max-active: 20
+      #毫秒
+      max-wait: 60000
+
   data:
     mongodb:
       uri: mongodb://admin:mongodb114514@42.192.36.136:2556/File?authSource=admin

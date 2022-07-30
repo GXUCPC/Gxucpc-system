@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service.utils;
+package cn.edu.gxu.gxucpcsystem.utils;
 
 /**
  * @author MaoMao

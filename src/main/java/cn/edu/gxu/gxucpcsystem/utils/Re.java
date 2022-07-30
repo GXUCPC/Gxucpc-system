@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.domain.utils;
+package cn.edu.gxu.gxucpcsystem.utils;
 
 import lombok.Data;
 import org.springframework.core.io.ByteArrayResource;

@@ -1,9 +1,7 @@
-package cn.edu.gxu.gxucpcsystem.domain.utils;
+package cn.edu.gxu.gxucpcsystem.utils;
 
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
+import cn.edu.gxu.gxucpcsystem.exception.TokenException;
+import io.jsonwebtoken.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -11,8 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static cn.edu.gxu.gxucpcsystem.controller.Code.JWT_KEY;
-import static cn.edu.gxu.gxucpcsystem.controller.Code.TTL_MILLIS;
+import static cn.edu.gxu.gxucpcsystem.controller.Code.*;
 
 /**
  * @Author Sct
@@ -28,10 +25,10 @@ public class JwtUtil {
      * @param ttlMillis jwt过期时间(毫秒)
      * @param username  用户名
      * @param ip        访问的IP地址
-     * @param power     用户权限
+     * @param userType  用户权限
      * @return 信息加密后的Token
      */
-    public static String createJWT(String jwtSec, long ttlMillis, String username, String ip, String power) {
+    public static String createJWT(String jwtSec, long ttlMillis, String username, String ip, String userType, String password) {
         // 签名算法
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -43,7 +40,8 @@ public class JwtUtil {
         Map<String, Object> claims = new HashMap<String, Object>();
         claims.put("username", username);
         claims.put("ip", ip);
-        claims.put("power", power);
+        claims.put("userType", userType);
+        claims.put("password", password);
 
         // 添加payload声明
         // 设置jwt的body
@@ -56,7 +54,8 @@ public class JwtUtil {
                 .setIssuedAt(now)
                 .setSubject(username)
                 .setSubject(ip)
-                .setSubject(power)
+                .setSubject(userType)
+                .setSubject(password)
                 // 设置签名使用的签名算法和签名使用的秘钥
                 .signWith(signatureAlgorithm, jwtSec.getBytes(StandardCharsets.UTF_8));
         if (ttlMillis < 0) {
@@ -79,19 +78,33 @@ public class JwtUtil {
      */
     public static Claims parseJWT(String jwtSec, String token) {
         // 得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                // 设置签名的秘钥
-                .setSigningKey(jwtSec.getBytes(StandardCharsets.UTF_8))
-                // 设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
-        return claims;
+        try {
+            Claims claims = Jwts.parser()
+                    // 设置签名的秘钥
+                    .setSigningKey(jwtSec.getBytes(StandardCharsets.UTF_8))
+                    // 设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+            return claims;
+        } catch (ExpiredJwtException e) {
+            throw new TokenException(TOKEN_ERROR, "jwt过期");
+        } catch (UnsupportedJwtException e) {
+            throw new TokenException(TOKEN_ERROR, "不支持的JWT");
+        } catch (MalformedJwtException e) {
+            throw new TokenException(TOKEN_ERROR, "JWT格式错误");
+        } catch (SignatureException e) {
+            throw new TokenException(TOKEN_ERROR, "签名异常");
+        } catch (IllegalArgumentException e) {
+            throw new TokenException(TOKEN_ERROR, "非法请求");
+        } catch (Exception e) {
+            throw new TokenException(TOKEN_ERROR, "解析异常");
+        }
     }
 
 
     /**
      * Token的续租(为了减少服务器压力，只给失效不到一天的token进行续租)
      *
-     * @param token  旧的token
+     * @param token 旧的token
      * @return 新的token
      */
     public static String reletJWT(String token) {
@@ -100,8 +113,8 @@ public class JwtUtil {
         // 对于不到一天到期的Token自动续租
         long nowMillis = System.currentTimeMillis() + 86400000;
         Date nowTime = new Date(nowMillis);
-        if(nowTime.after(jwtTime)) {
-            token = createJWT(JWT_KEY, TTL_MILLIS, (String) claims.get("username"), (String) claims.get("ip"), (String) claims.get("power"));
+        if (nowTime.after(jwtTime)) {
+            token = createJWT(JWT_KEY, TTL_MILLIS, (String) claims.get("username"), (String) claims.get("ip"), (String) claims.get("power"), (String) claims.get("password"));
         }
         return token;
     }

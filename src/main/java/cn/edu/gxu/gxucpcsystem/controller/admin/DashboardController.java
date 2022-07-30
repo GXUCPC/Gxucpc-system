@@ -1,7 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.controller.Code;
-import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
+import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
