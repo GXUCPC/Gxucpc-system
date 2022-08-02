@@ -1,6 +1,5 @@
 package cn.edu.gxu.gxucpcsystem.controller.entity;
 
-import cn.edu.gxu.gxucpcsystem.domain.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminPages {
-    private List<Admin> tableData;
+public class PagesEntity {
+    private Object tableData;
     private Integer total;
 }

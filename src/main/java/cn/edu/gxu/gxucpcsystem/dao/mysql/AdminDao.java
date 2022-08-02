@@ -18,7 +18,7 @@ public interface AdminDao {
      * @param count 最大行数
      * @return Page[offset+1, offset+count]
      */
-    List<Admin> queryByAge(@Param("offset") Integer offset, @Param("count") Integer count);
+    List<Admin> queryByAge(Integer offset, Integer count);
 
     /**
      * 添加管理员

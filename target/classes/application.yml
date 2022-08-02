@@ -22,10 +22,11 @@ spring:
       max-active: 20
       #毫秒
       max-wait: 60000
-
   data:
     mongodb:
       uri: mongodb://admin:mongodb114514@42.192.36.136:2556/File?authSource=admin
+  mail:
+    default-encoding: UTF-8
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

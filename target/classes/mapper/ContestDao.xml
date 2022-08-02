@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao">
+    <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select id,
+               name,
+               signUpBeginTime,
+               signUpEndTime,
+               email,
+               smtpPassword,
+               contestBeginTime,
+               contestEndTime,
+               isDownload
+        from contest
+        limit #{offset}, #{count}
+    </select>
+    <insert id="addContest">
+        insert into contest (name, signUpBeginTime, signUpEndTime, email, smtpPassword, contestBeginTime,
+                             contestEndTime)
+        VALUES (#{name}, #{signUpBeginTime}, #{signUpEndTime}, #{email}, #{smtpPassword}, #{contestBeginTime},
+                #{contestEndTime})
+    </insert>
+    <delete id="delContest">
+        delete
+        from contest
+        where id = #{id}
+    </delete>
+    <update id="updateContest">
+        update contest
+        set name             = #{name},
+            signUpBeginTime  = #{signUpBeginTime},
+            signUpEndTime    = #{signUpEndTime},
+            email            = #{email},
+            smtpPassword     = #{smtpPassword},
+            contestBeginTime = #{contestBeginTime},
+            contestEndTime   = #{contestEndTime}
+        where id = #{id}
+    </update>
+    <update id="updateDownload">
+        update contest
+        set isDownload = #{isDownload}
+        where id = #{id}
+    </update>
+    <select id="getDownload" resultType="java.lang.Boolean">
+        select isDownload
+        from contest
+        where id = #{id}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from contest
+    </select>
+</mapper>

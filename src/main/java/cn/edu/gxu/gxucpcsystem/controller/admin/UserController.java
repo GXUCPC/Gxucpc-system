@@ -2,8 +2,9 @@ package cn.edu.gxu.gxucpcsystem.controller.admin;
 
 import cn.edu.gxu.gxucpcsystem.Service.AdminService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
-import cn.edu.gxu.gxucpcsystem.controller.entity.AdminPages;
+import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
+import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,12 @@ public class UserController {
      *
      * @param admin 管理员信息
      * @return
-     * @method POST
-     * @url /admin/user
      */
     @PostMapping
-    public Re addUser(@RequestBody Admin admin) {
+    public Re addUser(HttpServletRequest request, @RequestBody Admin admin) {
+        String token = (String) request.getAttribute("token");
         if (adminService.addAdmin(admin)) {
+            LogsUtil.logOfOperation(request.getHeader("username"), "添加了" + admin.getUserType() + "：" + admin.getUsername());
             return new Re(Code.STATUS_OK, null, "添加成功");
         }
         return new Re(Code.DATABASE_ERROR, null, "数据库系统存在异常,请重试！");
@@ -45,8 +46,10 @@ public class UserController {
      * @return
      */
     @DeleteMapping
-    public Re delUser(Integer id) {
+    public Re delUser(HttpServletRequest request, Integer id, String name) {
+        String token = (String) request.getAttribute("token");
         if(adminService.delAdmin(id)) {
+            LogsUtil.logOfOperation(request.getHeader("username"), "删除了管理员：" + name);
             return new Re(Code.STATUS_OK, null, "删除成功");
         }
         return new Re(Code.RESOURCE_DISABLE, null, "没有该用户，删除失败");
@@ -61,10 +64,12 @@ public class UserController {
      */
     @PutMapping
     public Re updateUser(@RequestBody Admin admin, HttpServletRequest request) {
+        String token = (String) request.getAttribute("token");
         if(request.getHeader("isChangePassword") == null)
             return new Re(Code.RESOURCE_DISABLE, null, "错误的请求格式");
         int isChangePassword = Integer.parseInt(request.getHeader("isChangePassword"));
         if(adminService.updateAdmin(admin, isChangePassword == 1)) {
+            LogsUtil.logOfOperation(request.getHeader("username"), "修改了管理员：" + admin.getUsername());
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
         return new Re(Code.DATABASE_ERROR, null, "修改失败");
@@ -78,8 +83,9 @@ public class UserController {
      * @return
      */
     @GetMapping
-    public Re getByPage(Integer currentPage, Integer numberPerPage) {
-        AdminPages adminPages =  adminService.getByPage(currentPage, numberPerPage);
-        return new Re(Code.STATUS_OK, adminPages, "请求成功");
+    public Re getByPage(HttpServletRequest request, Integer currentPage, Integer numberPerPage) {
+        String token = (String) request.getAttribute("token");
+        PagesEntity pagesEntity =  adminService.getByPage(currentPage, numberPerPage);
+        return new Re(Code.STATUS_OK, pagesEntity, "请求成功");
     }
 }

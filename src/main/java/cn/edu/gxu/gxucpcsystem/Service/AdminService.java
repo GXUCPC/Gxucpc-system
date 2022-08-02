@@ -1,13 +1,12 @@
 package cn.edu.gxu.gxucpcsystem.Service;
 
-import cn.edu.gxu.gxucpcsystem.controller.entity.AdminPages;
+import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.utils.MD5Utils;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.AdminDao;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 
@@ -21,11 +20,6 @@ import java.util.List;
 public class AdminService {
     @Autowired
     private AdminDao adminDao;
-
-    public Admin findByLoginNameAndPassword(String userName, String password) {
-        String passwordMD5 = MD5Utils.string2MD5(password);
-        return null;
-    }
 
     /**
      * 添加用户
@@ -61,11 +55,12 @@ public class AdminService {
      * @param password 密码
      * @return 用户名与密码是否匹配
      */
-    public Boolean checkPassword(String username, String password) {
+    public Admin checkPassword(String username, String password) {
         List<Admin> userList = adminDao.getByUsername(username);
-        if(userList.isEmpty()) return false;
+        if(userList.isEmpty()) return null;
         Admin user = userList.get(0);
-        return MD5Utils.passwordIsTrue(password, user.getPassword());
+        if(!MD5Utils.passwordIsTrue(password, user.getPassword())) return null;
+        return user;
     }
 
     /**
@@ -96,9 +91,8 @@ public class AdminService {
      * @param numberPerPage 每页有多少
      * @return 第currentPage页的管理员
      */
-    public AdminPages getByPage(Integer currentPage, Integer numberPerPage) {
-        AdminPages adminPages = new AdminPages(adminDao.queryByAge((currentPage - 1) * numberPerPage, numberPerPage), adminDao.getCount());
-        return adminPages;
+    public PagesEntity getByPage(Integer currentPage, Integer numberPerPage) {
+        return new PagesEntity(adminDao.queryByAge((currentPage - 1) * numberPerPage, numberPerPage), adminDao.getCount());
     }
 
     /**
