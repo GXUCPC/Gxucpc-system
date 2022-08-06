@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao">
+    <insert id="addPlayer">
+        insert into information(userName,
+                                informationId,
+                                userSex,
+                                userCourse,
+                                userClass,
+                                userQQ,
+                                userMail,
+                                contestId,
+                                star,
+                                `group`,
+                                userPhone,
+                                userId)
+        values (#{userName},
+                #{informationId},
+                #{userSex},
+                #{userCourse},
+                #{userClass},
+                #{userQQ},
+                #{userMail},
+                #{contestId},
+                #{star},
+                #{group},
+                #{userPhone},
+                #{userId})
+    </insert>
+    <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from gxucpc.information
+        WHERE contestId = #{contestId}
+        limit #{offset}, #{count}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from gxucpc.information
+    </select>
+</mapper>
