@@ -51,4 +51,9 @@
         select count(*)
         from contest
     </select>
+    <select id="getById" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select *
+        from contest
+        where id = #{id}
+    </select>
 </mapper>

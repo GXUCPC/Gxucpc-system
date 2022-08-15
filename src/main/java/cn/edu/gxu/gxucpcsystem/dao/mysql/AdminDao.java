@@ -79,4 +79,6 @@ public interface AdminDao {
      * @return 记录总数
      */
     Integer getCount();
+
+    Integer updateAdminLogin(Integer id, Long lastLogin);
 }

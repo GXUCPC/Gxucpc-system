@@ -105,4 +105,8 @@ public class AdminService {
         if(adminList.isEmpty())  return null;
         return adminDao.getByUsername(username).get(0);
     }
+
+    public Boolean updateLastLogin(Integer id, Long lastLogin) {
+        return adminDao.updateAdminLogin(id, lastLogin) == 1;
+    }
 }

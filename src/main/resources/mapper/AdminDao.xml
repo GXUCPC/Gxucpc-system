@@ -57,4 +57,9 @@
         from user d
         where username = #{username}
     </select>
+    <update id="updateAdminLogin">
+        update user
+        set lastLogin = #{lastLogin}
+        where id = #{id}
+    </update>
 </mapper>

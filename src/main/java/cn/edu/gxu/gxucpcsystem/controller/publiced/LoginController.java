@@ -33,7 +33,10 @@ public class LoginController {
             response.addHeader("Access-Control-Expose-Headers", "token");
 
             LogsUtil.logOfOperation(checkAdmin.getUsername(), "登录系统");
-            return new Re(Code.STATUS_OK, checkAdmin, "登陆成功");
+
+            if (adminService.updateLastLogin(checkAdmin.getId(), System.currentTimeMillis()))
+                return new Re(Code.STATUS_OK, checkAdmin, "登陆成功");
+            else return new Re(Code.DATABASE_ERROR, null, "数据库异常");
         }
         return new Re(Code.RESOURCE_DISABLE, null, "用户名/密码无效");
     }
