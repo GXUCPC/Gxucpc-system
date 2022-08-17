@@ -23,6 +23,14 @@ public class LoginController {
     @Autowired
     AdminService adminService;
 
+    /**
+     * 登录
+     *
+     * @param admin 账号+密码
+     * @param request HTTP请求头
+     * @param response HTTP响应头
+     * @return
+     */
     @PostMapping("/login")
     public Re login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) {
         Admin checkAdmin = adminService.checkPassword(admin.getUsername(), admin.getPassword());
