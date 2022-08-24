@@ -33,6 +33,19 @@ public class PlayerService {
     }
 
     /**
+     * 分页模糊查找
+     *
+     * @param currentPage   当前页
+     * @param numberPerPage 每页个数
+     * @param contestId     比赛号
+     * @param regex         正则值
+     * @return [总数，该页元素]
+     */
+    public PagesEntity getByPagesRegex(int currentPage, int numberPerPage, int contestId, String regex) {
+        return new PagesEntity(playerDao.queryByPageRegex((currentPage - 1) * numberPerPage, contestId, numberPerPage, regex), playerDao.regexCount(contestId, regex));
+    }
+
+    /**
      * 添加选手参赛信息
      *
      * @param player 比赛选手信息
@@ -40,6 +53,34 @@ public class PlayerService {
      */
     public boolean addPlayer(Player player) {
         int ff = playerDao.addPlayer(player);
+        if (ff >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 更新选手参赛信息
+     *
+     * @param player 比赛选手信息
+     * @return 是否更新成功
+     */
+    public boolean updatePlayer(Player player) {
+        int ff = playerDao.updatePlayer(player);
+        if (ff >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 删除选手参赛信息
+     *
+     * @param player 比赛选手信息
+     * @return 是否删除成功
+     */
+    public boolean deletePlayer(Player player) {
+        int ff = playerDao.deletePlayer(player);
         if (ff >= 1) {
             return true;
         }

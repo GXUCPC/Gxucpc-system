@@ -38,4 +38,61 @@
         select count(*)
         from gxucpc.information
     </select>
+    <select id="queryByPageRegex" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from gxucpc.information
+        WHERE contestId = #{contestId}
+          and (
+                    userName like '%#{regex}%' or
+                    informationId like '%#{regex}%' or
+                    userSex like '%#{regex}%' or
+                    userCourse like '%#{regex}%' or
+                    userClass like '%#{regex}%' or
+                    userQQ like '%#{regex}%' or
+                    userMail like '%#{regex}%' or
+                    contestId like '%#{regex}%' or
+                    star like '%#{regex}%' or
+                    `group` like '%#{regex}%' or
+                    userPhone like '%#{regex}%' or
+                    userId like '%#{regex}%')
+        limit #{offset}, #{count}
+    </select>
+    <select id="regexCount" resultType="java.lang.Integer">
+        select count(*)
+        from gxucpc.information
+        where contestId = #{contestId}
+          and (
+                    userName like '%#{regex}%' or
+                    informationId like '%#{regex}%' or
+                    userSex like '%#{regex}%' or
+                    userCourse like '%#{regex}%' or
+                    userClass like '%#{regex}%' or
+                    userQQ like '%#{regex}%' or
+                    userMail like '%#{regex}%' or
+                    contestId like '%#{regex}%' or
+                    star like '%#{regex}%' or
+                    `group` like '%#{regex}%' or
+                    userPhone like '%#{regex}%' or
+                    userId like '%#{regex}%')
+    </select>
+    <update id="updatePlayer">
+        update information
+        set userName   = #{userName},
+            userSex    = #{userSex},
+            userCourse = #{userCourse},
+            userClass  = #{userClass},
+            userQQ     = #{userQQ},
+            userMail   = #{userMail},
+            contestId  = #{contestId},
+            star       = #{star},
+            `group`    = #{group},
+            userPhone  = #{userPhone},
+            userId     = #{userId}
+        where informationId = #{informationId}
+    </update>
+    <delete id="deletePlayer">
+        delete
+        from information
+        where informationId = #{informationId};
+    </delete>
 </mapper>

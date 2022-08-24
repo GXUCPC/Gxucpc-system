@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 /**
  * @Author: MaoMao
@@ -26,10 +28,26 @@ public class TestMessageController {
     @Autowired
     public PlayerService playerService;
 
-    @PostMapping("/id")
-    public Re application() {
-        int ff = 1;
-        return new Re(Code.STATUS_OK, 111, "登陆成功");
+    @PostMapping("/{id}")
+    public Re application(@PathVariable("id") Integer contestId, @RequestBody Player player) {
+        boolean num = playerService.addPlayer(player);
+        if (num) {
+            return new Re(Code.STATUS_OK, 111, player.getUserName() + "操作成功");
+        }
+        return new Re(Code.STATUS_OK, 111, "操作异常，请联系管理员");
     }
 
+    //    /**
+//     * 分页查找
+//     * @param currentPage 当前页
+//     * @param numberPerPage 每页个数
+//     * @param contestId 比赛id
+//     * @return
+//     */
+    @GetMapping("/query")
+    public Re getContestByPage() {
+        Integer currentPage = 1, numberPerPage = 2, contestId = 111;
+
+        return new Re(Code.STATUS_OK, playerService.getByPages(currentPage, numberPerPage, contestId), "查询成功");
+    }
 }
