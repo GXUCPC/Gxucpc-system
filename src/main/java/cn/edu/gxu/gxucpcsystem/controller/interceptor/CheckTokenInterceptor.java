@@ -31,10 +31,11 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // 跨域的OPTIONS请求是不带token的，为导致所有合法请求都被拦截
+        // 跨域的OPTIONS请求是不带token的，会导致所有合法请求都被拦截
         if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
             return true;
         }
+        // 所有管理员操作都需要验证token
         if (request.getRequestURI().contains("admin")) {
             String token = request.getHeader("token");
             if (token == null) {
@@ -71,7 +72,6 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 if ((int) admin.getUserType() == 2) throw new TokenException(TOKEN_ERROR, "权限不足");
             }
             // token续租
-            // request.setAttribute("token", JwtUtil.reletJWT(token));
             response.setHeader("token", JwtUtil.reletJWT(token));
             // 前后端分离的项目，默认只能接受基础的五个返回头，如返回自定义头，需要添加以下内容：https://www.cnblogs.com/liuxianbin/p/13035809.html
             response.addHeader("Access-Control-Expose-Headers", "token");

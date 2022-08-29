@@ -12,6 +12,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * 分页实体
+ * TableData: 页面数据
+ * total: 数据总量
+ */
 public class PagesEntity {
     private Object tableData;
     private Integer total;

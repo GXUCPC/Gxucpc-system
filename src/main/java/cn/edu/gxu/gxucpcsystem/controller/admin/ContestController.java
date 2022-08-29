@@ -53,6 +53,7 @@ public class ContestController {
 
     /**
      * 修改比赛
+     *
      * @param contest 比赛信息
      * @return
      */
@@ -67,6 +68,7 @@ public class ContestController {
 
     /**
      * 分页查找
+     *
      * @param currentPage 当前页
      * @param numberPerPage 每页个数
      * @return
@@ -78,6 +80,7 @@ public class ContestController {
 
     /**
      * 修改下载状态
+     *
      * @param contest id，isDownload 有效参数
      * @return
      */

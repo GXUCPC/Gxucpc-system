@@ -31,7 +31,6 @@ public class UserController {
      */
     @PostMapping
     public Re addUser(HttpServletRequest request, @RequestBody Admin admin) {
-        String token = (String) request.getAttribute("token");
         if (adminService.addAdmin(admin)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "添加了" + admin.getUserType() + "：" + admin.getUsername());
             return new Re(Code.STATUS_OK, null, "添加成功");
@@ -47,7 +46,6 @@ public class UserController {
      */
     @DeleteMapping
     public Re delUser(HttpServletRequest request, Integer id, String name) {
-        String token = (String) request.getAttribute("token");
         if(adminService.delAdmin(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了管理员：" + name);
             return new Re(Code.STATUS_OK, null, "删除成功");
@@ -64,7 +62,6 @@ public class UserController {
      */
     @PutMapping
     public Re updateUser(@RequestBody Admin admin, HttpServletRequest request) {
-        String token = (String) request.getAttribute("token");
         if(request.getHeader("isChangePassword") == null)
             return new Re(Code.RESOURCE_DISABLE, null, "错误的请求格式");
         int isChangePassword = Integer.parseInt(request.getHeader("isChangePassword"));
@@ -84,7 +81,6 @@ public class UserController {
      */
     @GetMapping
     public Re getByPage(HttpServletRequest request, Integer currentPage, Integer numberPerPage) {
-        String token = (String) request.getAttribute("token");
         PagesEntity pagesEntity =  adminService.getByPage(currentPage, numberPerPage);
         return new Re(Code.STATUS_OK, pagesEntity, "请求成功");
     }

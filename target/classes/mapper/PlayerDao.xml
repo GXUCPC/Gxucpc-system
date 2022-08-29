@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao">
+    <insert id="addPlayer">
+        insert into information(userName,
+                                userSex,
+                                userCourse,
+                                userClass,
+                                userQQ,
+                                userMail,
+                                contestId,
+                                star,
+                                `group`,
+                                userPhone,
+                                userId)
+        values (#{userName},
+                #{userSex},
+                #{userCourse},
+                #{userClass},
+                #{userQQ},
+                #{userMail},
+                #{contestId},
+                #{star},
+                #{group},
+                #{userPhone},
+                #{userId})
+    </insert>
+    <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from gxucpc.information
+        WHERE contestId = #{contestId}
+        order by informationId desc
+        limit #{offset}, #{count}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from gxucpc.information
+    </select>
+    <select id="queryByPageRegex" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from gxucpc.information
+        WHERE contestId = #{contestId}
+          and (
+                    userName like  concat('%', #{regex}, '%') or
+                    informationId like  concat('%', #{regex}, '%') or
+                    userSex like  concat('%', #{regex}, '%') or
+                    userCourse like  concat('%', #{regex}, '%') or
+                    userClass like  concat('%', #{regex}, '%') or
+                    userQQ like  concat('%', #{regex}, '%') or
+                    userMail like  concat('%', #{regex}, '%') or
+                    contestId like  concat('%', #{regex}, '%') or
+                    star like  concat('%', #{regex}, '%') or
+                    `group` like  concat('%', #{regex}, '%') or
+                    userPhone like  concat('%', #{regex}, '%') or
+                    userId like  concat('%', #{regex}, '%'))
+        order by informationId desc
+        limit #{offset}, #{count}
+    </select>
+    <select id="regexCount" resultType="java.lang.Integer">
+        select count(*)
+        from gxucpc.information
+        where contestId = #{contestId}
+          and (
+                    userName like  concat('%', #{regex}, '%') or
+                    informationId like  concat('%', #{regex}, '%') or
+                    userSex like  concat('%', #{regex}, '%') or
+                    userCourse like  concat('%', #{regex}, '%') or
+                    userClass like  concat('%', #{regex}, '%') or
+                    userQQ like  concat('%', #{regex}, '%') or
+                    userMail like  concat('%', #{regex}, '%') or
+                    contestId like  concat('%', #{regex}, '%') or
+                    star like  concat('%', #{regex}, '%') or
+                    `group` like  concat('%', #{regex}, '%') or
+                    userPhone like  concat('%', #{regex}, '%') or
+                    userId like  concat('%', #{regex}, '%'))
+    </select>
+    <update id="updatePlayer">
+        update information
+        set userName   = #{userName},
+            userSex    = #{userSex},
+            userCourse = #{userCourse},
+            userClass  = #{userClass},
+            userQQ     = #{userQQ},
+            userMail   = #{userMail},
+            contestId  = #{contestId},
+            star       = #{star},
+            `group`    = #{group},
+            userPhone  = #{userPhone},
+            userId     = #{userId}
+        where informationId = #{informationId}
+    </update>
+    <delete id="deletePlayer">
+        delete
+        from information
+        where informationId = #{id};
+    </delete>
+</mapper>

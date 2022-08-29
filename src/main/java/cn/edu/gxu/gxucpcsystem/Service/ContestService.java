@@ -7,6 +7,8 @@ import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Sct
  * @date 2022/7/31
@@ -56,10 +58,10 @@ public class ContestService {
      */
     public Boolean updateContest(Contest contest) {
         try {
-            MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
-            mailUtil.init();
-            mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
-            mailUtil.close();
+//            MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
+//            mailUtil.init();
+//            mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
+//            mailUtil.close();
             return contestDao.updateContest(contest.getId(), contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime()) == 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,5 +86,13 @@ public class ContestService {
      */
     public Boolean updateDownload(Contest contest) {
         return contestDao.updateDownload(contest.getId(), contest.getIsDownload()) == 1;
+    }
+
+    public Contest getById(Integer id) {
+        List<Contest> list = contestDao.getById(id);
+        if(list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 }
