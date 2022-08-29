@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.RedisDao">
+    <insert id="insert">
+        insert into redis
+            (`key`, value)
+        VALUES (#{key}, #{value})
+    </insert>
+    <delete id="deleteByKey">
+        delete
+        from redis
+        where `key` = #{key}
+    </delete>
+    <delete id="deleteByValue">
+        delete
+        from redis
+        where value = #{value}
+    </delete>
+    <select id="getByKey" resultType="cn.edu.gxu.gxucpcsystem.domain.Redis">
+        select *
+        from redis
+        where `key` = #{key}
+    </select>
+</mapper>

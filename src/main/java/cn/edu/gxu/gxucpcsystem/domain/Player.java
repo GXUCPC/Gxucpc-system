@@ -1,27 +1,31 @@
 package cn.edu.gxu.gxucpcsystem.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * @author MaoMao
- * @Description 参赛选手数据型
- * @create 2022-06-21 12:59 PM
+ * @Author: MaoMao
+ * @License: (C) Copyright 2005-2019, xxx Corporation Limited.
+ * @Contact: 2986325137@qq.com
+ * @Date: 8/6/2022 4:13 PM
+ * @Version: 1.0
+ * @Description:
  */
-
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Player {
-    // 用户姓名
+    int informationId;
     String userName;
-    // 用户编号
-    int userId;
-    boolean userSex;
-    String userPhone;
-    // 比赛名称
-    int contestId;
+    String userSex;
     String userCourse;
     String userClass;
     String userQQ;
     String userMail;
-    String group;
+    int contestId;
     boolean star;
+    boolean group;
+    String userPhone;
+    String userId;
 }

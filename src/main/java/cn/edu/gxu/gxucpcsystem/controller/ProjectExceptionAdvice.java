@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller;
 
-import cn.edu.gxu.gxucpcsystem.domain.utils.Re;
+import cn.edu.gxu.gxucpcsystem.utils.Re;
 import cn.edu.gxu.gxucpcsystem.exception.TokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
