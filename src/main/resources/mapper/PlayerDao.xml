@@ -42,18 +42,18 @@
         from gxucpc.information
         WHERE contestId = #{contestId}
           and (
-                    userName like  concat('%', #{regex}, '%') or
-                    informationId like  concat('%', #{regex}, '%') or
-                    userSex like  concat('%', #{regex}, '%') or
-                    userCourse like  concat('%', #{regex}, '%') or
-                    userClass like  concat('%', #{regex}, '%') or
-                    userQQ like  concat('%', #{regex}, '%') or
-                    userMail like  concat('%', #{regex}, '%') or
-                    contestId like  concat('%', #{regex}, '%') or
-                    star like  concat('%', #{regex}, '%') or
-                    `group` like  concat('%', #{regex}, '%') or
-                    userPhone like  concat('%', #{regex}, '%') or
-                    userId like  concat('%', #{regex}, '%'))
+                    userName like concat('%', #{regex}, '%') or
+                    informationId like concat('%', #{regex}, '%') or
+                    userSex like concat('%', #{regex}, '%') or
+                    userCourse like concat('%', #{regex}, '%') or
+                    userClass like concat('%', #{regex}, '%') or
+                    userQQ like concat('%', #{regex}, '%') or
+                    userMail like concat('%', #{regex}, '%') or
+                    contestId like concat('%', #{regex}, '%') or
+                    star like concat('%', #{regex}, '%') or
+                    `group` like concat('%', #{regex}, '%') or
+                    userPhone like concat('%', #{regex}, '%') or
+                    userId like concat('%', #{regex}, '%'))
         order by informationId desc
         limit #{offset}, #{count}
     </select>
@@ -62,18 +62,18 @@
         from gxucpc.information
         where contestId = #{contestId}
           and (
-                    userName like  concat('%', #{regex}, '%') or
-                    informationId like  concat('%', #{regex}, '%') or
-                    userSex like  concat('%', #{regex}, '%') or
-                    userCourse like  concat('%', #{regex}, '%') or
-                    userClass like  concat('%', #{regex}, '%') or
-                    userQQ like  concat('%', #{regex}, '%') or
-                    userMail like  concat('%', #{regex}, '%') or
-                    contestId like  concat('%', #{regex}, '%') or
-                    star like  concat('%', #{regex}, '%') or
-                    `group` like  concat('%', #{regex}, '%') or
-                    userPhone like  concat('%', #{regex}, '%') or
-                    userId like  concat('%', #{regex}, '%'))
+                    userName like concat('%', #{regex}, '%') or
+                    informationId like concat('%', #{regex}, '%') or
+                    userSex like concat('%', #{regex}, '%') or
+                    userCourse like concat('%', #{regex}, '%') or
+                    userClass like concat('%', #{regex}, '%') or
+                    userQQ like concat('%', #{regex}, '%') or
+                    userMail like concat('%', #{regex}, '%') or
+                    contestId like concat('%', #{regex}, '%') or
+                    star like concat('%', #{regex}, '%') or
+                    `group` like concat('%', #{regex}, '%') or
+                    userPhone like concat('%', #{regex}, '%') or
+                    userId like concat('%', #{regex}, '%'))
     </select>
     <update id="updatePlayer">
         update information

@@ -2,6 +2,7 @@ package cn.edu.gxu.gxucpcsystem.Service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
+import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,9 @@ public class ContestService {
      * @return 是否删除成功
      */
     public Boolean delContest(Integer id) {
-        boolean flag = true;
+        boolean flag;
         //TODO 删除mongoDB的奖状
-        //TODO 删除相关的报名表
-        flag &= contestDao.delContest(id) == 1;
+        flag = contestDao.delContest(id) == 1;
         return flag;
     }
 
@@ -58,10 +58,10 @@ public class ContestService {
      */
     public Boolean updateContest(Contest contest) {
         try {
-//            MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
-//            mailUtil.init();
-//            mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
-//            mailUtil.close();
+            MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
+            mailUtil.init();
+            mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
+            mailUtil.close();
             return contestDao.updateContest(contest.getId(), contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime()) == 1;
         } catch (Exception e) {
             e.printStackTrace();
