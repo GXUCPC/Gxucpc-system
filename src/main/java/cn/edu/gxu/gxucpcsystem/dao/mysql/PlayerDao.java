@@ -73,7 +73,7 @@ public interface PlayerDao {
     /**
      * 删除报名表
      *
-     * @param player 参赛选手
+     * @param id 参赛选手id
      * @return 影响行数
      */
     Integer deletePlayer(Integer id);
