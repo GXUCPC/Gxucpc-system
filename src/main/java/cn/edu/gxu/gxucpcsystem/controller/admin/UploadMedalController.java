@@ -37,13 +37,15 @@ public class UploadMedalController {
         Medal medal = new Medal();
         medal.setFiles(file.getBytes());
         int len = file.getBytes().length;
+        System.out.println(len + "," + buffer);
         if(len > buffer){
             return new Re(Code.RESOURCE_DISABLE,null,"文件过大，请压缩后上传");
         }
         medal.setSize(len);
-        medal.setFileName(file.getName());
+        medal.setFileName(file.getOriginalFilename());
         medal.setDate(System.currentTimeMillis());
         medal.setMd5(MD5Utils.string2MD5(medal.getFiles()));
+        medal.setContestId(contestId);
         medalService.addMedal(medal);
         return new Re(Code.STATUS_OK,null,"上传成功");
     }

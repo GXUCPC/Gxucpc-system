@@ -33,7 +33,7 @@ public class MedalService {
     }
     private List<Medal>queryFile(String fileName ,String contestId){
         int id = Integer.parseInt(contestId);
-        Query query = new Query(Criteria.where("contestId").is(contestId).and("fileName").is(fileName));
+        Query query = new Query(Criteria.where("contestId").is(id).and("fileName").is(fileName));
         List<Medal> ans = mongoTemplate.find(query,Medal.class);
         return ans;
     }

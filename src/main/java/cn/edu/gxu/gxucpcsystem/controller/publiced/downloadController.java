@@ -4,12 +4,10 @@ import cn.edu.gxu.gxucpcsystem.Service.MedalService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.Map;
 
 /**
  * @author MaoMao
@@ -23,14 +21,21 @@ import javax.websocket.server.PathParam;
 public class downloadController {
     @Autowired
     MedalService medalService;
-    @GetMapping()
-    public Re download(@PathParam("itemNumber" )String contestId,@PathParam("number" )String number,@PathParam("name") String name ){
-        String fileName = number+ "-" + name +".pdf";
-        byte[] bytes = medalService.getFile(fileName,contestId);
+    @PostMapping("/download/checkStatus")
+    public Re download(@RequestBody Map<String, String> mp){
+        String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+        byte[] bytes = medalService.getFile(fileName,mp.get("itemNumber"));
         if(bytes.length == 0){
-            return new Re(Code.STATUS_OK,null,"查询不到有效获奖名单");
+            return new Re(Code.RESOURCE_DISABLE,null,"查询不到有效获奖名单");
         }
         return new Re(Code.STATUS_OK,bytes,"查询成功");
+    }
+
+    @PostMapping("/download")
+    public byte[] down(@RequestBody Map<String, String> mp){
+        String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+        byte[] bytes = medalService.getFile(fileName,mp.get("itemNumber"));
+        return bytes;
     }
 
 }
