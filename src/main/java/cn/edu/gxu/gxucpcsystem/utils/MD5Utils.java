@@ -1,15 +1,11 @@
 package cn.edu.gxu.gxucpcsystem.utils;
-
 /**
  * @author MaoMao
  * @Description MD5加密算法
  * @create 2022-06-22 7:59 PM
  */
-
 import java.security.MessageDigest;
-
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 public class MD5Utils {
     /***
@@ -26,24 +22,20 @@ public class MD5Utils {
         }
         char[] charArray = inStr.toCharArray();
         byte[] byteArray = new byte[charArray.length];
-
         for (int i = 0; i < charArray.length; i++)
             byteArray[i] = (byte) charArray[i];
         return getString(byteArray, md5);
-
     }
     /**
      * 加密解密算法 执行一次加密，两次解密
      */
     public static String convertMD5(String inStr) {
-
         char[] a = inStr.toCharArray();
         for (int i = 0; i < a.length; i++) {
             a[i] = (char) (a[i] ^ 't');
         }
         String s = new String(a);
         return s;
-
     }
     /**
      * 判断输入的密码和数据库中保存的MD5密码是否一致
@@ -55,14 +47,7 @@ public class MD5Utils {
         String md5 = string2MD5(inputPassword);
         return md5DB.equals(md5);
     }
-//    // 测试主函数
-//    public static void main(String args[]) {
-//        String s = new String("123456");
-//        log.info("原始：" + s);
-//        log.info("MD5后：" + string2MD5(s));
-//        log.info("密码是否一致：" + passwordIsTrue("123456","e10adc3949ba59abbe56e057f20f883e"));
-//
-//    }
+
 public static String string2MD5(byte[] byteArray) {
     MessageDigest md5 = null;
     try {
@@ -72,11 +57,8 @@ public static String string2MD5(byte[] byteArray) {
         e.printStackTrace();
         return "";
     }
-
     return getString(byteArray, md5);
-
 }
-
     private static String getString(byte[] byteArray, MessageDigest md5) {
         byte[] md5Bytes = md5.digest(byteArray);
         StringBuffer hexValue = new StringBuffer();
