@@ -29,15 +29,7 @@ public class MD5Utils {
 
         for (int i = 0; i < charArray.length; i++)
             byteArray[i] = (byte) charArray[i];
-        byte[] md5Bytes = md5.digest(byteArray);
-        StringBuffer hexValue = new StringBuffer();
-        for (int i = 0; i < md5Bytes.length; i++) {
-            int val = ((int) md5Bytes[i]) & 0xff;
-            if (val < 16)
-                hexValue.append("0");
-            hexValue.append(Integer.toHexString(val));
-        }
-        return hexValue.toString();
+        return getString(byteArray, md5);
 
     }
     /**
@@ -71,5 +63,29 @@ public class MD5Utils {
 //        log.info("密码是否一致：" + passwordIsTrue("123456","e10adc3949ba59abbe56e057f20f883e"));
 //
 //    }
+public static String string2MD5(byte[] byteArray) {
+    MessageDigest md5 = null;
+    try {
+        md5 = MessageDigest.getInstance("MD5");
+    } catch (Exception e) {
+        log.info(e.toString());
+        e.printStackTrace();
+        return "";
+    }
 
+    return getString(byteArray, md5);
+
+}
+
+    private static String getString(byte[] byteArray, MessageDigest md5) {
+        byte[] md5Bytes = md5.digest(byteArray);
+        StringBuffer hexValue = new StringBuffer();
+        for (int i = 0; i < md5Bytes.length; i++) {
+            int val = ((int) md5Bytes[i]) & 0xff;
+            if (val < 16)
+                hexValue.append("0");
+            hexValue.append(Integer.toHexString(val));
+        }
+        return hexValue.toString();
+    }
 }

@@ -31,3 +31,4 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
+buffSize: 1024

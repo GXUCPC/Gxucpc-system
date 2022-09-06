@@ -33,4 +33,6 @@ public class Medal implements Serializable {
     private String name;
     @Field("filesize")
     private int size;
+    @Field("Md5")
+    private  String md5;
 }

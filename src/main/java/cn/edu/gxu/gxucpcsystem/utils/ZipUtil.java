@@ -49,13 +49,13 @@ public class ZipUtil {
      * 解压文件到指定目录,注明文件内若包含.为开头的文件为隐藏文件，读取过程中会直接失败
      * @param file 压缩文件(全路径,包含文件名)
      */
-    public static List<Medal> unzipFile(File file) throws IOException {
+    public static List<Medal> unzipFile(FileInputStream file) throws IOException {
         List<Medal> ls = new ArrayList<>();
 
 
         //  输入流过滤器.用于读取ZIP文件格式的文件
-        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file))) {
-            FileInputStream fileInputStream = new FileInputStream(file);
+        try (ZipInputStream zipInputStream = new ZipInputStream(file)) {
+            FileInputStream fileInputStream = file;
             // ZIP文件项
             ZipEntry zipEntry;
 
@@ -67,7 +67,6 @@ public class ZipUtil {
                 medal.setSize(bytes.length);
                 medal.setFileName(zipEntry.getName());
                 medal.setDate(System.currentTimeMillis());
-
                 ls.add(medal);
             }
 
