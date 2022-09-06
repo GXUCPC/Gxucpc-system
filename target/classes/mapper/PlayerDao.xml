@@ -95,9 +95,4 @@
         from information
         where informationId = #{id};
     </delete>
-    <delete id="deleteByContestID">
-        delete
-        from information
-        where contestId = #{id}
-    </delete>
 </mapper>

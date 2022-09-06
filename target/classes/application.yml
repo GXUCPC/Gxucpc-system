@@ -24,7 +24,7 @@ spring:
       max-wait: 60000
   data:
     mongodb:
-      uri: mongodb://admin:mongodb114514@42.192.36.136:2556/File?authSource=admin
+      uri: mongodb://admin:mongodb114514@42.192.36.136:2556/store?authSource=admin
   mail:
     default-encoding: UTF-8
 
