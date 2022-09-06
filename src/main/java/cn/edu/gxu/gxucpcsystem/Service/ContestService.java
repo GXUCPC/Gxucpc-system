@@ -44,9 +44,11 @@ public class ContestService {
      * @param id 比赛ID
      * @return 是否删除成功
      */
+    @Autowired
+    MedalService medalService;
     public Boolean delContest(Integer id) {
         boolean flag;
-        //TODO 删除mongoDB的奖状
+        medalService.delMedal(id);
         flag = contestDao.delContest(id) == 1;
         return flag;
     }

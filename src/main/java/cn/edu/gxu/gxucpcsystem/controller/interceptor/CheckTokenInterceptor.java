@@ -65,7 +65,6 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             if (!request.getHeader("password").equals(admin.getPassword()))
                 throw new TokenException(TOKEN_ERROR, "密码失效");
             if (request.getRequestURI().contains("user")) {
-                //TODO 查询数据库，比较用户权限是否为Super Admin
                 int userType = (int) admin.getUserType();
                 if (userType == 1 && !claims.get("userType").equals("Super Admin") || userType == 2 && !claims.get("userType").equals("Admin"))
                     throw new TokenException(TOKEN_ERROR, "token失效");

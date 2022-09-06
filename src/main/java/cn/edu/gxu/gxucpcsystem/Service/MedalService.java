@@ -31,7 +31,7 @@ public class MedalService {
         mongoTemplate.insert(lsMedal);
         return true;
     }
-    private List<Medal>queryFile(String fileName ,String contestId){
+    public List<Medal>queryFile(String fileName ,String contestId){
         int id = Integer.parseInt(contestId);
         Query query = new Query(Criteria.where("contestId").is(id).and("fileName").is(fileName));
         List<Medal> ans = mongoTemplate.find(query,Medal.class);
@@ -41,5 +41,9 @@ public class MedalService {
         List<Medal> ans = queryFile(fileName,contestId);
         Medal medal = ans.get(0);
         return medal.getFiles();
+    }
+    public void delMedal(int id){
+        Query query = new Query(Criteria.where("contestId").is(id));
+        mongoTemplate.remove(query,Medal.class);
     }
 }
