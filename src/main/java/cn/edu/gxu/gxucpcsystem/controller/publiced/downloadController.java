@@ -39,5 +39,4 @@ public class downloadController {
         byte[] bytes = medalService.getFile(fileName,mp.get("itemNumber"));
         return bytes;
     }
-
 }
