@@ -77,4 +77,12 @@ public interface PlayerDao {
      * @return 影响行数
      */
     Integer deletePlayer(Integer id);
+
+    /**
+     * 根据比赛查询选手
+     *
+     * @param id 比赛ID
+     * @return
+     */
+    List<Player> getPlayersByContent(Integer id);
 }

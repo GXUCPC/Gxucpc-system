@@ -95,4 +95,9 @@
         from information
         where informationId = #{id};
     </delete>
+    <select id="getPlayersByContent" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from information
+        where contestId = #{id}
+    </select>
 </mapper>

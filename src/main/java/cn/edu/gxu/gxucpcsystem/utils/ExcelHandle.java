@@ -38,7 +38,7 @@ public class ExcelHandle {
     /**
      * Excel表格导出
      * @param response HttpServletResponse对象
-     * @param excelData Excel表格的数据，封装为List<List<String>>
+     * @param excelData Excel表格的数据，封装为List<Player>
      * @param sheetName sheet的名字
      * @param fileName 导出Excel的文件名
      * @param columnWidth Excel表格的宽度，建议为15
