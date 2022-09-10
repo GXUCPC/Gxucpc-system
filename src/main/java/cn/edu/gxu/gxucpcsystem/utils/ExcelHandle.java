@@ -21,6 +21,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,18 +38,18 @@ public class ExcelHandle {
 
     /**
      * Excel表格导出
-     * @param response HttpServletResponse对象
-     * @param excelData Excel表格的数据，封装为List<Player>
-     * @param sheetName sheet的名字
-     * @param fileName 导出Excel的文件名
+     *
+     * @param excelData   Excel表格的数据，封装为List<Player>
+     * @param sheetName   sheet的名字
+     * @param fileName    导出Excel的文件名
      * @param columnWidth Excel表格的宽度，建议为15
      * @throws IOException 抛IO异常
      */
-    public static void exportExcel(HttpServletResponse response,
-                                   List<Player> excelData,
-                                   String sheetName,
-                                   String fileName,
-                                   int columnWidth) throws IOException {
+    public static byte[] exportExcel(
+            List<Player> excelData,
+            String sheetName,
+            String fileName,
+            int columnWidth) throws IOException {
         //声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
         //生成一个表格，设置表格名称
@@ -78,11 +79,11 @@ public class ExcelHandle {
         cell.setCellValue(new HSSFRichTextString("是否打星"));
         cell = r.createCell(9);
         cell.setCellValue(new HSSFRichTextString("组别"));
-        for(Player data : excelData){
+        for (Player data : excelData) {
             //创建一个row行，然后自增1
             r = sheet.createRow(rowIndex++);
             cell = r.createCell(0);
-            cell.setCellValue(new HSSFRichTextString(String.valueOf( data.getInformationId())));
+            cell.setCellValue(new HSSFRichTextString(String.valueOf(data.getInformationId())));
             cell = r.createCell(1);
             cell.setCellValue(new HSSFRichTextString(data.getUserId()));
             cell = r.createCell(2);
@@ -98,31 +99,38 @@ public class ExcelHandle {
             cell = r.createCell(7);
             cell.setCellValue(new HSSFRichTextString(data.getUserMail()));
             cell = r.createCell(8);
-            if(data.isStar())
-            cell.setCellValue(new HSSFRichTextString("打星"));
+            if (data.isStar())
+                cell.setCellValue(new HSSFRichTextString("打星"));
 
             cell = r.createCell(9);
-            if(data.isGroup())
-            cell.setCellValue(new HSSFRichTextString("正式组"));
+            if (data.isGroup())
+                cell.setCellValue(new HSSFRichTextString("正式组"));
             else
                 cell.setCellValue(new HSSFRichTextString("新生组"));
         }
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        workbook.write(byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+
+
         //准备将Excel的输出流通过response输出到页面下载
         //八进制输出流
-        response.setContentType("application/octet-stream");
+//        response.setContentType("application/octet-stream");
         //设置导出Excel的名称
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+//        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
 
         //刷新缓冲
-        response.flushBuffer();
+//        response.flushBuffer();
 
         //测试写入本地文件
         //workbook.write(new File("C:\\Users\\Administrator\\Desktop\\excel测试\\fileName.xlsx"));
         //workbook将Excel写入到response的输出流中，供页面下载该Excel文件
-        workbook.write(response.getOutputStream());
+//        workbook.write(response.getOutputStream());
 
         //关闭workbook
         workbook.close();
+        return bytes;
     }
 
 

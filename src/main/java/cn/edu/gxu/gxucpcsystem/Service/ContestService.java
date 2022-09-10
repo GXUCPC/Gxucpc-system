@@ -97,4 +97,5 @@ public class ContestService {
         }
         return list.get(0);
     }
+
 }

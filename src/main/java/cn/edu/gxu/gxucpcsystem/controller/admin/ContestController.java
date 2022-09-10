@@ -1,6 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
 import cn.edu.gxu.gxucpcsystem.Service.ContestService;
+import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Sct
@@ -21,6 +23,8 @@ public class ContestController {
     @Autowired
     ContestService contestService;
 
+    @Autowired
+    PlayerService playerService;
     /**
      * 添加比赛
      *
@@ -91,5 +95,16 @@ public class ContestController {
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
         return new Re(Code.DATABASE_ERROR, null, "查询失败");
+    }
+
+    /**
+     * 下载比赛表单
+     *
+     * @param id 比赛id
+     * @return
+     */
+    @GetMapping("/download/{id}")
+    public byte[] downloadForms(@PathVariable Integer id) {
+        return playerService.downloadForms(id);
     }
 }

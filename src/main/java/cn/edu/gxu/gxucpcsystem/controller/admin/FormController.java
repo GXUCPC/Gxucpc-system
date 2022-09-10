@@ -68,12 +68,4 @@ public class FormController {
         return new Re(Code.DATABASE_ERROR, null, "删除失败");
     }
 
-    @GetMapping("/download/{id}")
-    public Re downloadForms(HttpServletResponse response, @PathVariable Integer id) {
-        String res = playerService.downloadForms(response, id);
-        if(res == null) {
-            return new Re(Code.STATUS_OK, null, "下载成功");
-        }
-        return new Re(Code.RESOURCE_DISABLE, null, res);
-    }
 }

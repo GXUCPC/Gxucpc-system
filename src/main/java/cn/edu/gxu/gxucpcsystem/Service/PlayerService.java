@@ -93,22 +93,22 @@ public class PlayerService {
 
     /**
      * 下载比赛表单excel
-     * @param response http返回体
      * @param id 比赛ID
      * @return 错误原因
      */
-    public String downloadForms(HttpServletResponse response, Integer id) {
+    public byte[] downloadForms(Integer id) {
         List<Player> plays = playerDao.getPlayersByContent(id);
         List<Contest> contest = contestDao.getById(id);
         if(contest == null) {
-            return "查无此比赛";
+//            log: "查无此比赛";
+            return null;
         }
 
         try {
-            ExcelHandle.exportExcel(response, plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
+            return ExcelHandle.exportExcel( plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
         } catch (IOException e) {
-            return "系统IO异常";
+//            log: "系统IO异常";
+            return null;
         }
-        return null;
     }
 }
