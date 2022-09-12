@@ -8,7 +8,10 @@ import cn.edu.gxu.gxucpcsystem.domain.Player;
 import cn.edu.gxu.gxucpcsystem.utils.ExcelHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 import java.io.IOException;
@@ -96,19 +99,21 @@ public class PlayerService {
      * @param id 比赛ID
      * @return 错误原因
      */
-    public byte[] downloadForms(Integer id) {
+    public byte[] downloadForms(HttpServletResponse request,Integer id) throws IOException {
         List<Player> plays = playerDao.getPlayersByContent(id);
         List<Contest> contest = contestDao.getById(id);
         if(contest == null) {
 //            log: "查无此比赛";
             return null;
         }
-
-        try {
-            return ExcelHandle.exportExcel( plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
-        } catch (IOException e) {
+        ExcelHandle.exportExcel(request,plays,"报名表",contest.get(0).getName(),15);
+//        try {
+//            return ExcelHandle.exportExcel( plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
+//        }
+//        catch (IOException e) {
 //            log: "系统IO异常";
             return null;
-        }
+//        }
     }
+
 }

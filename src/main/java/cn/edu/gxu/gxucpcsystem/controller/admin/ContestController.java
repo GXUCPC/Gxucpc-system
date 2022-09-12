@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author Sct
@@ -104,7 +105,7 @@ public class ContestController {
      * @return
      */
     @GetMapping("/download/{id}")
-    public byte[] downloadForms(@PathVariable Integer id) {
-        return playerService.downloadForms(id);
+    public byte[] downloadForms(HttpServletResponse request,@PathVariable Integer id) throws IOException {
+        return playerService.downloadForms(request,id);
     }
 }

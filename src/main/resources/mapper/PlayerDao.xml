@@ -12,7 +12,6 @@
                                 contestId,
                                 star,
                                 `group`,
-                                userPhone,
                                 userId)
         values (#{userName},
                 #{userSex},
@@ -23,7 +22,6 @@
                 #{contestId},
                 #{star},
                 #{group},
-                #{userPhone},
                 #{userId})
     </insert>
     <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
@@ -52,7 +50,6 @@
                     contestId like concat('%', #{regex}, '%') or
                     star like concat('%', #{regex}, '%') or
                     `group` like concat('%', #{regex}, '%') or
-                    userPhone like concat('%', #{regex}, '%') or
                     userId like concat('%', #{regex}, '%'))
         order by informationId desc
         limit #{offset}, #{count}
@@ -72,7 +69,6 @@
                     contestId like concat('%', #{regex}, '%') or
                     star like concat('%', #{regex}, '%') or
                     `group` like concat('%', #{regex}, '%') or
-                    userPhone like concat('%', #{regex}, '%') or
                     userId like concat('%', #{regex}, '%'))
     </select>
     <update id="updatePlayer">
@@ -86,7 +82,6 @@
             contestId  = #{contestId},
             star       = #{star},
             `group`    = #{group},
-            userPhone  = #{userPhone},
             userId     = #{userId}
         where informationId = #{informationId}
     </update>
