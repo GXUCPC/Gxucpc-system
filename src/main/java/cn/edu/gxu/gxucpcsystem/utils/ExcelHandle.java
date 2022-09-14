@@ -48,19 +48,11 @@ public class ExcelHandle {
      * @param columnWidth Excel表格的宽度，建议为15
      * @throws IOException 抛IO异常
      */
-    public static void exportExcel(
-            HttpServletResponse response,
-            List<Player> excelData,
-            String sheetName,
-            String fileName,
-            int columnWidth) throws IOException {
-//        OutputStream os = null;
+    public static void exportExcel(HttpServletResponse response, List<Player> excelData, String sheetName, String fileName, int columnWidth) throws IOException {
         fileName += ".xls";
         setResponseHeader(response,fileName);
         //声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
-//        os = response.getOutputStream();
-//        SXSSFWorkbook wb = new SXSSFWorkbook(1000);
         //生成一个表格，设置表格名称
         HSSFSheet sheet = workbook.createSheet(sheetName);
         //设置表格列宽度
@@ -69,7 +61,7 @@ public class ExcelHandle {
         int rowIndex = 0;
         HSSFRow r = sheet.createRow(rowIndex++);
 
-        String[] head = {"表单号","学号","姓名","性别","专业","班级","QQ","邮箱","是否打星","组别"};
+        String[] head = {"编号","学号","姓名","性别","学院","班级","QQ","邮箱","是否打星","组别"};
         for (int i = 0 ; i < head.length ;  i++){
             HSSFCell cell = r.createCell(i);
             HSSFRichTextString text = new HSSFRichTextString(head[i]);
@@ -97,7 +89,8 @@ public class ExcelHandle {
             cell = r.createCell(8);
             if (data.isStar())
                 cell.setCellValue(new HSSFRichTextString("打星"));
-
+            else
+                cell.setCellValue(new HSSFRichTextString("非打星"));
             cell = r.createCell(9);
             if (data.isGroup())
                 cell.setCellValue(new HSSFRichTextString("正式组"));
@@ -107,19 +100,11 @@ public class ExcelHandle {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         workbook.write(byteArrayOutputStream);
-//        byte[] bytes = byteArrayOutputStream.toByteArray();
 
-
-
-
-        //测试写入本地文件
-        //workbook.write(new File("C:\\Users\\Administrator\\Desktop\\excel测试\\fileName.xlsx"));
-        //workbook将Excel写入到response的输出流中，供页面下载该Excel文件
         workbook.write(response.getOutputStream());
 
-        //关闭workbook
         workbook.close();
-//        return bytes;
+
     }
     private static void setResponseHeader(HttpServletResponse response, String fileName) {
         try {

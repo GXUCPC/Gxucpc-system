@@ -36,6 +36,7 @@ public class PlayerService {
 
     @Autowired
     ContestDao contestDao;
+
     /**
      * 分页查找
      *
@@ -96,24 +97,25 @@ public class PlayerService {
 
     /**
      * 下载比赛表单excel
+     *
      * @param id 比赛ID
      * @return 错误原因
      */
-    public byte[] downloadForms(HttpServletResponse request,Integer id) throws IOException {
+    public byte[] downloadForms(HttpServletResponse request, Integer id) throws IOException {
         List<Player> plays = playerDao.getPlayersByContent(id);
         List<Contest> contest = contestDao.getById(id);
-        if(contest == null) {
+        if (contest == null) {
 //            log: "查无此比赛";
             return null;
         }
-        ExcelHandle.exportExcel(request,plays,"报名表",contest.get(0).getName(),15);
+        ExcelHandle.exportExcel(request, plays, "报名表", contest.get(0).getName(), 15);
 //        try {
 //            return ExcelHandle.exportExcel( plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
 //        }
 //        catch (IOException e) {
 //            log: "系统IO异常";
-            return null;
 //        }
+        return null;
     }
 
 }

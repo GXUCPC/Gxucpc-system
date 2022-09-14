@@ -105,7 +105,12 @@ public class ContestController {
      * @return
      */
     @GetMapping("/download/{id}")
-    public byte[] downloadForms(HttpServletResponse request,@PathVariable Integer id) throws IOException {
-        return playerService.downloadForms(request,id);
+    public byte[] downloadForms(HttpServletResponse request,@PathVariable Integer id) {
+        try {
+            return playerService.downloadForms(request,id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
