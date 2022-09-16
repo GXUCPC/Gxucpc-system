@@ -20,7 +20,7 @@ public class MailUtil {
     private String PORT;
 
     // 是否要求身份认证
-    private final String IS_AUTH = "true";
+    private final String IS_AUTH = "false";
 
     // 是否启用调试模式（启用调试模式可打印客户端与服务器交互过程时一问一答的响应消息）
     private final String IS_ENABLED_DEBUG_MOD = "true";
@@ -52,6 +52,8 @@ public class MailUtil {
         this.props.setProperty("mail.smtp.port", PORT);
         this.props.setProperty("mail.smtp.auth", IS_AUTH);
         this.props.setProperty("mail.debug",IS_ENABLED_DEBUG_MOD);
+//        this.props.setProperty("mail.smtp.ssl.enable", "true");
+//        this.props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         Session session = Session.getInstance(props, new MyAuthenticator(this.from, this.AUTHORIZATION_CODE));
         try {
             // 获得Transport实例对象
@@ -105,7 +107,10 @@ public class MailUtil {
             return "smtp.gmail.com";
         } else if(username.contains("foxmail.com")) {
             return "smtp.foxmail.com";
-        } else {
+        } else if(username.contains("outlook.com")) {
+            return "smtp.office365.com";
+        }
+        else {
             // TODO 无效邮箱异常
             return null;
         }
@@ -120,8 +125,10 @@ public class MailUtil {
         } else if(username.contains("qq.com")) {
             return "25";
         } else if(username.contains("gmail.com")) {
-            return "587";
+            return "25";
         } else if(username.contains("foxmail.com")) {
+            return "25";
+        } else if(username.contains("outlook.com")) {
             return "25";
         } else {
             // TODO 无效邮箱异常

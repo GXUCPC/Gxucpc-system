@@ -2,7 +2,6 @@ package cn.edu.gxu.gxucpcsystem.Service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
-import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
