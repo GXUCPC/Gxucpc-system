@@ -10,7 +10,11 @@ public class MailTest {
     @Test
     public void test1(){
         MailUtil mailUtil = new MailUtil("sunctao@qq.com", "qndscqjdoedqhggf");
-        mailUtil.init();
+        try {
+            mailUtil.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             mailUtil.sendHtmlEmail("sct.cn@outlook.com", "test", "<h1>test</h1>");
         } catch (Exception e) {

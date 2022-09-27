@@ -1,5 +1,9 @@
 package cn.edu.gxu.gxucpcsystem.utils;
 
+import cn.edu.gxu.gxucpcsystem.controller.Code;
+import cn.edu.gxu.gxucpcsystem.exception.EmailException;
+import com.sun.mail.util.MailSSLSocketFactory;
+
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
@@ -11,7 +15,6 @@ import java.util.Properties;
  * @date 2022/8/2
  */
 public class MailUtil {
-    private final String PROTOCOL = "smtp";
 
     // SMTP邮件服务器
     private String HOST;
@@ -20,10 +23,8 @@ public class MailUtil {
     private String PORT;
 
     // 是否要求身份认证
-    private final String IS_AUTH = "false";
+    private final String IS_AUTH = "true";
 
-    // 是否启用调试模式（启用调试模式可打印客户端与服务器交互过程时一问一答的响应消息）
-    private final String IS_ENABLED_DEBUG_MOD = "true";
 
     //发件人邮箱授权码
     private final String AUTHORIZATION_CODE;
@@ -32,10 +33,8 @@ public class MailUtil {
     private final String from;
 
 
-    // 初始化连接邮件服务器的会话信息
-    private Properties props;
+    private Session session;
 
-    private Transport transport = null;
 
     // 初始化邮件服务
     public MailUtil(String from, String authorizationCode) {
@@ -43,26 +42,27 @@ public class MailUtil {
         this.AUTHORIZATION_CODE = authorizationCode;
     }
 
-    public void init() {
+    public void init() throws Exception{
         this.PORT = this.getPort(this.from);
         this.HOST = this.getHost(this.from);
-        this.props = new Properties();
-        this.props.setProperty("mail.transport.protocol", PROTOCOL);
-        this.props.setProperty("mail.smtp.host", HOST);
-        this.props.setProperty("mail.smtp.port", PORT);
-        this.props.setProperty("mail.smtp.auth", IS_AUTH);
-        this.props.setProperty("mail.debug",IS_ENABLED_DEBUG_MOD);
-//        this.props.setProperty("mail.smtp.ssl.enable", "true");
-//        this.props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        Session session = Session.getInstance(props, new MyAuthenticator(this.from, this.AUTHORIZATION_CODE));
-        try {
-            // 获得Transport实例对象
-            transport = session.getTransport();
-            // 打开连接
-            transport.connect(from, AUTHORIZATION_CODE);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        // 初始化连接邮件服务器的会话信息
+        Properties props = new Properties();
+
+        props.setProperty("mail.smtp.auth", IS_AUTH);
+        props.put("mail.smtp.port", PORT);
+        props.put("mail.smtp.host", HOST);
+
+        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+        sf.setTrustAllHosts(true);
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.socketFactory", sf);
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.transport.protocol", "smtps");
+        props.put("mail.smtp.starttls.enable", "true");
+
+
+        this.session = Session.getInstance(props, new MyAuthenticator(this.from, this.AUTHORIZATION_CODE));
+
     }
     /**
      * 发送邮件
@@ -74,7 +74,6 @@ public class MailUtil {
      * @throws Exception
      */
     public void sendHtmlEmail(String to, String subject, String content) throws Exception{
-        Session session = Session.getInstance(props, new MyAuthenticator(this.from, this.AUTHORIZATION_CODE));
         MimeMessage message = new MimeMessage(session);
         message.setSubject(subject);
         message.setFrom(new InternetAddress(this.from));
@@ -82,57 +81,41 @@ public class MailUtil {
         message.setRecipients(RecipientType.TO, InternetAddress.parse(to));
         message.setContent(content, "text/html;charset=utf-8");
         message.saveChanges();
-        transport.sendMessage(message, message.getAllRecipients());
+        Transport.send(message);
     }
 
-    /**
-     * 断开连接
-     *
-     * @throws Exception
-     */
-    public void close() throws Exception{
-        transport.close();
-    }
 
     public String getHost(String username) {
         if(username.contains("163.com")) {
             return "smtp.163.com";
         } else if(username.contains("126.com")) {
             return "smtp.126.com";
-        } else if(username.contains("10086.cn")) {
-            return "smtp.139.com";
         } else if(username.contains("qq.com")) {
             return "smtp.qq.com";
         } else if(username.contains("gmail.com")) {
             return "smtp.gmail.com";
         } else if(username.contains("foxmail.com")) {
-            return "smtp.foxmail.com";
-        } else if(username.contains("outlook.com")) {
-            return "smtp.office365.com";
-        }
-        else {
-            // TODO 无效邮箱异常
-            return null;
+            return "smtp.qq.com";
+        } else {
+            // 无效邮箱异常
+
+            throw new EmailException(Code.RESOURCE_DISABLE, username + "为未适配的邮箱");
         }
     }
     public String getPort(String username) {
         if(username.contains("163.com")) {
-            return "25";
+            return "465";
         } else if(username.contains("126.com")) {
-            return "25";
-        } else if(username.contains("10086.cn")) {
-            return "25";
+            return "465";
         } else if(username.contains("qq.com")) {
-            return "25";
+            return "465";
         } else if(username.contains("gmail.com")) {
-            return "25";
+            return "465";
         } else if(username.contains("foxmail.com")) {
-            return "25";
-        } else if(username.contains("outlook.com")) {
-            return "25";
+            return "465";
         } else {
-            // TODO 无效邮箱异常
-            return null;
+            // 无效邮箱异常
+            throw new EmailException(Code.RESOURCE_DISABLE, username + "为未适配的邮箱");
         }
     }
 

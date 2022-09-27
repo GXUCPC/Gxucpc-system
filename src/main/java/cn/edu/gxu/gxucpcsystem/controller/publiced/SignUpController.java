@@ -5,6 +5,7 @@ import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
+import cn.edu.gxu.gxucpcsystem.exception.EmailException;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.apache.ibatis.annotations.Param;
@@ -40,7 +41,11 @@ public class SignUpController {
         player.setContestId(itemID);
         Contest contest = contestService.getById(itemID);
         MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
-        mailUtil.init();
+        try {
+            mailUtil.init();
+        } catch (Exception e) {
+            return new Re(Code.RESOURCE_DISABLE, null, "邮箱系统初始化失败");
+        }
 
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter2= new SimpleDateFormat("yyyy");
@@ -483,7 +488,8 @@ public class SignUpController {
                     "  </body>\n" +
                     "\n" +
                     "</html>");
-            mailUtil.close();
+        } catch (EmailException e) {
+            throw e;
         } catch (Exception e) {
             return new Re(Code.RESOURCE_DISABLE, null, "无效的邮箱");
         }

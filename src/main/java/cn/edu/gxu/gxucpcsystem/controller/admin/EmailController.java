@@ -37,7 +37,7 @@ public class EmailController {
             LogsUtil.logOfOperation(request.getHeader("username"), "对编号为：" + email.getId() + " 的比赛报名人员群发了邮件");
             return new Re(Code.STATUS_OK, null, "发送成功");
         }
-        return new Re(Code.RESOURCE_DISABLE, null, "发送失败");
+        return new Re(Code.RESOURCE_DISABLE, null, "邮件系统异常");
     }
 
 }
