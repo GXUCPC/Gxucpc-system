@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @EnableMongoRepositories("cn.edu.gxu.gxucpcsystem.dao.mongodb")
-//@SpringBootApplication(exclude = {MongoDataAutoConfiguration.class} )
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 public class GxucpcSystemApplication {
 

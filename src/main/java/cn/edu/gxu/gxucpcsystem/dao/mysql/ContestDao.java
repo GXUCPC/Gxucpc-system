@@ -11,6 +11,14 @@ import java.util.List;
  */
 @Mapper
 public interface ContestDao {
+
+    /**
+     * 按照名字模糊查询
+     * @param query 关键字
+     * @return
+     */
+    List<Contest> selectContestByLikeName(String query);
+
     /**
      * 分页查询
      *

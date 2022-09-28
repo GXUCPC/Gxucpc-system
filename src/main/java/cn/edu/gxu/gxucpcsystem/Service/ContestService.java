@@ -19,6 +19,10 @@ public class ContestService {
     @Autowired
     ContestDao contestDao;
 
+    public List<Contest> queryContest(String query) {
+        return contestDao.selectContestByLikeName(query);
+    }
+
     /**
      * 添加比赛
      *

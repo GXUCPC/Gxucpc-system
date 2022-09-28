@@ -56,4 +56,11 @@
         from contest
         where id = #{id}
     </select>
+
+    <select id="selectContestByLikeName" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select id, name
+        from contest
+        where name like concat('%', #{query}, '%')
+        order by id desc
+    </select>
 </mapper>

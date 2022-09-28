@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
+import cn.edu.gxu.gxucpcsystem.Service.ContestService;
 import cn.edu.gxu.gxucpcsystem.Service.MedalService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
@@ -23,6 +24,11 @@ import java.util.Map;
 public class downloadController {
     @Autowired
     MedalService medalService;
+
+    @Autowired
+    ContestService contestService;
+
+
     @PostMapping("/download/checkStatus")
     public Re download(@RequestBody Map<String, String> mp){
         String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
@@ -38,5 +44,10 @@ public class downloadController {
         String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
         byte[] bytes = medalService.getFile(fileName,mp.get("itemNumber"));
         return bytes;
+    }
+
+    @GetMapping("/download/contests")
+    public Re getContests(String query) {
+        return new Re(Code.STATUS_OK, contestService.queryContest(query), "查询成功");
     }
 }
