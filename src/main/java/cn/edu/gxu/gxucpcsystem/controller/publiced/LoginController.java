@@ -33,6 +33,10 @@ public class LoginController {
      */
     @PostMapping("/login")
     public Re login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) {
+        String msg = admin.checkIntegrityLogin();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         Admin checkAdmin = adminService.checkPassword(admin.getUsername(), admin.getPassword());
         if(checkAdmin != null) {
             checkAdmin.setUserType((int)checkAdmin.getUserType() == 1 ? "Super Admin" : "Admin");
@@ -42,9 +46,11 @@ public class LoginController {
 
             LogsUtil.logOfOperation(checkAdmin.getUsername(), "登录系统");
 
-            if (adminService.updateLastLogin(checkAdmin.getId(), System.currentTimeMillis()))
+            if (adminService.updateLastLogin(checkAdmin.getId(), System.currentTimeMillis())) {
                 return new Re(Code.STATUS_OK, checkAdmin, "登陆成功");
-            else return new Re(Code.DATABASE_ERROR, null, "数据库异常");
+            } else {
+                return new Re(Code.DATABASE_ERROR, null, "数据库异常");
+            }
         }
         return new Re(Code.RESOURCE_DISABLE, null, "用户名/密码无效");
     }

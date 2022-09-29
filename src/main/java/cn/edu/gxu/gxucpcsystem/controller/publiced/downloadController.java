@@ -28,9 +28,17 @@ public class downloadController {
     @Autowired
     ContestService contestService;
 
+    /**
+     * 下载预检
+     * @param mp body
+     * @return
+     */
 
     @PostMapping("/download/checkStatus")
     public Re download(@RequestBody Map<String, String> mp){
+        if(mp.get("name") == null || mp.get("number") == null) {
+            return new Re(Code.RESOURCE_DISABLE, null, "请填写完整信息");
+        }
         String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
         List<Medal>lsMedal = medalService.queryFile(fileName,mp.get("itemNumber"));
         if(lsMedal.size() == 0){
@@ -39,6 +47,11 @@ public class downloadController {
         return new Re(Code.STATUS_OK,null,"查询成功");
     }
 
+    /**
+     * 下载文件
+     * @param mp body
+     * @return
+     */
     @PostMapping("/download")
     public byte[] down(@RequestBody Map<String, String> mp){
         String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
@@ -46,6 +59,11 @@ public class downloadController {
         return bytes;
     }
 
+    /**
+     * 关键字查询比赛
+     * @param query
+     * @return
+     */
     @GetMapping("/download/contests")
     public Re getContests(String query) {
         return new Re(Code.STATUS_OK, contestService.queryContest(query), "查询成功");

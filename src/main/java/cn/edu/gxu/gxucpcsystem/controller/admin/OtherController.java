@@ -21,11 +21,10 @@ public class OtherController {
     /**
      * 验证Token是否有效(通过admin的拦截器即为有效)
      *
-     * @param request 请求头
      * @return
      */
     @GetMapping("/checkToken")
-    public Re checkToken(HttpServletRequest request) {
+    public Re checkToken() {
         return new Re(Code.STATUS_OK, null, "验证成功");
     }
 }

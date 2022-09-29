@@ -27,6 +27,9 @@ spring:
       uri: mongodb://root:123456@120.25.238.219:3555/store?authSource=admin
   mail:
     default-encoding: UTF-8
+  jackson:
+    # 队友null的属性不解析为JSON
+    default-property-inclusion: non_null
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

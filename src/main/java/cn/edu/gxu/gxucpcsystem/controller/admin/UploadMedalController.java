@@ -37,7 +37,6 @@ public class UploadMedalController {
         Medal medal = new Medal();
         medal.setFiles(file.getBytes());
         int len = file.getBytes().length;
-        System.out.println(len + "," + buffer);
         if(len > buffer){
             return new Re(Code.RESOURCE_DISABLE,null,"文件过大，请压缩后上传");
         }

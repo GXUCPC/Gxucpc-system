@@ -36,7 +36,10 @@ public class Player {
     boolean star;
     @ExcelProperty(value = {"组别"}, index = 9)
     boolean group;
-    String userPhone;
     @ExcelProperty(value = {"学号"}, index = 2)
     String userId;
+
+    String userPhone;
+    String key;
+    String comment;
 }

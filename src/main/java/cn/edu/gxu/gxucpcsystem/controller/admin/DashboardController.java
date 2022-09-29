@@ -4,6 +4,7 @@ import cn.edu.gxu.gxucpcsystem.Service.OperationService;
 import cn.edu.gxu.gxucpcsystem.Service.RedisService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Operation;
+import cn.edu.gxu.gxucpcsystem.domain.Redis;
 import cn.edu.gxu.gxucpcsystem.utils.DateUtil;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
@@ -81,6 +82,11 @@ public class DashboardController {
      */
     @PostMapping("/images")
     public Re insertImagesURL(HttpServletRequest request, String url) {
+        Redis redis = new Redis("url", url);
+        String msg = redis.checkIntegrityCreate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(redisService.insert("URL", url)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "添加了首页图片：" + url);
             return new Re(Code.STATUS_OK, null, "成功");
@@ -97,6 +103,12 @@ public class DashboardController {
      */
     @PostMapping("/icp")
     public Re insertICP(HttpServletRequest request, String icp) {
+        Redis redis = new Redis("icp", icp);
+        String msg = redis.checkIntegrityCreate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
+
         if(redisService.insert("ICP", icp)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了网站ICP备案号：" + icp);
             return new Re(Code.STATUS_OK, null, "成功");

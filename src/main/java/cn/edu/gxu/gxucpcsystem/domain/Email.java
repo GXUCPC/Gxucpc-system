@@ -15,4 +15,14 @@ public class Email {
     private Integer id;
     private String emailData;
     private String emailSubject;
+
+    public String checkIntegrityCreate() {
+        if(emailData == null || emailData.isEmpty()) {
+            return "邮件内容为空";
+        }
+        if(emailSubject == null || emailSubject.isEmpty()) {
+            return "邮件主题为空";
+        }
+        return null;
+    }
 }

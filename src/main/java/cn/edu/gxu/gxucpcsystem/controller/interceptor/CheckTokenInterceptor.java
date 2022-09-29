@@ -23,7 +23,9 @@ import static cn.edu.gxu.gxucpcsystem.controller.Code.TOKEN_ERROR;
  * @date 2022/7/1
  */
 
-// 请求Token拦截器
+/**
+ * 请求Token拦截器
+ */
 @Component
 public class CheckTokenInterceptor implements HandlerInterceptor {
     @Autowired

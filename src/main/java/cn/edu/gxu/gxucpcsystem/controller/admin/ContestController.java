@@ -34,6 +34,10 @@ public class ContestController {
      */
     @PostMapping
     public Re addContest(HttpServletRequest request, @RequestBody Contest contest) {
+        String msg = contest.checkIntegrityCreate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(contestService.addContest(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "新增了比赛《" + contest.getName() + "》");
             return new Re(Code.STATUS_OK, null, "添加成功");
@@ -64,6 +68,10 @@ public class ContestController {
      */
     @PutMapping
     public Re updateContest(HttpServletRequest request, @RequestBody Contest contest) {
+        String msg = contest.checkIntegrityUpdate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(contestService.updateContest(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了比赛《" + contest.getName() + "》");
             return new Re(Code.STATUS_OK, null, "修改成功");

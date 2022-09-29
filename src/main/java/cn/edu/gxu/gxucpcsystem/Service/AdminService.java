@@ -31,10 +31,11 @@ public class AdminService {
         long createTime = System.currentTimeMillis();
         admin.setPassword(MD5Utils.string2MD5(admin.getPassword()));
         int userType;
-        // 防止SQL注入
-        if(admin.getUserType().equals("Super Admin")) userType = 1;
-        else if(admin.getUserType().equals("Admin")) userType = 2;
-        else return false;
+        if(admin.getUserType().equals("Super Admin")) {
+            userType = 1;
+        } else {
+            userType = 2;
+        }
         return adminDao.addAdmin(admin.getUsername(), admin.getPassword(), userType, admin.getRealName(), createTime, admin.getEmail()) == 1;
     }
 

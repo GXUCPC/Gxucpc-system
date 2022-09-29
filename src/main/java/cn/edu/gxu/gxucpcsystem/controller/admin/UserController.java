@@ -4,6 +4,7 @@ import cn.edu.gxu.gxucpcsystem.Service.AdminService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
+import cn.edu.gxu.gxucpcsystem.domain.Redis;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class UserController {
      */
     @PostMapping
     public Re addUser(HttpServletRequest request, @RequestBody Admin admin) {
+        String msg = admin.checkIntegrityCreate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if (adminService.addAdmin(admin)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "添加了" + admin.getUserType() + "：" + admin.getUsername());
             return new Re(Code.STATUS_OK, null, "添加成功");
@@ -62,8 +67,13 @@ public class UserController {
      */
     @PutMapping
     public Re updateUser(@RequestBody Admin admin, HttpServletRequest request) {
-        if(request.getHeader("isChangePassword") == null)
+        String msg = admin.checkIntegrityUpdate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
+        if(request.getHeader("isChangePassword") == null) {
             return new Re(Code.RESOURCE_DISABLE, null, "错误的请求格式");
+        }
         int isChangePassword = Integer.parseInt(request.getHeader("isChangePassword"));
         if(adminService.updateAdmin(admin, isChangePassword == 2)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了管理员：" + admin.getUsername());

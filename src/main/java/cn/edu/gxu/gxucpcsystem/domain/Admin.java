@@ -28,15 +28,16 @@ public class Admin {
      */
     private final int usernameLength = 30;
 
-    /**
-     * 数据库中密码的长度
-     */
-    private final int passwordLength = 40;
 
     /**
      * 数据库中邮件的长度
      */
     private final int emailLength = 40;
+
+    /**
+     * 数据库中真实姓名的长度
+     */
+    private final int realNameLength = 40;
 
 
     /**
@@ -44,18 +45,22 @@ public class Admin {
      *
      * @return
      */
-    String checkIntegrity() {
-        if (username.isEmpty()) {
+    public String checkIntegrityLogin() {
+        if (username == null || username.isEmpty()) {
             return "用户名为空";
         }
         if (username.length() > usernameLength) {
             return "用户名过长";
         }
-        if (password.isEmpty()) {
+        if (password == null || password.isEmpty()) {
             return "密码为空";
         }
-        if (password.length() > passwordLength) {
-            return "密码过长";
+        return null;
+    }
+    public String checkIntegrityCreate() {
+
+        if(email == null || email.isEmpty()) {
+            return "邮箱为空";
         }
         if (!(email.contains("@") && email.contains(".") && email.lastIndexOf(".") > email.lastIndexOf("@"))) {
             return "邮箱格式错误";
@@ -63,6 +68,25 @@ public class Admin {
         if (email.length() > emailLength) {
             return "邮件过长";
         }
-        return null;
+        if(userType == null || userType.toString().isEmpty()) {
+            return "用户权限为空";
+        }
+        if(!("Admin".equals(userType.toString()) || "Super Admin".equals(userType.toString()))) {
+            return "用户权限错误";
+        }
+        if(realName == null || realName.isEmpty()) {
+            return "用户真实姓名为空";
+        }
+        if(realName.length() > realNameLength) {
+            return "用户真实姓名过长";
+        }
+
+        return checkIntegrityLogin();
+    }
+    public String checkIntegrityUpdate() {
+        if(id == null || id < 0) {
+            return "编号错误";
+        }
+        return checkIntegrityCreate();
     }
 }

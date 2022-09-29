@@ -84,6 +84,10 @@ public class TextController {
      */
     @PostMapping("/admin/text")
     public Re insert(HttpServletRequest request, @RequestBody Text text) {
+        String msg = text.checkIntegrityCreate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(textService.insert(text, request.getHeader("username"))) {
             LogsUtil.logOfOperation(request.getHeader("username"), "添加了一篇文章《" + text.getTitle() + "》");
             return new Re(Code.STATUS_OK, null, "成功");
@@ -100,6 +104,10 @@ public class TextController {
      */
     @PutMapping("/admin/text")
     public Re updateByID(HttpServletRequest request, @RequestBody Text text) {
+        String msg = text.checkIntegrityUpdate();
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(textService.updateByID(text)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了文章：id=" + text.getId());
             return new Re(Code.STATUS_OK, null, "成功");
