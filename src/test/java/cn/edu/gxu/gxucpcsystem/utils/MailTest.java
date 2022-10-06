@@ -2,6 +2,9 @@ package cn.edu.gxu.gxucpcsystem.utils;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Sct
  * @date 2022/8/2
@@ -20,5 +23,10 @@ public class MailTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void test2() {
+        System.out.println(System.currentTimeMillis());
     }
 }

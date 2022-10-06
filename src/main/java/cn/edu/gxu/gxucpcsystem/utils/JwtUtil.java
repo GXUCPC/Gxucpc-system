@@ -28,13 +28,15 @@ public class JwtUtil {
      * @param userType  用户权限
      * @return 信息加密后的Token
      */
-    public static String createJWT(String jwtSec, long ttlMillis, String username, String ip, String userType, String password) {
+    public static String createJWT(String jwtSec, Long ttlMillis, String username, String ip, String userType, String password) {
         // 签名算法
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         // 生成JWT的时间
-        long nowMillis = System.currentTimeMillis();
+        Long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
+
+        //TODO 添加clientNo信息
 
         // 创建payload的私有声明
         Map<String, Object> claims = new HashMap<String, Object>();
@@ -59,9 +61,9 @@ public class JwtUtil {
                 // 设置签名使用的签名算法和签名使用的秘钥
                 .signWith(signatureAlgorithm, jwtSec.getBytes(StandardCharsets.UTF_8));
         if (ttlMillis < 0) {
-            ttlMillis = 0;
+            ttlMillis = 0L;
         }
-        long expMillis = nowMillis + ttlMillis;
+        Long expMillis = nowMillis + ttlMillis;
         Date exp = new Date(expMillis);
         // 设置过期时间
         builder.setExpiration(exp);
@@ -111,7 +113,7 @@ public class JwtUtil {
         Claims claims = parseJWT(JWT_KEY, token);
         Date jwtTime = claims.getExpiration();
         // 对于不到一天到期的Token自动续租
-        long nowMillis = System.currentTimeMillis() + 86400000;
+        Long nowMillis = System.currentTimeMillis() + 86400000;
         Date nowTime = new Date(nowMillis);
         if (nowTime.after(jwtTime)) {
             token = createJWT(JWT_KEY, TTL_MILLIS, (String) claims.get("username"), (String) claims.get("ip"), (String) claims.get("power"), (String) claims.get("password"));

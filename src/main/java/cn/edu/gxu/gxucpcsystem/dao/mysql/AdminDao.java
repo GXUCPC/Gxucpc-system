@@ -31,7 +31,7 @@ public interface AdminDao {
      * @param email 邮箱
      * @return 影响行数
      */
-    Integer addAdmin(String username,String password, Integer userType, String realName, long createTime, String email);
+    Integer addAdmin(String username,String password, Integer userType, String realName, Long createTime, String email);
 
     /**
      * 删除管理员

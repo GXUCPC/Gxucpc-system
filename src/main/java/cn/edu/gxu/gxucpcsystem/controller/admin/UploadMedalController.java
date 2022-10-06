@@ -45,7 +45,12 @@ public class UploadMedalController {
         medal.setDate(System.currentTimeMillis());
         medal.setMd5(MD5Utils.string2MD5(medal.getFiles()));
         medal.setContestId(contestId);
-        medalService.addMedal(medal);
+        try {
+            medalService.addMedal(medal);
+        } catch (Exception e) {
+            return new Re(Code.DATABASE_ERROR,null, e.getMessage());
+        }
+
         return new Re(Code.STATUS_OK,null,"上传成功");
     }
 }

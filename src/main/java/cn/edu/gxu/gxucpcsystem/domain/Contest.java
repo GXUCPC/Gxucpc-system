@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,16 +21,20 @@ public class Contest {
     private String smtpPassword;
     private Long contestBeginTime;
     private Long contestEndTime;
+    private Long createTime;
     private Boolean isDownload;
+    private Boolean isQuery;
 
     /**
      * 数据库中比赛名称的长度
      */
+    @JsonIgnore
     private final int nameLength = 100;
 
     /**
      * 数据库中邮箱密钥的长度
      */
+    @JsonIgnore
     private final int smtpLength = 30;
     public String checkIntegrityCreate() {
         if(name == null || name.isEmpty() || name.length() > nameLength) {
@@ -41,7 +46,7 @@ public class Contest {
         if(signUpEndTime == null || signUpEndTime < signUpBeginTime) {
             return "报名结束时间错误";
         }
-        if(email == null || email.isEmpty() || !(email.contains("@") && email.contains(".")) || email.lastIndexOf("@") < email.lastIndexOf(".")) {
+        if(email == null || email.isEmpty() || !(email.contains("@") && email.contains(".")) && email.lastIndexOf("@") < email.lastIndexOf(".")) {
             return "邮箱错误";
         }
         if(smtpPassword == null || smtpPassword.isEmpty() || smtpPassword.length() > smtpLength) {

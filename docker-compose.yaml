@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: gxucpc-mysql
+    privileged: true
+    restart: always
+    expose:
+      - "3306"
+    volumes:
+      - ./data/mysql/db/:/var/lib/mysql
+      - ./data/mysql/conf/:/etc/mysql/conf.d
+      - ./data/mysql/logs/:/logs
+      - ./data/mysql/init/:/docker-entrypoint-initdb.d/
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+    environment:
+      MYSQL_ROOT_PASSWORD: "mysql114514"
+      MYSQL_USER: "gxucpc"
+      MYSQL_PASSWORD: "gxucpc114514"
+      MYSQL_INITDB_SKIP_TZINFO: "Asia/Shanghai"
+
+  mongo:
+    image: mongo:4.4.6
+    container_name: gxucpc-mongo
+    hostname: mongo
+    restart: always
+    expose:
+      - "27017"
+    environment:
+      TZ: Asia/Shanghai
+      MONGO_INITDB_DATABASE: gxucpc
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./data/mongo/data:/data/db
+      - ./data/mongo/conf:/data/configdb
+      - ./data/mongo/init/:/docker-entrypoint-initdb.d/
+    command: mongod
+
+  gxucpc:
+    image: cityts/gxucpc:0.3
+    container_name: gxucpc
+    restart: always
+    expose:
+      - "8080"
+    environment:
+      mysql_db: gxucpc
+      mysql_username: root
+      mysql_password: mysql114514
+      mongo_username: root
+      mongo_password: 123456
+      mongo_db: gxucpc
+    depends_on:
+      - mysql
+      - mongo
+    links:
+      - mysql
+      - mongo
+
+  gxucpc-fe:
+    image: cityts/gxucpc-fe:0.3
+    container_name: gxucpc-fe
+    restart: always
+    ports:
+      - "10011:80"
+    links:
+      - gxucpc
+    depends_on:
+      - gxucpc

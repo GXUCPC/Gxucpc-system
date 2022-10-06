@@ -2,10 +2,12 @@ package cn.edu.gxu.gxucpcsystem.Service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
+import cn.edu.gxu.gxucpcsystem.dao.mysql.DomjudgeDao;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
 import cn.edu.gxu.gxucpcsystem.utils.ExcelHandle;
+import cn.edu.gxu.gxucpcsystem.utils.RandomPwdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,8 @@ public class PlayerService {
     @Autowired
     ContestDao contestDao;
 
+    @Autowired
+    DomjudgeDao domjudgeDao;
     /**
      * 分页查找
      *
@@ -69,8 +73,19 @@ public class PlayerService {
      * @return 是否添加成功
      */
     public boolean addPlayer(Player player) {
-        int ff = playerDao.addPlayer(player);
-        return ff >= 1;
+        Integer ff = playerDao.addPlayer(player);
+        List<Contest> contests = contestDao.getById(player.getContestId());
+        if(contests == null) {
+            return false;
+        }
+        List<Player> list = playerDao.selectIdByContestIdAndUserId(player.getUserId(), player.getContestId());
+
+        String username = "GXUCPC" + String.format("%03d", list.get(0).getInformationId() % 1000);
+        String password = RandomPwdUtil.getRandomPwd(8);
+        if(ff == 1) {
+            ff &= domjudgeDao.insertQuery(player.getUserId(), player.getContestId(), username, password);
+        }
+        return ff == 1;
     }
 
     /**
@@ -105,17 +120,36 @@ public class PlayerService {
         List<Player> plays = playerDao.getPlayersByContent(id);
         List<Contest> contest = contestDao.getById(id);
         if (contest == null) {
-//            log: "查无此比赛";
             return null;
         }
         ExcelHandle.exportExcel(request, plays, "报名表", contest.get(0).getName(), 15);
-//        try {
-//            return ExcelHandle.exportExcel( plays, "报名表", contest.get(0).getName() + "-" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "-" + "报名表", 15);
-//        }
-//        catch (IOException e) {
-//            log: "系统IO异常";
-//        }
         return null;
     }
 
+    public List<Player> queryFormsByClientNo(String client, Integer id) {
+        return playerDao.selectFormsByClientNo(client, id);
+    }
+
+    /**
+     * 取消报名
+     * @param client 客户端编号
+     * @param id 表单id
+     * @return
+     */
+    public Boolean cancelRegistration(String client, Integer id) {
+        return playerDao.deletePlayerAndCheckClient(id, client) == 1;
+    }
+
+    /**
+     * 通过表单ID查询姓名和学号
+     * @param id 表单ID
+     * @return
+     */
+    public Player queryNameAndUserIdById(Integer id) {
+        List<Player> list = playerDao.selectNameAndUserIdById(id);
+        if(list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 }

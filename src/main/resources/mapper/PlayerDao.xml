@@ -12,7 +12,11 @@
                                 contestId,
                                 star,
                                 `group`,
-                                userId)
+                                userId,
+                                userPhone,
+                                `key`,
+                                remark,
+                                clientNo)
         values (#{userName},
                 #{userSex},
                 #{userCourse},
@@ -22,7 +26,11 @@
                 #{contestId},
                 #{star},
                 #{group},
-                #{userId})
+                #{userId},
+                #{userPhone},
+                #{key},
+                #{remark},
+                #{clientNo})
     </insert>
     <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
         select *
@@ -48,9 +56,15 @@
                     userQQ like concat('%', #{regex}, '%') or
                     userMail like concat('%', #{regex}, '%') or
                     contestId like concat('%', #{regex}, '%') or
-                    star like concat('%', #{regex}, '%') or
-                    `group` like concat('%', #{regex}, '%') or
-                    userId like concat('%', #{regex}, '%'))
+                    (star = 0 and '打星' like concat('%', #{regex}, '%')) or
+                    (star = 1 and '正常' like concat('%', #{regex}, '%')) or
+                    (`group` = 0 and '正式组' like concat('%', #{regex}, '%')) or
+                    (`group` = 1 and '新生组' like concat('%', #{regex}, '%')) or
+                    userId like concat('%', #{regex}, '%') or
+                    userPhone like concat('%', #{regex}, '%') or
+                    `key` like concat('%', #{regex}, '%') or
+                    remark like concat('%', #{regex}, '%')
+            )
         order by informationId desc
         limit #{offset}, #{count}
     </select>
@@ -67,9 +81,15 @@
                     userQQ like concat('%', #{regex}, '%') or
                     userMail like concat('%', #{regex}, '%') or
                     contestId like concat('%', #{regex}, '%') or
-                    star like concat('%', #{regex}, '%') or
-                    `group` like concat('%', #{regex}, '%') or
-                    userId like concat('%', #{regex}, '%'))
+                    (star = 0 and '打星' like concat('%', #{regex}, '%')) or
+                    (star = 1 and '正常' like concat('%', #{regex}, '%')) or
+                    (`group` = 0 and '正式组' like concat('%', #{regex}, '%')) or
+                    (`group` = 1 and '新生组' like concat('%', #{regex}, '%')) or
+                    userId like concat('%', #{regex}, '%') or
+                    userPhone like concat('%', #{regex}, '%') or
+                    `key` like concat('%', #{regex}, '%') or
+                    remark like concat('%', #{regex}, '%')
+            )
     </select>
     <update id="updatePlayer">
         update information
@@ -82,8 +102,12 @@
             contestId  = #{contestId},
             star       = #{star},
             `group`    = #{group},
-            userId     = #{userId}
+            userId     = #{userId},
+            userPhone  = #{userPhone},
+            `key`      = #{key},
+            remark     = #{remark}
         where informationId = #{informationId}
+          and clientNo = #{clientNo}
     </update>
     <delete id="deletePlayer">
         delete
@@ -95,5 +119,33 @@
         select *
         from information
         where contestId = #{id}
+    </select>
+    <select id="selectFormsByClientNo" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select *
+        from information
+        where clientNo = #{client}
+          and contestId = #{id}
+    </select>
+    <delete id="deletePlayerAndCheckClient">
+        delete
+        from information
+        where informationId = #{id}
+          and clientNo = #{client}
+    </delete>
+    <select id="selectNameAndUserIdById" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select userName, userId
+        from information
+        where informationId = #{id}
+    </select>
+    <select id="selectIdByContestId" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select informationId
+        from information
+        where contestId = #{id}
+    </select>
+    <select id="selectIdByContestIdAndUserId" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
+        select informationId
+        from information
+        where contestId = #{contestId}
+          and userId = #{userId}
     </select>
 </mapper>

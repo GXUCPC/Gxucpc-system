@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+
+#logging:
+#  config: classpath:config/log4j2.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/${mysql_db}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: ${mysql_username}
+    password: ${mysql_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #初始状态数量
+      initial-size: 10
+      #最小连接数
+      min-idle: 10
+      #最大连接数
+      max-active: 100
+      #毫秒
+      max-wait: 60000
+  data:
+    mongodb:
+      uri: mongodb://${mongo_username}:${mongo_password}@mongo:27017/${mongo_db}?authSource=admin
+  mail:
+    default-encoding: UTF-8
+  jackson:
+    # 对于null的属性不解析为JSON
+    default-property-inclusion: non_null
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+buffSize: 5242880

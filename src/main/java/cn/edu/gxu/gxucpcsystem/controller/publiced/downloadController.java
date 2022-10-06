@@ -3,6 +3,7 @@ package cn.edu.gxu.gxucpcsystem.controller.publiced;
 import cn.edu.gxu.gxucpcsystem.Service.ContestService;
 import cn.edu.gxu.gxucpcsystem.Service.MedalService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
+import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class downloadController {
     /**
      * 关键字查询比赛
      * @param query
-     * @return
+     * @return id name
      */
     @GetMapping("/download/contests")
     public Re getContests(String query) {

@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,24 +20,28 @@ public class Admin {
     private String password;
     private Object userType;
     private String realName;
-    private long createTime;
-    private long lastLogin;
+    private Long createTime;
+    private Long lastLogin;
     private String email;
-
+    @JsonIgnore
+    private boolean isChangePassword;
     /**
      * 数据库中用户名长度
      */
+    @JsonIgnore
     private final int usernameLength = 30;
 
 
     /**
      * 数据库中邮件的长度
      */
+    @JsonIgnore
     private final int emailLength = 40;
 
     /**
      * 数据库中真实姓名的长度
      */
+    @JsonIgnore
     private final int realNameLength = 40;
 
 
@@ -52,8 +57,10 @@ public class Admin {
         if (username.length() > usernameLength) {
             return "用户名过长";
         }
-        if (password == null || password.isEmpty()) {
-            return "密码为空";
+        if(isChangePassword) {
+            if (password == null || password.isEmpty()) {
+                return "密码为空";
+            }
         }
         return null;
     }
@@ -83,10 +90,11 @@ public class Admin {
 
         return checkIntegrityLogin();
     }
-    public String checkIntegrityUpdate() {
+    public String checkIntegrityUpdate(boolean isChangePassword) {
         if(id == null || id < 0) {
             return "编号错误";
         }
+        this.isChangePassword = isChangePassword;
         return checkIntegrityCreate();
     }
 }

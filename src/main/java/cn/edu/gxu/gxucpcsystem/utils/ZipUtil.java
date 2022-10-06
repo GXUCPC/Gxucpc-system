@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 
 /**
@@ -76,6 +77,105 @@ public class ZipUtil {
             throw new IOException("解压失败,原因:" + e.getMessage());
         }
         return ls;
+    }
+    public static boolean compressFileToZip(String compresspath) {
+        boolean bool = false;
+        try {
+            ZipOutputStream zipOutput = null;
+            File file = new File(compresspath);
+            if(file.isDirectory()){
+                zipOutput = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(compresspath + ".zip")));
+                compressZip(zipOutput, file, "");
+            }else{
+                zipOutput = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(compresspath.substring(0, compresspath.lastIndexOf(".")) + ".zip")));
+                zipOFile(zipOutput, file);
+            }
+            zipOutput.closeEntry();
+            zipOutput.close();
+            bool = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bool;
+    }
+
+    /**
+     * @Title: compressZip
+     * @Description: 子文件夹中可能还有文件夹，进行递归
+     * @param @param zipOutput
+     * @param @param file
+     * @param @param suffixpath
+     * @param @throws IOException
+     * @return void    返回类型
+     * @throws
+     */
+    private static void compressZip(ZipOutputStream zipOutput, File file, String suffixpath) {
+        File[] listFiles = file.listFiles();// 列出所有的文件
+        for(File fi : listFiles){
+            if(fi.isDirectory()){
+                if(suffixpath.equals("")){
+                    compressZip(zipOutput, fi, fi.getName());
+                }else{
+                    compressZip(zipOutput, fi, suffixpath + File.separator + fi.getName());
+                }
+            }else{
+                zip(zipOutput, fi, suffixpath);
+            }
+        }
+    }
+
+    /**
+     * @Title: zip
+     * @Description: 压缩的具体操作
+     * @param @param zipOutput
+     * @param @param file  文件
+     * @param @param suffixpath  文件夹拼接路径
+     * @return void    返回类型
+     * @throws
+     */
+    public static void zip(ZipOutputStream zipOutput, File file, String suffixpath) {
+        try {
+            ZipEntry zEntry = null;
+            if(suffixpath.equals("")){
+                zEntry = new ZipEntry(file.getName());
+            }else{
+                zEntry = new ZipEntry(suffixpath + File.separator + file.getName());
+            }
+            zipOutput.putNextEntry(zEntry);
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            byte[] buffer = new byte[1024];
+            int read = 0;
+            while((read = bis.read(buffer)) != -1){
+                zipOutput.write(buffer, 0, read);
+            }
+            bis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @Title: zip
+     * @Description: 压缩单个文件
+     * @param @param zipOutput
+     * @param @param file  文件
+     * @return void    返回类型
+     * @throws
+     */
+    public static void zipOFile(ZipOutputStream zipOutput, File file) {
+        try {
+            ZipEntry zEntry = new ZipEntry(file.getName());
+            zipOutput.putNextEntry(zEntry);
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            byte[] buffer = new byte[1024];
+            int read = 0;
+            while((read = bis.read(buffer)) != -1){
+                zipOutput.write(buffer, 0, read);
+            }
+            bis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

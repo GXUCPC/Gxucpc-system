@@ -85,4 +85,42 @@ public interface PlayerDao {
      * @return
      */
     List<Player> getPlayersByContent(Integer id);
+
+    /**
+     * 根据客户端编号查询提交记录
+     *
+     * @param client 客户端编号
+     * @return
+     */
+    List<Player> selectFormsByClientNo(String client, Integer id);
+
+    /**
+     * 删除client客户端的报名记录
+     * @param id 表单id
+     * @param client 客户端编号
+     * @return
+     */
+    Integer deletePlayerAndCheckClient(Integer id, String client);
+
+    /**
+     * 按照id查询姓名和学号
+     * @param id 表单ID
+     * @return
+     */
+    List<Player> selectNameAndUserIdById(Integer id);
+
+    /**
+     * 根据比赛编号查询表单编号
+     * @param id 比赛编号
+     * @return
+     */
+    List<Player> selectIdByContestId(Integer id);
+
+    /**
+     * 根据比赛编号&学号查询表单ID
+     * @param userId 学号
+     * @param contestId 比赛编号
+     * @return
+     */
+    List<Player> selectIdByContestIdAndUserId(String userId, Integer contestId);
 }

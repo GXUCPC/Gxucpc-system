@@ -61,7 +61,7 @@ public class ExcelHandle {
         int rowIndex = 0;
         HSSFRow r = sheet.createRow(rowIndex++);
 
-        String[] head = {"编号","学号","姓名","性别","学院","班级","QQ","邮箱","是否打星","组别"};
+        String[] head = {"编号","学号","姓名","性别","学院","班级","QQ","邮箱", "手机号","是否打星","组别"};
         for (int i = 0 ; i < head.length ;  i++){
             HSSFCell cell = r.createCell(i);
             HSSFRichTextString text = new HSSFRichTextString(head[i]);
@@ -87,15 +87,21 @@ public class ExcelHandle {
             cell = r.createCell(7);
             cell.setCellValue(new HSSFRichTextString(data.getUserMail()));
             cell = r.createCell(8);
-            if (data.isStar())
-                cell.setCellValue(new HSSFRichTextString("打星"));
-            else
-                cell.setCellValue(new HSSFRichTextString("非打星"));
+            cell.setCellValue(new HSSFRichTextString(data.getUserPhone()));
             cell = r.createCell(9);
-            if (data.isGroup())
+            if (data.getStar()) {
+                cell.setCellValue(new HSSFRichTextString("打星"));
+            }
+            else {
+                cell.setCellValue(new HSSFRichTextString("非打星"));
+            }
+            cell = r.createCell(10);
+            if (data.getGroup()) {
                 cell.setCellValue(new HSSFRichTextString("正式组"));
-            else
+            }
+            else {
                 cell.setCellValue(new HSSFRichTextString("新生组"));
+            }
         }
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -2,12 +2,18 @@ package cn.edu.gxu.gxucpcsystem.Service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
+import cn.edu.gxu.gxucpcsystem.dao.mysql.DomjudgeDao;
+import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
+import cn.edu.gxu.gxucpcsystem.domain.Player;
 import cn.edu.gxu.gxucpcsystem.exception.EmailException;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.AuthenticationFailedException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,8 +25,14 @@ public class ContestService {
     @Autowired
     ContestDao contestDao;
 
+    @Autowired
+    PlayerDao playerDao;
+
+    @Autowired
+    DomjudgeDao domjudgeDao;
+
     public List<Contest> queryContest(String query) {
-        return contestDao.selectContestByLikeName(query);
+        return contestDao.selectContestIdAndNameByLikeName(query);
     }
 
     /**
@@ -29,13 +41,13 @@ public class ContestService {
      * @param contest 比赛信息
      * @return 是否添加成功
      */
-    public Boolean addContest(Contest contest) {
+    public Boolean addContest(Contest contest) throws AuthenticationFailedException {
         try {
             MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
             mailUtil.init();
             mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
-            return contestDao.addContest(contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime()) == 1;
-        } catch (EmailException e) {
+            return contestDao.addContest(contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime(), System.currentTimeMillis()) == 1;
+        } catch (EmailException | AuthenticationFailedException e) {
             throw e;
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,13 +75,21 @@ public class ContestService {
      * @param contest 比赛信息
      * @return 是否修改成功
      */
-    public Boolean updateContest(Contest contest) {
+    public Boolean updateContest(Contest contest) throws AuthenticationFailedException {
         try {
-            MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
-            mailUtil.init();
-            mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
-            return contestDao.updateContest(contest.getId(), contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime()) == 1;
-        } catch (EmailException e) {
+            if(contestDao.updateContest(contest.getId(), contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime()) == 1) {
+                List<Player> list = playerDao.selectIdByContestId(contest.getId());
+                for (Player player : list) {
+                    String username = "GXUCPC" + String.format("%03d", player.getInformationId());
+                    domjudgeDao.updateUsernameById(player.getInformationId(), username);
+                }
+                MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
+                mailUtil.init();
+                mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
+                return true;
+            }
+            return false;
+        } catch (EmailException | AuthenticationFailedException e) {
             throw e;
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,8 +103,18 @@ public class ContestService {
      * @param numberPerPage 每页个数
      * @return [总数，该页元素]
      */
-    public PagesEntity getByPages(int currentPage, int numberPerPage) {
+    public PagesEntity getByPages(Integer currentPage, Integer numberPerPage) {
         return new PagesEntity(contestDao.queryByPage((currentPage - 1) * numberPerPage, numberPerPage), contestDao.getCount());
+    }
+
+    /**
+     * 分页查找
+     * @param currentPage 当前页
+     * @param numberPerPage 每页个数
+     * @return [总数，该页元素:[id, name, createTime]
+     */
+    public PagesEntity queryContestOfIdAndNameAndCreatTimeBuPages(Integer currentPage, Integer numberPerPage) {
+        return new PagesEntity(contestDao.selectIdAndNameAndCreateTimeByPage((currentPage - 1) * numberPerPage, numberPerPage), contestDao.getCount());
     }
 
     /**
@@ -104,4 +134,9 @@ public class ContestService {
         return list.get(0);
     }
 
+    public Boolean modifyIsQuery(Contest contest) {
+        Boolean sy = contestDao.updateIsQueryById(contest) == 1;
+        sy &= domjudgeDao.updateIsQueryByContestId(contest) == 1;
+        return sy;
+    }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.DomjudgeDao">
+    <resultMap id="dom" type="cn.edu.gxu.gxucpcsystem.domain.Domjudge">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <association property="player" javaType="cn.edu.gxu.gxucpcsystem.domain.Player">
+            <result column="name" property="userName"/>
+            <result column="userId" property="userId"/>
+            <result column="star" property="star"/>
+            <result column="group" property="group"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectQuery" resultType="cn.edu.gxu.gxucpcsystem.domain.Domjudge">
+        select domjudge.id, domjudge.username, domjudge.password, domjudge.isQuery
+        from domjudge,
+             information
+        where domjudge.id = information.informationId
+          and information.userId = #{userID}
+          and information.contestId = #{contestID}
+          and information.`key` = #{key}
+    </select>
+    <select id="selectQueryByContestId" resultMap="dom">
+        select domjudge.id,
+               domjudge.username,
+               domjudge.password,
+               domjudge.isQuery,
+               information.userName 'name',
+               information.userId,
+               information.star,
+               information.`group`
+        from domjudge,
+             information
+        where domjudge.id = information.informationId
+          and information.contestId = #{contestId}
+    </select>
+    <insert id="insertQuery">
+        insert into domjudge
+            (id, username, password)
+        VALUES ((select informationId
+                 from information
+                 where userId = #{userId}
+                   and contestId = #{contestId}), #{username}, #{password})
+    </insert>
+    <update id="updateUsernameById">
+        update domjudge
+        set username=#{username}
+        where id = #{id}
+    </update>
+    <update id="updateIsQueryByContestId">
+        update domjudge, information
+        set domjudge.isQuery=#{isQuery}
+        where domjudge.id=information.informationId
+    </update>
+</mapper>

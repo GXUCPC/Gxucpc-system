@@ -1,6 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
 import cn.edu.gxu.gxucpcsystem.Service.ContestService;
+import cn.edu.gxu.gxucpcsystem.Service.DomjudgeService;
 import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
@@ -9,6 +10,7 @@ import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.AuthenticationFailedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,6 +28,9 @@ public class ContestController {
 
     @Autowired
     PlayerService playerService;
+
+    @Autowired
+    DomjudgeService domjudgeService;
     /**
      * 添加比赛
      *
@@ -33,7 +38,7 @@ public class ContestController {
      * @return
      */
     @PostMapping
-    public Re addContest(HttpServletRequest request, @RequestBody Contest contest) {
+    public Re addContest(HttpServletRequest request, @RequestBody Contest contest) throws AuthenticationFailedException {
         String msg = contest.checkIntegrityCreate();
         if(msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
@@ -67,7 +72,7 @@ public class ContestController {
      * @return
      */
     @PutMapping
-    public Re updateContest(HttpServletRequest request, @RequestBody Contest contest) {
+    public Re updateContest(HttpServletRequest request, @RequestBody Contest contest) throws AuthenticationFailedException {
         String msg = contest.checkIntegrityUpdate();
         if(msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
@@ -107,6 +112,23 @@ public class ContestController {
     }
 
     /**
+     * 修改查询状态
+     * @param request
+     * @param contest
+     * @return
+     */
+    @PutMapping("/query")
+    public Re updateQuery(HttpServletRequest request, @RequestBody Contest contest) {
+        if(contest.getId() == null || contest.getIsQuery() == null || contest.getName() == null) {
+            LogsUtil.logOfOperation(request.getHeader("username"), (contest.getIsDownload() ? "打开了" : "关闭了") + "比赛《" + contest.getName() + "》的账密查询权限");
+            return new Re(Code.RESOURCE_DISABLE, null, "异常请求");
+        }
+        if(contestService.modifyIsQuery(contest)) {
+            return new Re(Code.STATUS_OK, null, "修改成功");
+        }
+        return new Re(Code.RESOURCE_DISABLE, null, "修改失败，请重试");
+    }
+    /**
      * 下载比赛表单
      *
      * @param id 比赛id
@@ -120,5 +142,14 @@ public class ContestController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @GetMapping("/pwd/{id}")
+    public byte[] downloadPwd(HttpServletResponse request,@PathVariable Integer id) {
+        try {
+            return domjudgeService.downloadPassUser(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

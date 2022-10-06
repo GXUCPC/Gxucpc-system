@@ -1,7 +1,10 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
 import cn.edu.gxu.gxucpcsystem.Service.RedisService;
+import cn.edu.gxu.gxucpcsystem.controller.Code;
+import cn.edu.gxu.gxucpcsystem.utils.IPUtils;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
+import cn.edu.gxu.gxucpcsystem.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +31,8 @@ public class OtherThingsController {
      */
     @GetMapping("/ip")
     public Re getReferIp(HttpServletRequest request) {
-        return new Re(STATUS_OK, request.getRemoteAddr(), "获取成功");
+        String IP = IPUtils.loadRemoteUserIP(request);
+        return new Re(Code.RESOURCE_DISABLE, IP, "获取IP成功");
     }
 
     /**
@@ -48,5 +52,14 @@ public class OtherThingsController {
     @GetMapping("/icp")
     public Re getICP() {
         return new Re(STATUS_OK, redisService.getICP(), "成功");
+    }
+
+    /**
+     * 分发客户端编号
+     * @return
+     */
+    @GetMapping("getClient")
+    public Re getClient() {
+        return new Re(STATUS_OK, UUIDUtil.createUUID(), null);
     }
 }

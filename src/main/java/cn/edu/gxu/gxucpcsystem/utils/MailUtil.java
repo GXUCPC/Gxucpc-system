@@ -76,7 +76,7 @@ public class MailUtil {
     public void sendHtmlEmail(String to, String subject, String content) throws Exception{
         MimeMessage message = new MimeMessage(session);
         message.setSubject(subject);
-        message.setFrom(new InternetAddress(this.from));
+        message.setFrom(new InternetAddress(this.from, "广西大学程序设计竞赛组委会", "UTF-8"));
         message.setSentDate(new Date());
         message.setRecipients(RecipientType.TO, InternetAddress.parse(to));
         message.setContent(content, "text/html;charset=utf-8");

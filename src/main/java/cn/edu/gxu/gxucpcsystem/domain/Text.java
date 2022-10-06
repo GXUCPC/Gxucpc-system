@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Text {
     /**
      * 数据库文章标题长度
      */
+    @JsonIgnore
     private final int titleLength = 100;
 
     public String checkIntegrityCreate() {

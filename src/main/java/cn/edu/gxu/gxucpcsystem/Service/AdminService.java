@@ -28,7 +28,7 @@ public class AdminService {
      * @return 是否添加成功
      */
     public Boolean addAdmin(Admin admin) {
-        long createTime = System.currentTimeMillis();
+        Long createTime = System.currentTimeMillis();
         admin.setPassword(MD5Utils.string2MD5(admin.getPassword()));
         int userType;
         if(admin.getUserType().equals("Super Admin")) {

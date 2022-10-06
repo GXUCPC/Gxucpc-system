@@ -6,6 +6,7 @@ import cn.edu.gxu.gxucpcsystem.exception.TokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.AuthenticationFailedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
@@ -50,6 +51,25 @@ public class ProjectExceptionAdvice {
         if(msg.contains("name")) {
             return new Re(Code.RESOURCE_DISABLE, null, "比赛名称已存在");
         }
-        return new Re(Code.RESOURCE_DISABLE, null, "为止SQL约束异常:" + msg);
+        if(msg.contains("information.check_user_id_contest_id")) {
+            String userid = msg.substring(msg.lastIndexOf("-") + 1, msg.lastIndexOf("' for"));
+            return new Re(Code.RESOURCE_DISABLE, null, "学号" + userid + "已注册！如要修改信息，请在报名机器上修改或联系管理员");
+        }
+        return new Re(Code.RESOURCE_DISABLE, null, "未知SQL约束异常:" + msg);
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public Re doAuthenticationFailedException() {
+        return new Re(Code.RESOURCE_DISABLE, null, "邮箱密钥错误");
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public Re doNumberFormatException() {
+        return new Re(Code.RESOURCE_DISABLE, null, "无效的输入格式");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public Re doRuntimeException(RuntimeException e) {
+        return new Re(Code.RESOURCE_DISABLE, null, e.getMessage());
     }
 }

@@ -67,14 +67,14 @@ public class UserController {
      */
     @PutMapping
     public Re updateUser(@RequestBody Admin admin, HttpServletRequest request) {
-        String msg = admin.checkIntegrityUpdate();
-        if(msg != null) {
-            return new Re(Code.RESOURCE_DISABLE, null, msg);
-        }
         if(request.getHeader("isChangePassword") == null) {
             return new Re(Code.RESOURCE_DISABLE, null, "错误的请求格式");
         }
         int isChangePassword = Integer.parseInt(request.getHeader("isChangePassword"));
+        String msg = admin.checkIntegrityUpdate(isChangePassword == 2);
+        if(msg != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, msg);
+        }
         if(adminService.updateAdmin(admin, isChangePassword == 2)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了管理员：" + admin.getUsername());
             return new Re(Code.STATUS_OK, null, "修改成功");

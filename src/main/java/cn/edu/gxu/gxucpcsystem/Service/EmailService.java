@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sct
@@ -28,7 +29,9 @@ public class EmailService {
 
     public Boolean sendEmailByContest(Email email) {
         List<Contest> contestList = contestDao.getById(email.getId());
-        if (contestList.isEmpty()) return false;
+        if (contestList.isEmpty()) {
+            return false;
+        }
         Contest contest = contestList.get(0);
         List<Player> list = playerDao.queryByPage(0, email.getId(), 999999999);
         List<String> errMail = new ArrayList<>();
@@ -42,8 +45,8 @@ public class EmailService {
         for (Player p : list) {
             try {
                 mailUtil.sendHtmlEmail(p.getUserMail(), email.getEmailSubject(), email.getEmailData());
-            } catch (EmailException e) {
-                throw e;
+                // 防止每小时时间限制，每封邮件间做5s延迟限制
+                TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
                 errMail.add(p.getUserMail());
             }

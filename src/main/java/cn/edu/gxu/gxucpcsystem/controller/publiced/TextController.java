@@ -55,7 +55,7 @@ public class TextController {
             return new Re(Code.RESOURCE_DISABLE, null, "无效请求");
         }
         if(type.equals("board") || type.equals("signup")) {
-            return new Re(Code.STATUS_OK, contestService.getByPages(currentPage, numberPerPage), "获取成功");
+            return new Re(Code.STATUS_OK, contestService.queryContestOfIdAndNameAndCreatTimeBuPages(currentPage, numberPerPage), "获取成功");
         }
         return new Re(Code.STATUS_OK, textService.getByType(type, currentPage, numberPerPage), "获取成功");
     }

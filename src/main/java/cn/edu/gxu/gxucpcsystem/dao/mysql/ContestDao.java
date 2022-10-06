@@ -17,7 +17,7 @@ public interface ContestDao {
      * @param query 关键字
      * @return
      */
-    List<Contest> selectContestByLikeName(String query);
+    List<Contest> selectContestIdAndNameByLikeName(String query);
 
     /**
      * 分页查询
@@ -29,6 +29,14 @@ public interface ContestDao {
     List<Contest> queryByPage(Integer offset, Integer count);
 
     /**
+     * 分页查询
+     * @param offset 偏移量
+     * @param count 最大行数
+     * @return Page[offset+1, offset+count] : [id, name, createTime]
+     */
+    List<Contest> selectIdAndNameAndCreateTimeByPage(Integer offset, Integer count);
+
+    /**
      * 新增比赛
      *
      * @param name 名称
@@ -38,9 +46,10 @@ public interface ContestDao {
      * @param smtpPassword smtp密码
      * @param contestBeginTime 比赛开始时间
      * @param contestEndTime 比赛结束时间
+     * @param createTime 比赛创建时间
      * @return 影响行数
      */
-    Integer addContest(String name, Long signUpBeginTime, Long signUpEndTime, String email, String smtpPassword, Long contestBeginTime, Long contestEndTime);
+    Integer addContest(String name, Long signUpBeginTime, Long signUpEndTime, String email, String smtpPassword, Long contestBeginTime, Long contestEndTime, Long createTime);
 
     /**
      * 删除比赛
@@ -95,4 +104,11 @@ public interface ContestDao {
      * @return
      */
     List<Contest> getById(Integer id);
+
+    /**
+     * 通过ID修改查询状态
+     * @param contest
+     * @return
+     */
+    Integer updateIsQueryById(Contest contest);
 }
