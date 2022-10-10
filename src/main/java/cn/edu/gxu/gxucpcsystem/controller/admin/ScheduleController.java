@@ -8,14 +8,17 @@ package cn.edu.gxu.gxucpcsystem.controller.admin;
 
 
 import cn.edu.gxu.gxucpcsystem.controller.Code;
+import cn.edu.gxu.gxucpcsystem.domain.Contest;
+import cn.edu.gxu.gxucpcsystem.domain.MapContest;
 import cn.edu.gxu.gxucpcsystem.extend.RunnableSpider;
 import cn.edu.gxu.gxucpcsystem.schedule.ScheduleRegister;
+import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.mail.AuthenticationFailedException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author MaoMao
@@ -33,8 +36,22 @@ public class ScheduleController {
     private RunnableSpider runnableSpider;
     @GetMapping("/start")
     public Re startSchedule(){
-
+        if (runnableSpider.status == 1){
+            return new Re(Code.STATUS_OK,null,"已经存在");
+        }
+        runnableSpider.status = 1;
         scheduleRegister.addCronTask(runnableSpider,"0 0/1 * * * ?");
         return new Re(Code.STATUS_OK,null,"增加成功");
     }
+
+    @GetMapping("/stop")
+    public Re stopSchedule(){
+        if (runnableSpider.status == 0){
+            return new Re(Code.STATUS_OK,null,"尚未启动");
+        }
+        runnableSpider.status = 0;
+        scheduleRegister.removeCronTask(runnableSpider);
+        return new Re(Code.STATUS_OK,null,"停止成功");
+    }
+
 }

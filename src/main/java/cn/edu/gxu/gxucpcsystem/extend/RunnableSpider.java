@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 public class RunnableSpider implements Runnable{
     @Value("${scoreBoardSpider}")
     private String path;
+
+    public int status = 0;
     @Override
     public void run() {
         try{
