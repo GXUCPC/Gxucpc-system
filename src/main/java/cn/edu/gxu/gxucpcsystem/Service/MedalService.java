@@ -46,4 +46,8 @@ public class MedalService {
         Query query = new Query(Criteria.where("contestId").is(id));
         mongoTemplate.remove(query,Medal.class);
     }
+    public void delMedalById(String id){
+        Query query = new Query(Criteria.where("_Id").is(id));
+        mongoTemplate.remove(query,Medal.class);
+    }
 }
