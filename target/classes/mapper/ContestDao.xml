@@ -11,15 +11,16 @@
                smtpPassword,
                contestBeginTime,
                contestEndTime,
-               isDownload
+               isDownload,
+               isQuery
         from contest
         limit #{offset}, #{count}
     </select>
     <insert id="addContest">
         insert into contest (name, signUpBeginTime, signUpEndTime, email, smtpPassword, contestBeginTime,
-                             contestEndTime)
+                             contestEndTime, createTime)
         VALUES (#{name}, #{signUpBeginTime}, #{signUpEndTime}, #{email}, #{smtpPassword}, #{contestBeginTime},
-                #{contestEndTime})
+                #{contestEndTime}, #{createTime})
     </insert>
     <delete id="delContest">
         delete
@@ -55,5 +56,24 @@
         select *
         from contest
         where id = #{id}
+    </select>
+
+    <select id="selectContestIdAndNameByLikeName" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select id, name
+        from contest
+        where name like concat('%', #{query}, '%')
+        order by id desc
+    </select>
+    <update id="updateIsQueryById">
+        update contest
+        set isQuery=#{isQuery}
+        where id = #{id}
+    </update>
+    <select id="selectIdAndNameAndCreateTimeByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select id,
+               name,
+               createTime
+        from contest
+        limit #{offset}, #{count}
     </select>
 </mapper>

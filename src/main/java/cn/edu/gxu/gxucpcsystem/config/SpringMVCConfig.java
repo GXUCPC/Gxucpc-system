@@ -23,7 +23,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 对所有请求域名为/api/admin的请求进行鉴权检查
-        registry.addInterceptor(checkTokenInterceptor).addPathPatterns("/api/admin/**");
+//        registry.addInterceptor(checkTokenInterceptor).addPathPatterns("/api/admin/**");
 //        registry.addInterceptor(checkTokenInterceptor).addPathPatterns("/api/**");
     }
 }
