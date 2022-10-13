@@ -71,6 +71,13 @@ public interface PlayerDao {
     Integer updatePlayer(Player player);
 
     /**
+     * 选手自己修改自己的信息
+     * @param player 参赛选手
+     * @return
+     */
+    Integer updatePlayerCheckClientNo(Player player);
+
+    /**
      * 删除报名表
      *
      * @param id 参赛选手id

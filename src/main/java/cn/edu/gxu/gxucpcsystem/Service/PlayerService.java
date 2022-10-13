@@ -100,6 +100,15 @@ public class PlayerService {
     }
 
     /**
+     * 选手自己更新自己的信息
+     * @param player 参赛选手
+     * @return
+     */
+    public boolean updatePlayerCheckClient(Player player) {
+        int ff = playerDao.updatePlayerCheckClientNo(player);
+        return ff >= 1;
+    }
+    /**
      * 删除选手参赛信息
      *
      * @param id 比赛选手id

@@ -107,6 +107,23 @@
             `key`      = #{key},
             remark     = #{remark}
         where informationId = #{informationId}
+    </update>
+    <update id="updatePlayerCheckClientNo">
+        update information
+        set userName   = #{userName},
+            userSex    = #{userSex},
+            userCourse = #{userCourse},
+            userClass  = #{userClass},
+            userQQ     = #{userQQ},
+            userMail   = #{userMail},
+            contestId  = #{contestId},
+            star       = #{star},
+            `group`    = #{group},
+            userId     = #{userId},
+            userPhone  = #{userPhone},
+            `key`      = #{key},
+            remark     = #{remark}
+        where informationId = #{informationId}
           and clientNo = #{clientNo}
     </update>
     <delete id="deletePlayer">

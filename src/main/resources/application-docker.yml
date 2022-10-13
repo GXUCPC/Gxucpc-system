@@ -37,3 +37,4 @@ mybatis:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 buffSize: 5242880
+scoreBoardSpider: classpath:python/scoreboard.py

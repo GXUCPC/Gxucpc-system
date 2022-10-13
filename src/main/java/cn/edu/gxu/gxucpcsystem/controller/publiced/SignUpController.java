@@ -529,7 +529,7 @@ public class SignUpController {
         if(msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
         }
-        if(playerService.updatePlayer(player)) {
+        if(playerService.updatePlayerCheckClient(player)) {
             return new Re(Code.STATUS_OK, null, "修改成功");
         } else {
             return new Re(Code.RESOURCE_DISABLE, null, "修改失败");
