@@ -6,6 +6,7 @@ import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Email;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
 import cn.edu.gxu.gxucpcsystem.exception.EmailException;
+import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class EmailService {
             return false;
         }
         Contest contest = contestList.get(0);
+        System.out.println(contest);
         List<Player> list = playerDao.queryByPage(0, email.getId(), 999999999);
         List<String> errMail = new ArrayList<>();
         MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
@@ -54,15 +56,17 @@ public class EmailService {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
+//TODO 群发结果发送给赛事邮箱报错javax.mail.AuthenticationFailedException: 535 Login Fail. Please enter your authorization code to login.
+//        try {
+//            mailUtil.sendHtmlEmail(contest.getEmail(), "群发邮件结果", "<p>" + formatter.format(date) + " 系统完成对《" + contest.getName() + "》报名人员的群发邮件</p><p>共:" + list.size() + " 成功:" + (list.size() - errMail.size()) + " 失败:" + errMail.size() + "</p>" + "<p>失败名单如下：</p><p>" + errMail + "</p>");
+//        } catch (EmailException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
 
-        try {
-            mailUtil.sendHtmlEmail(contest.getEmail(), "群发邮件结果", "<p>" + formatter.format(date) + " 系统完成对《" + contest.getName() + "》报名人员的群发邮件</p><p>共:" + list.size() + " 成功:" + (list.size() - errMail.size()) + " 失败:" + errMail.size() + "</p>" + "<p>失败名单如下：</p><p>" + errMail.toString() + "</p>");
-        } catch (EmailException e) {
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        LogsUtil.logOfOperation("系统", contest.getName() + "的群发失败名单:" + errMail);
         return true;
     }
 }

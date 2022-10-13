@@ -120,10 +120,10 @@ public class ContestController {
     @PutMapping("/query")
     public Re updateQuery(HttpServletRequest request, @RequestBody Contest contest) {
         if(contest.getId() == null || contest.getIsQuery() == null || contest.getName() == null) {
-            LogsUtil.logOfOperation(request.getHeader("username"), (contest.getIsDownload() ? "打开了" : "关闭了") + "比赛《" + contest.getName() + "》的账密查询权限");
             return new Re(Code.RESOURCE_DISABLE, null, "异常请求");
         }
         if(contestService.modifyIsQuery(contest)) {
+            LogsUtil.logOfOperation(request.getHeader("username"), (contest.getIsDownload() ? "打开了" : "关闭了") + "比赛《" + contest.getName() + "》的账密查询权限");
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
         return new Re(Code.RESOURCE_DISABLE, null, "修改失败，请重试");

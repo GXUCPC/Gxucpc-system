@@ -126,6 +126,11 @@ public class ContestService {
         return contestDao.updateDownload(contest.getId(), contest.getIsDownload()) == 1;
     }
 
+    /**
+     * 根据id查找比赛
+     * @param id 比赛ID
+     * @return
+     */
     public Contest getById(Integer id) {
         List<Contest> list = contestDao.getById(id);
         if(list.isEmpty()) {
@@ -134,9 +139,14 @@ public class ContestService {
         return list.get(0);
     }
 
+    /**
+     * 根据比赛开启/关闭账号查询
+     * @param contest 比赛信息
+     * @return
+     */
     public Boolean modifyIsQuery(Contest contest) {
         Boolean sy = contestDao.updateIsQueryById(contest) == 1;
-        sy &= domjudgeDao.updateIsQueryByContestId(contest) == 1;
+        domjudgeDao.updateIsQueryByContestId(contest);
         return sy;
     }
 }
