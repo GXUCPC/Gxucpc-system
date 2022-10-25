@@ -3,8 +3,8 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-#logging:
-#  config: classpath:config/log4j2.xml
+logging:
+  config: classpath:config/log4j2.xml
 
 spring:
   datasource:

@@ -55,7 +55,7 @@ public class TsvUtil {
             if (domjudge.getPlayer().getStar()) {
                 teamName = "*" + teamName;
             }
-            bw.write(teamId + "\t" + teamId + "\t" + groupId + "\t" + teamName + "\t" + teamName + "\t" + teamName + "\t中国");
+            bw.write(teamId + "\t" + teamId + "\t" + groupId + "\t" + teamName + "\t" + domjudge.getPlayer().getUserName() + "\t" + domjudge.getPlayer().getUserName() + "\tCHN");
             bw.newLine();
         }
         bw.close();

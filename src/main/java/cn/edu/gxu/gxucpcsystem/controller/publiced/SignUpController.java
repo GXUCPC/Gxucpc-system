@@ -33,6 +33,8 @@ public class SignUpController {
 
     @Autowired
     DomjudgeService domjudgeService;
+
+
     /**
      * 报名
      *
@@ -529,6 +531,13 @@ public class SignUpController {
         if(msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
         }
+        Contest contest = contestService.getById(itemID);
+        if(contest.getSignUpEndTime() < System.currentTimeMillis()) {
+            return new Re(Code.RESOURCE_DISABLE, null, "报名已结束");
+        }
+        if(contest.getSignUpBeginTime() > System.currentTimeMillis()) {
+            return new Re(Code.RESOURCE_DISABLE, null, "报名未开始");
+        }
         if(playerService.updatePlayerCheckClient(player)) {
             return new Re(Code.STATUS_OK, null, "修改成功");
         } else {
@@ -573,7 +582,14 @@ public class SignUpController {
      * @return
      */
     @DeleteMapping("/history")
-    public Re cancelRegistration(HttpServletRequest request, Integer id) {
+    public Re cancelRegistration(HttpServletRequest request, Integer itemID, Integer id) {
+        Contest contest = contestService.getById(itemID);
+        if(contest.getSignUpEndTime() < System.currentTimeMillis()) {
+            return new Re(Code.RESOURCE_DISABLE, null, "报名已结束");
+        }
+        if(contest.getSignUpBeginTime() > System.currentTimeMillis()) {
+            return new Re(Code.RESOURCE_DISABLE, null, "报名未开始");
+        }
         if(playerService.cancelRegistration(request.getHeader("client"), id)) {
             return new Re(Code.STATUS_OK, null, "您已取消报名！");
         }
