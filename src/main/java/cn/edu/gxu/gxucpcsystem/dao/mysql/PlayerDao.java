@@ -130,4 +130,12 @@ public interface PlayerDao {
      * @return
      */
     List<Player> selectIdByContestIdAndUserId(String userId, Integer contestId);
+
+    /**
+     * 根据比赛编号和参赛者Domjudge编号(表单编号%1000)查找名称
+     * @param contestId
+     * @param teamId
+     * @return
+     */
+    String selectNameByContestIdAndIdMod(Integer contestId, Integer teamId);
 }

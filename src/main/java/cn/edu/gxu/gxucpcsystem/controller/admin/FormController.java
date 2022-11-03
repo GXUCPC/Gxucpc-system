@@ -1,16 +1,14 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
-import cn.edu.gxu.gxucpcsystem.utils.ExcelHandle;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Sct

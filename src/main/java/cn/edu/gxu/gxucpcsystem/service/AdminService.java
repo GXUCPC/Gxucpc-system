@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.utils.MD5Utils;

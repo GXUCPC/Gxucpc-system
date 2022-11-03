@@ -2,10 +2,9 @@ package cn.edu.gxu.gxucpcsystem.controller.admin;
 
 
 
-import cn.edu.gxu.gxucpcsystem.Service.EmailService;
+import cn.edu.gxu.gxucpcsystem.service.EmailService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Email;
-import cn.edu.gxu.gxucpcsystem.domain.Redis;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
 import org.springframework.beans.factory.annotation.Autowired;

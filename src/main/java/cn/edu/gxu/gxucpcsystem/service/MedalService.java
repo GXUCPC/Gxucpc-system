@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
 import org.springframework.data.mongodb.core.MongoTemplate;

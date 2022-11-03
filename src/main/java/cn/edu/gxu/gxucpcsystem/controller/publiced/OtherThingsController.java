@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
-import cn.edu.gxu.gxucpcsystem.Service.RedisService;
+import cn.edu.gxu.gxucpcsystem.service.RedisService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.utils.IPUtils;
 import cn.edu.gxu.gxucpcsystem.utils.Re;

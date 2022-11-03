@@ -132,3 +132,30 @@ create table if not exists domjudge
 # 初始化管理员(U:root, P:123456)
 insert into user(username, password, userType, realName, createTime, lastLogin, email)
 VALUES ('root', 'e10adc3949ba59abbe56e057f20f883e', 1, 'root', 1664519465, null, 'gxucpc@gxuca.com');
+
+# 报名系统比赛ID与DOMjudge比赛ID映射关系
+create table if not exists mapper_contest
+(
+    register_contest int                  null comment '比赛编号',
+    is_spider        tinyint(1) default 0 null comment '是否正在运行爬虫',
+    id               int auto_increment
+        primary key,
+    update_time      mediumtext           null comment '上次更新时间',
+    url              varchar(100)         null comment 'API URL',
+    fault_time       int        default 0 null comment '失败次数',
+    contest_time     mediumtext           null comment '比赛进行了多久'
+);
+
+# 榜单表
+create table if not exists scoreboard
+(
+    contest_id int  null comment '服务平台比赛编号',
+    content    text null comment '榜单JSON字符串',
+    id         int auto_increment
+        primary key,
+    `rank`     int  null comment '排名',
+    team_id    int  null comment '选手编号',
+    num_solved int  null comment '过题数',
+    total_time int  null comment '罚时'
+);
+

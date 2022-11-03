@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.utils;
 
-import cn.edu.gxu.gxucpcsystem.Service.DomjudgeService;
+import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
 import cn.edu.gxu.gxucpcsystem.domain.Domjudge;
 import org.springframework.beans.factory.annotation.Autowired;
 

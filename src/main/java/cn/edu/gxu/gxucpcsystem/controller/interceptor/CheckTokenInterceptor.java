@@ -1,11 +1,9 @@
 package cn.edu.gxu.gxucpcsystem.controller.interceptor;
 
-import cn.edu.gxu.gxucpcsystem.Service.AdminService;
-import cn.edu.gxu.gxucpcsystem.controller.Code;
+import cn.edu.gxu.gxucpcsystem.service.AdminService;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
 import cn.edu.gxu.gxucpcsystem.utils.JwtUtil;
 import cn.edu.gxu.gxucpcsystem.exception.TokenException;
-import cn.edu.gxu.gxucpcsystem.utils.UUIDUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

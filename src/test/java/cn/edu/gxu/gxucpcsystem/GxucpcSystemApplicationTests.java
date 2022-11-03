@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem;
 
-import cn.edu.gxu.gxucpcsystem.Service.MedalService;
+import cn.edu.gxu.gxucpcsystem.service.MedalService;
 
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
 import org.junit.jupiter.api.Test;

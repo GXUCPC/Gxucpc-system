@@ -1,7 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
-import cn.edu.gxu.gxucpcsystem.Service.DomjudgeService;
-import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
+import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Domjudge;
 import cn.edu.gxu.gxucpcsystem.domain.Player;

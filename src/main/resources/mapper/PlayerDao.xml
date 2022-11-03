@@ -165,4 +165,10 @@
         where contestId = #{contestId}
           and userId = #{userId}
     </select>
+    <select id="selectNameByContestIdAndIdMod" resultType="java.lang.String">
+        select userName
+        from information
+        where contestId = #{contestId}
+          and MOD(informationId, 1000) = #{teamId}
+    </select>
 </mapper>

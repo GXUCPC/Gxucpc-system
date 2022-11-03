@@ -1,20 +1,17 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Email;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
-import cn.edu.gxu.gxucpcsystem.exception.EmailException;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +33,6 @@ public class EmailService {
             return false;
         }
         Contest contest = contestList.get(0);
-        System.out.println(contest);
         List<Player> list = playerDao.queryByPage(0, email.getId(), 999999999);
         List<String> errMail = new ArrayList<>();
         MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());

@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
@@ -10,17 +10,10 @@ import cn.edu.gxu.gxucpcsystem.utils.ExcelHandle;
 import cn.edu.gxu.gxucpcsystem.utils.RandomPwdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 /**
  * @Author: MaoMao
@@ -160,5 +153,14 @@ public class PlayerService {
             return null;
         }
         return list.get(0);
+    }
+    /**
+     * 根据比赛编号和参赛者Domjudge编号(表单编号%1000)查找名称
+     * @param contestId
+     * @param teamId
+     * @return
+     */
+    public String queryNameByContestIdAndIdMod(Integer contestId, Integer teamId) {
+        return playerDao.selectNameByContestIdAndIdMod(contestId, teamId);
     }
 }

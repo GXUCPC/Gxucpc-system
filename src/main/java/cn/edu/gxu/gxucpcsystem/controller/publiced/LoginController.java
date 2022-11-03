@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
-import cn.edu.gxu.gxucpcsystem.Service.AdminService;
+import cn.edu.gxu.gxucpcsystem.service.AdminService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Admin;
 import cn.edu.gxu.gxucpcsystem.utils.JwtUtil;

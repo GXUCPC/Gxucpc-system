@@ -1,20 +1,16 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.Service.MedalService;
+import cn.edu.gxu.gxucpcsystem.service.MedalService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
 import cn.edu.gxu.gxucpcsystem.utils.MD5Utils;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
-import cn.edu.gxu.gxucpcsystem.utils.ZipUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 /**

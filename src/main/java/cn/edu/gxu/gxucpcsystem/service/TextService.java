@@ -1,9 +1,8 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.TextDao;
 import cn.edu.gxu.gxucpcsystem.domain.Text;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

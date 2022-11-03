@@ -1,8 +1,9 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.Service.ContestService;
-import cn.edu.gxu.gxucpcsystem.Service.DomjudgeService;
-import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.service.ContestService;
+import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
+import cn.edu.gxu.gxucpcsystem.service.MapperContestService;
+import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
@@ -31,6 +32,9 @@ public class ContestController {
 
     @Autowired
     DomjudgeService domjudgeService;
+
+    @Autowired
+    MapperContestService mapperContestService;
     /**
      * 添加比赛
      *
@@ -45,6 +49,9 @@ public class ContestController {
         }
         if(contestService.addContest(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "新增了比赛《" + contest.getName() + "》");
+            Integer id = contestService.queryIdByName(contest);
+            contest.setId(id);
+            mapperContestService.addPython(contest);
             return new Re(Code.STATUS_OK, null, "添加成功");
         }
         return new Re(Code.DATABASE_ERROR, null, "修改失败!请检查是否是以下原因: 1.重复比赛名称 2.邮箱账号与密码不匹配");

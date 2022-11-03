@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.dao.mysql.RedisDao;
 import cn.edu.gxu.gxucpcsystem.domain.Redis;

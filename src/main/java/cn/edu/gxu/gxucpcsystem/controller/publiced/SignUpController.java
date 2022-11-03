@@ -1,15 +1,14 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
-import cn.edu.gxu.gxucpcsystem.Service.ContestService;
-import cn.edu.gxu.gxucpcsystem.Service.DomjudgeService;
-import cn.edu.gxu.gxucpcsystem.Service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.service.ContestService;
+import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
+import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
 import cn.edu.gxu.gxucpcsystem.exception.EmailException;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

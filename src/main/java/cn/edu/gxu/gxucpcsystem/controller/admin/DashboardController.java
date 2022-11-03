@@ -1,7 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.Service.OperationService;
-import cn.edu.gxu.gxucpcsystem.Service.RedisService;
+import cn.edu.gxu.gxucpcsystem.service.OperationService;
+import cn.edu.gxu.gxucpcsystem.service.RedisService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Operation;
 import cn.edu.gxu.gxucpcsystem.domain.Redis;

@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.dao.mysql.OperationDao;
 import cn.edu.gxu.gxucpcsystem.domain.Operation;

@@ -1,6 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.utils;
 
-import cn.edu.gxu.gxucpcsystem.Service.OperationService;
+import cn.edu.gxu.gxucpcsystem.service.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

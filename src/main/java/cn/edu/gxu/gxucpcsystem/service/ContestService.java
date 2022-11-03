@@ -1,4 +1,4 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 import cn.edu.gxu.gxucpcsystem.controller.entity.PagesEntity;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.AuthenticationFailedException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -149,4 +147,9 @@ public class ContestService {
         domjudgeDao.updateIsQueryByContestId(contest);
         return sy;
     }
+
+    public Integer queryIdByName(Contest contest) {
+        return contestDao.selectIdByName(contest);
+    }
 }
+

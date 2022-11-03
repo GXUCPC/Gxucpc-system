@@ -1,7 +1,7 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
-import cn.edu.gxu.gxucpcsystem.Service.ContestService;
-import cn.edu.gxu.gxucpcsystem.Service.TextService;
+import cn.edu.gxu.gxucpcsystem.service.ContestService;
+import cn.edu.gxu.gxucpcsystem.service.TextService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Text;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;

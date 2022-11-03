@@ -111,4 +111,11 @@ public interface ContestDao {
      * @return
      */
     Integer updateIsQueryById(Contest contest);
+
+    /**
+     * 根据名称查询ID
+     * @param contest
+     * @return
+     */
+    Integer selectIdByName(Contest contest);
 }

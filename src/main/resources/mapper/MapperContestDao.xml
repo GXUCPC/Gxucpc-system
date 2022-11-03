@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.MapperContestDao">
+    <insert id="insertNewMapper">
+        insert into mapper_contest (register_contest) value (#{id})
+    </insert>
+    <update id="deleteOldMapper">
+        update mapper_contest
+        set is_spider = 0
+        where is_spider = 1
+    </update>
+    <update id="updateMapper">
+        update mapper_contest
+        <set>
+            <if test="updateTime != null">
+                gxucpc.mapper_contest.update_time = #{updateTime},
+            </if>
+            <if test="url != null">
+                gxucpc.mapper_contest.url = #{url},
+            </if>
+            <if test="isSpider == true">
+                gxucpc.mapper_contest.is_spider = #{isSpider}
+            </if>
+        </set>
+        where gxucpc.mapper_contest.register_contest = #{registerContest}
+    </update>
+    <select id="selectActive" resultType="cn.edu.gxu.gxucpcsystem.domain.MapperContest">
+        select *
+        from gxucpc.mapper_contest
+        where is_spider = 1
+    </select>
+</mapper>

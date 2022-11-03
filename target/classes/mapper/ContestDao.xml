@@ -14,6 +14,7 @@
                isDownload,
                isQuery
         from contest
+        order by id desc
         limit #{offset}, #{count}
     </select>
     <insert id="addContest">
@@ -74,6 +75,12 @@
                name,
                createTime
         from contest
+        order by id desc
         limit #{offset}, #{count}
+    </select>
+    <select id="selectIdByName" resultType="java.lang.Integer">
+        select id
+        from contest
+        where name = #{name}
     </select>
 </mapper>

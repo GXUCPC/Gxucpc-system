@@ -1,10 +1,9 @@
-package cn.edu.gxu.gxucpcsystem.Service;
+package cn.edu.gxu.gxucpcsystem.service;
 
 
 import cn.edu.gxu.gxucpcsystem.dao.mysql.DomjudgeDao;
 import cn.edu.gxu.gxucpcsystem.domain.Domjudge;
 import cn.edu.gxu.gxucpcsystem.utils.TsvUtil;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

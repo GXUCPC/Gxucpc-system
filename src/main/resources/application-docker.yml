@@ -33,8 +33,10 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 buffSize: 5242880
-scoreBoardSpider: classpath:python/scoreboard.py
+scoreBoardSpider: /app/scoreboard.py
