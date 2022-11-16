@@ -22,5 +22,4 @@ public class AcMessage {
     private Boolean firstToSolve;
     @JSONField(name = "time")
     private Integer time;
-
 }
