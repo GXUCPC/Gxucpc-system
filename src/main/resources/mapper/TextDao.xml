@@ -37,7 +37,7 @@
     <update id="updateByID">
         update text
         set type    = #{type},
-            author  = #{author},
+            title  = #{title},
             time    = #{time},
             content = #{content}
         where id = #{id}

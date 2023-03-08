@@ -39,7 +39,7 @@ public class TextService {
     }
 
     public Boolean updateByID(Text text) {
-        return textDao.updateByID(text.getId(), text.getType(), text.getAuthor(), text.getTime(), text.getContent()) == 1;
+        return textDao.updateByID(text.getId(), text.getType(), text.getTitle(), text.getTime(), text.getContent()) == 1;
     }
 
     public Boolean deleteByID(Integer id) {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -50,7 +51,7 @@ public class TsvUtil {
         bw.newLine();
         for (Domjudge domjudge : list) {
             Integer teamId = Integer.valueOf(domjudge.getUsername().replaceAll("[^(0-9)]", ""));
-            String groupId = new Date(System.currentTimeMillis()).getYear() + 1900 + (domjudge.getPlayer().getGroup() ? "正式组" : "新生组");
+            String groupId = domjudge.getPlayer().getGroup() ? "114正式组" : "514新生组";
             String teamName = domjudge.getPlayer().getUserName() + "-" + domjudge.getPlayer().getUserId();
             if (domjudge.getPlayer().getStar()) {
                 teamName = "*" + teamName;
@@ -64,7 +65,7 @@ public class TsvUtil {
 
     private void createAccountsTsv(List<Domjudge> list) throws IOException {
 
-        File file = createTsvFile("accounts");
+        File file = createTsvFile( "accounts");
         FileOutputStream fos = new FileOutputStream(file);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
         bw.write("accounts\t1");

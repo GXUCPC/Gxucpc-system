@@ -151,6 +151,13 @@ public class ContestController {
         return null;
     }
 
+    /**
+     * 下载Domjudge账号密码
+     *
+     * @param request
+     * @param id
+     * @return
+     */
     @GetMapping("/pwd/{id}")
     public byte[] downloadPwd(HttpServletResponse request,@PathVariable Integer id) {
         try {

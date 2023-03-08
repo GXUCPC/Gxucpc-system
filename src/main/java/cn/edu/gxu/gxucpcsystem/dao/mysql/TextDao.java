@@ -23,7 +23,7 @@ public interface TextDao {
 
     Integer insert(String type, String author, Long time, String content, String title);
 
-    Integer updateByID(Integer id, String type, String author, Long time, String content);
+    Integer updateByID(Integer id, String type, String title, Long time, String content);
 
     Integer deleteByID(Integer id);
 }
