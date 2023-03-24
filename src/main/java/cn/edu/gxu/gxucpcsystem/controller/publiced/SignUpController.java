@@ -571,7 +571,11 @@ public class SignUpController {
      */
     @GetMapping("/history")
     public Re getHistorySubmit(HttpServletRequest request, Integer id) {
-        return new Re(Code.STATUS_OK, playerService.queryFormsByClientNo(request.getHeader("client"), id), "查询成功");
+        String cli = request.getHeader("client");
+        if(cli.length() < 5){
+            new Re(Code.STATUS_OK, null, "查询失败");
+        }
+        return new Re(Code.STATUS_OK, playerService.queryFormsByClientNo(cli, id), "查询成功");
     }
 
     /**

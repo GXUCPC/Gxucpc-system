@@ -38,9 +38,18 @@ public class downloadController {
         if(mp.get("name") == null || mp.get("number") == null) {
             return new Re(Code.RESOURCE_DISABLE, null, "请填写完整信息");
         }
-        String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+        
+        String fileName = mp.get("number")+ "-" + mp.get("name") +".pdf";
+        if(fileName.length() > 45){
+            return new Re(Code.RESOURCE_DISABLE,null,"太奇怪了，你的名字过长，请联系管理员查询");
+        }
         List<Medal>lsMedal = medalService.queryFile(fileName,mp.get("itemNumber"));
         if(lsMedal.size() == 0){
+            fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+            lsMedal = medalService.queryFile(fileName,mp.get("itemNumber"));
+            if(lsMedal.size() != 0){
+                return new Re(Code.STATUS_OK,null,"查询成功");
+            }
             return new Re(Code.RESOURCE_DISABLE,null,"查询不到有效获奖名单");
         }
         return new Re(Code.STATUS_OK,null,"查询成功");
@@ -53,8 +62,16 @@ public class downloadController {
      */
     @PostMapping("/download")
     public byte[] down(@RequestBody Map<String, String> mp){
-        String fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+        String fileName = mp.get("number")+ "-" + mp.get("name") +".pdf";
+        if(fileName.length() > 45){
+            return null;
+        }
+
         byte[] bytes = medalService.getFile(fileName,mp.get("itemNumber"));
+        if (bytes == null){
+            fileName = mp.get("name")+ "-" + mp.get("number") +".pdf";
+            bytes = medalService.getFile(fileName,mp.get("itemNumber"));
+        }
         return bytes;
     }
 
