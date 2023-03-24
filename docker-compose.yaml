@@ -64,7 +64,7 @@ services:
       - mongo
 
   gxucpc-fe:
-    image: cityts/gxucpc-fe:0.8
+    image: cityts/gxucpc-fe:0.9
     container_name: gxucpc-fe
     restart: always
     ports:
