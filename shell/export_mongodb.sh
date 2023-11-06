@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # 例子
-# bash export_mongodb.sh -m gxucpc-mongodb -o /srv/containers/gxucpc/export
+# bash export_mongodb.sh -m gxucpc-mongo -u root -p 123456 -o /srv/containers/gxucpc/export
 
 # 解析命令行参数
-while getopts ":m:o:" opt; do
+while getopts ":m:o:u:p:" opt; do
   case $opt in
     m) MONGO_CONTAINER_NAME=$OPTARG ;;
     o) EXPORT_PATH=$OPTARG ;;
+    u) MONGO_USERNAME=$OPTARG ;;
+    p) MONGO_PASSWORD=$OPTARG ;;
     \?) echo "无效的选项: -$OPTARG" >&2; exit 1 ;;
     :) echo "选项 -$OPTARG 需要一个参数" >&2; exit 1 ;;
   esac
@@ -26,7 +28,8 @@ fi
 
 # 导出MongoDB数据
 if [ ! -z "$MONGO_CONTAINER_NAME" ]; then
-  EXPORT_FILE="$EXPORT_PATH/mongodb_$(date +'%Y%m%d%H%M%S').tar.gz"
-  docker exec "$MONGO_CONTAINER_NAME" mongodump --archive="$EXPORT_FILE" --gzip
+  docker exec "$MONGO_CONTAINER_NAME" mongodump -u "$MONGO_USERNAME" -p "$MONGO_PASSWORD" -o="/tmp/mongo/mongodb_$(date +'%Y%m%d%H%M%S')" --gzip --authenticationDatabase=admin
+  docker cp "$MONGO_CONTAINER_NAME:/tmp/mongo" "$EXPORT_PATH"
+  docker exec "$MONGO_CONTAINER_NAME" rm -rf "/tmp/mongo"
   echo "MongoDB数据已导出到 $EXPORT_FILE"
 fi
