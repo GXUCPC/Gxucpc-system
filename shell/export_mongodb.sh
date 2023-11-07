@@ -21,6 +21,11 @@ if [ -z "$MONGO_CONTAINER_NAME" ]; then
   exit 1
 fi
 
+if [ -z "$MONGO_USERNAME" ] || [ -z "$MONGO_PASSWORD" ]; then
+  echo "缺少MongoDB容器连接参数 (-u | -p)"
+  exit 1
+fi
+
 if [ -z "$EXPORT_PATH" ]; then
   echo "缺少导出路径参数 (-o)"
   exit 1
