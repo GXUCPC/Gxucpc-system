@@ -51,22 +51,6 @@ create table if not exists information
     unique key check_user_id_contest_id (contestId, userId)
 ) comment '参赛选手信息';
 
-# 触发器: 当非当年新生（如22年，学号必须为22开头）,自动转入正式组
-drop trigger if exists information.checkGroup;
-delimiter //
-create trigger checkGroup
-    before insert
-    on information
-    for each row
-begin
-    if substr(new.userId, 2, 1) != char(YEAR(curdate()) % 10 + 48) then
-        set new.group = 1;
-    end if;
-end;
-//
-delimiter ;
-
-
 # 创建操作日志表
 create table if not exists operations
 (
@@ -130,6 +114,7 @@ create table if not exists domjudge
 
 
 # 初始化管理员(U:root, P:123456)
+# 迁移操作请注释该SQL
 insert into user(username, password, userType, realName, createTime, lastLogin, email)
 VALUES ('root', 'e10adc3949ba59abbe56e057f20f883e', 1, 'root', 1664519465, null, 'gxucpc@gxuca.com');
 
