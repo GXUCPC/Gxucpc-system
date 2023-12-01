@@ -2,6 +2,8 @@ server:
   port: 8080
   tomcat:
     uri-encoding: UTF-8
+  servlet:
+    multipart:
 
 logging:
   config: classpath:config/log4j2.xml

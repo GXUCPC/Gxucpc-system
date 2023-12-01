@@ -64,7 +64,7 @@ public class DashboardController {
      * @param url 图片链接
      * @return
      */
-    @DeleteMapping("/images")
+    @PutMapping("/images")
     public Re deleteImagesURL(HttpServletRequest request, String url) {
         if(redisService.deleteImages(url)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了首页图片：" + url);
