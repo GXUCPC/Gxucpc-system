@@ -8,7 +8,7 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://43.139.136.169:3555/gxucpc?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://172.16.40.37:3306/gxucpc?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: mysql114514
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,7 +24,7 @@ spring:
       max-wait: 60000
   data:
     mongodb:
-      uri: mongodb://root:123456@120.25.238.219:3555/store?authSource=admin
+      uri: mongodb://root:123456@172.16.40.37:27017/store?authSource=admin
   mail:
     default-encoding: UTF-8
   jackson:

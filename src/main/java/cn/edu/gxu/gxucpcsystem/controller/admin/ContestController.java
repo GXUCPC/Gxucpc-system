@@ -1,9 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
-import cn.edu.gxu.gxucpcsystem.service.ContestService;
-import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
-import cn.edu.gxu.gxucpcsystem.service.MapperContestService;
-import cn.edu.gxu.gxucpcsystem.service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.service.*;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.utils.LogsUtil;
@@ -35,6 +32,10 @@ public class ContestController {
 
     @Autowired
     MapperContestService mapperContestService;
+
+    @Autowired
+    LanQiaoService lanQiaoService;
+
     /**
      * 添加比赛
      *
@@ -44,10 +45,14 @@ public class ContestController {
     @PostMapping
     public Re addContest(HttpServletRequest request, @RequestBody Contest contest) throws AuthenticationFailedException {
         String msg = contest.checkIntegrityCreate();
-        if(msg != null) {
+        if (msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
         }
-        if(contestService.addContest(contest)) {
+        if (contest.getType() != 1) {
+            contest.setContestBeginTime(0L);
+            contest.setContestEndTime(0L);
+        }
+        if (contestService.addContest(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "新增了比赛《" + contest.getName() + "》");
             Integer id = contestService.queryIdByName(contest);
             contest.setId(id);
@@ -65,7 +70,7 @@ public class ContestController {
      */
     @DeleteMapping
     public Re delContest(HttpServletRequest request, Integer id, String name) {
-        if(contestService.delContest(id)) {
+        if (contestService.delContest(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了比赛《" + name + "》");
             return new Re(Code.STATUS_OK, null, "删除成功");
         }
@@ -81,10 +86,14 @@ public class ContestController {
     @PutMapping
     public Re updateContest(HttpServletRequest request, @RequestBody Contest contest) throws AuthenticationFailedException {
         String msg = contest.checkIntegrityUpdate();
-        if(msg != null) {
+        if (msg != null) {
             return new Re(Code.RESOURCE_DISABLE, null, msg);
         }
-        if(contestService.updateContest(contest)) {
+        if (contest.getType() != 1) {
+            contest.setContestEndTime(0L);
+            contest.setContestBeginTime(0L);
+        }
+        if (contestService.updateContest(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "修改了比赛《" + contest.getName() + "》");
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
@@ -94,7 +103,7 @@ public class ContestController {
     /**
      * 分页查找
      *
-     * @param currentPage 当前页
+     * @param currentPage   当前页
      * @param numberPerPage 每页个数
      * @return
      */
@@ -111,7 +120,7 @@ public class ContestController {
      */
     @PutMapping("/download")
     public Re updateDownload(HttpServletRequest request, @RequestBody Contest contest) {
-        if(contestService.updateDownload(contest)) {
+        if (contestService.updateDownload(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), (contest.getIsDownload() ? "打开了" : "关闭了") + "比赛《" + contest.getName() + "》的奖状下载权限");
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
@@ -120,21 +129,23 @@ public class ContestController {
 
     /**
      * 修改查询状态
+     *
      * @param request
      * @param contest
      * @return
      */
     @PutMapping("/query")
     public Re updateQuery(HttpServletRequest request, @RequestBody Contest contest) {
-        if(contest.getId() == null || contest.getIsQuery() == null || contest.getName() == null) {
+        if (contest.getId() == null || contest.getIsQuery() == null || contest.getName() == null) {
             return new Re(Code.RESOURCE_DISABLE, null, "异常请求");
         }
-        if(contestService.modifyIsQuery(contest)) {
+        if (contestService.modifyIsQuery(contest)) {
             LogsUtil.logOfOperation(request.getHeader("username"), (contest.getIsQuery() ? "打开了" : "关闭了") + "比赛《" + contest.getName() + "》的账密查询权限");
             return new Re(Code.STATUS_OK, null, "修改成功");
         }
         return new Re(Code.RESOURCE_DISABLE, null, "修改失败，请重试");
     }
+
     /**
      * 下载比赛表单
      *
@@ -142,11 +153,20 @@ public class ContestController {
      * @return
      */
     @GetMapping("/download/{id}")
-    public byte[] downloadForms(HttpServletResponse request,@PathVariable Integer id) {
-        try {
-            return playerService.downloadForms(request,id);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public byte[] downloadForms(HttpServletResponse request, @PathVariable Integer id) {
+        Contest contest = contestService.queryById(id);
+        if (contest.getType() == 1) {
+            try {
+                return playerService.downloadForms(request, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (contest.getType() == 2) {
+            try {
+                return lanQiaoService.downloadForms(request, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -159,7 +179,7 @@ public class ContestController {
      * @return
      */
     @GetMapping("/pwd/{id}")
-    public byte[] downloadPwd(HttpServletResponse request,@PathVariable Integer id) {
+    public byte[] downloadPwd(HttpServletResponse request, @PathVariable Integer id) {
         try {
             return domjudgeService.downloadPassUser(id);
         } catch (IOException e) {

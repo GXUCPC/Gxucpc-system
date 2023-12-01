@@ -2,9 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.gxu.gxucpcsystem.dao.mysql.ContestDao">
+    <select id="select" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select * from contest where id=#{id}
+    </select>
+
     <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
         select id,
                name,
+               type,
                signUpBeginTime,
                signUpEndTime,
                email,
@@ -18,9 +23,9 @@
         limit #{offset}, #{count}
     </select>
     <insert id="addContest">
-        insert into contest (name, signUpBeginTime, signUpEndTime, email, smtpPassword, contestBeginTime,
+        insert into contest (name, type, signUpBeginTime, signUpEndTime, email, smtpPassword, contestBeginTime,
                              contestEndTime, createTime)
-        VALUES (#{name}, #{signUpBeginTime}, #{signUpEndTime}, #{email}, #{smtpPassword}, #{contestBeginTime},
+        VALUES (#{name}, #{type}, #{signUpBeginTime}, #{signUpEndTime}, #{email}, #{smtpPassword}, #{contestBeginTime},
                 #{contestEndTime}, #{createTime})
     </insert>
     <delete id="delContest">
@@ -77,6 +82,15 @@
         from contest
         order by id desc
         limit #{offset}, #{count}
+    </select>
+    <select id="selectIdAndNameAndCreateTimeAndTypeByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Contest">
+        select id,
+               name,
+               type,
+               createTime
+        from contest
+        order by id desc
+            limit #{offset}, #{count}
     </select>
     <select id="selectIdByName" resultType="java.lang.Integer">
         select id

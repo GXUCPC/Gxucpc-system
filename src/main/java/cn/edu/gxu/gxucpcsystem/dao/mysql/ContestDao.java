@@ -12,6 +12,8 @@ import java.util.List;
 @Mapper
 public interface ContestDao {
 
+    Contest select(Integer id);
+
     /**
      * 按照名字模糊查询
      * @param query 关键字
@@ -36,6 +38,8 @@ public interface ContestDao {
      */
     List<Contest> selectIdAndNameAndCreateTimeByPage(Integer offset, Integer count);
 
+    List<Contest> selectIdAndNameAndCreateTimeAndTypeByPage(Integer offset, Integer count);
+
     /**
      * 新增比赛
      *
@@ -49,7 +53,7 @@ public interface ContestDao {
      * @param createTime 比赛创建时间
      * @return 影响行数
      */
-    Integer addContest(String name, Long signUpBeginTime, Long signUpEndTime, String email, String smtpPassword, Long contestBeginTime, Long contestEndTime, Long createTime);
+    Integer addContest(String name, Integer type, Long signUpBeginTime, Long signUpEndTime, String email, String smtpPassword, Long contestBeginTime, Long contestEndTime, Long createTime);
 
     /**
      * 删除比赛

@@ -9,6 +9,7 @@ create table if not exists contest
     id               int auto_increment comment '比赛编号'
         primary key,
     name             varchar(100)         not null comment '比赛名称',
+    type             int                  not null comment '比赛类型',
     signUpBeginTime  mediumtext           not null comment '比赛开始接受报名时间',
     signUpEndTime    mediumtext           not null comment '比赛结束报名时间',
     email            varchar(30)          not null comment '赛事邮箱',
@@ -23,6 +24,24 @@ create table if not exists contest
     constraint contestd_name_uindex
         unique (name)
 ) comment '比赛信息';
+
+
+create table if not exists lq_information
+(
+    id         int auto_increment primary key,
+    userName   varchar(30)    not null comment '姓名',
+    userSex    varchar(4)     not null comment '性别',
+    userCourse varchar(64)    not null comment '学院',
+    userClass  varchar(64)    not null comment '班级',
+    userQQ     varchar(16)    not null comment 'QQ',
+    userMail   varchar(64)    not null comment '邮箱',
+    userPhone  char(11)       not null comment '手机号',
+    userId     varchar(10)    not null comment '学号',
+    contestId  int            not null comment '比赛ID',
+    isDiscount int            not null comment '是否九折',
+    imgURI     varbinary(255) not null comment '图片URI'
+) comment '蓝桥-参赛选手信息';
+
 
 # 创建报名信息表
 create table if not exists information
@@ -114,9 +133,8 @@ create table if not exists domjudge
 
 
 # 初始化管理员(U:root, P:123456)
-# 迁移操作请注释该SQL
 insert into user(username, password, userType, realName, createTime, lastLogin, email)
-VALUES ('root', 'e10adc3949ba59abbe56e057f20f883e', 1, 'root', 1664519465, null, 'gxucpc@gxuca.com');
+VALUES ('root', 'e10adc3949ba59abbe56e057f20f883e', 1, 'root', unix_timestamp(), null, 'gxucpc@gxuca.com');
 
 # 报名系统比赛ID与DOMjudge比赛ID映射关系
 create table if not exists mapper_contest

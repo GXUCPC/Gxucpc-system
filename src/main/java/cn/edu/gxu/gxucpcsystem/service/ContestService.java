@@ -29,6 +29,11 @@ public class ContestService {
     @Autowired
     DomjudgeDao domjudgeDao;
 
+
+    public Contest queryById(Integer id) {
+        return contestDao.select(id);
+    }
+
     public List<Contest> queryContest(String query) {
         return contestDao.selectContestIdAndNameByLikeName(query);
     }
@@ -44,7 +49,7 @@ public class ContestService {
             MailUtil mailUtil = new MailUtil(contest.getEmail(), contest.getSmtpPassword());
             mailUtil.init();
             mailUtil.sendHtmlEmail(contest.getEmail(), "邮箱可用性测试", "收到此邮件表示邮箱信息填写正确");
-            return contestDao.addContest(contest.getName(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime(), System.currentTimeMillis()) == 1;
+            return contestDao.addContest(contest.getName(), contest.getType(), contest.getSignUpBeginTime(), contest.getSignUpEndTime(), contest.getEmail(), contest.getSmtpPassword(), contest.getContestBeginTime(), contest.getContestEndTime(), System.currentTimeMillis()) == 1;
         } catch (EmailException | AuthenticationFailedException e) {
             throw e;
         } catch (Exception e) {
@@ -112,7 +117,7 @@ public class ContestService {
      * @return [总数，该页元素:[id, name, createTime]
      */
     public PagesEntity queryContestOfIdAndNameAndCreatTimeBuPages(Integer currentPage, Integer numberPerPage) {
-        return new PagesEntity(contestDao.selectIdAndNameAndCreateTimeByPage((currentPage - 1) * numberPerPage, numberPerPage), contestDao.getCount());
+        return new PagesEntity(contestDao.selectIdAndNameAndCreateTimeAndTypeByPage((currentPage - 1) * numberPerPage, numberPerPage), contestDao.getCount());
     }
 
     /**
