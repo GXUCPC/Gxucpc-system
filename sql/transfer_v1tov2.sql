@@ -21,3 +21,6 @@ create table if not exists lq_information
     isDiscount int            not null comment '是否九折',
     imgURI     varbinary(255) not null comment '图片URI'
 ) comment '蓝桥-参赛选手信息';
+
+ALTER TABLE lq_information
+ADD unique key lq_sid_cid(userId, contestId);

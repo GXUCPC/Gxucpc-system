@@ -4,6 +4,7 @@ import cn.edu.gxu.gxucpcsystem.domain.LqPlayer;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -19,4 +20,10 @@ public interface LqInformationDao {
 
     @Select({"select", ALL_COL, "from", TABLE_NAME, "where contestId=#{id}"})
     List<LqPlayer> getPlayersByContent(Integer id);
+
+    @Select({"select count(*) from", TABLE_NAME, "where userId=#{userId} and contestId=#{contestId}"})
+    int countByStudentIdAndItemId(String userId, Integer contestId);
+
+    @Update({"update", TABLE_NAME, "set userName=#{userName}, userSex=#{userSex}, userCourse=#{userCourse}, userClass=#{userClass}, userQQ=#{userQQ}, userMail=#{userMail}, userPhone=#{userPhone}, userId=#{userId}, contestId=#{contestId}, isDiscount=#{isDiscount}, imgURI=#{imgURI} where userId=#{userId} and contestId=#{contestId}"})
+    int update(LqPlayer player);
 }

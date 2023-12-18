@@ -99,9 +99,9 @@ public class SignUpController {
     }
 
     @PostMapping("/lq/{itemID}")
-    public Re lqSignUp(@RequestBody LqPlayer player, @PathVariable Integer itemID) {
+    public Re lqSignUp(@RequestBody LqPlayer player, @PathVariable Integer itemID, Integer ok) {
         player.setContestId(itemID);
-        return lanQiaoService.addPlay(player);
+        return lanQiaoService.addPlay(player, ok);
     }
 
     /**

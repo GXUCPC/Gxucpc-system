@@ -39,7 +39,9 @@ create table if not exists lq_information
     userId     varchar(10)    not null comment '学号',
     contestId  int            not null comment '比赛ID',
     isDiscount int            not null comment '是否九折',
-    imgURI     varbinary(255) not null comment '图片URI'
+    imgURI     varbinary(255) not null comment '图片URI',
+    constraint lq_sid_cid
+        unique (userId, contestId)
 ) comment '蓝桥-参赛选手信息';
 
 

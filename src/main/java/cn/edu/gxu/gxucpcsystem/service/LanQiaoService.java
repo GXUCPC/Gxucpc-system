@@ -26,11 +26,22 @@ public class LanQiaoService {
     @Resource
     private ImageMedalService imageMedalService;
 
-    public Re addPlay(LqPlayer lqPlayer) {
-        if(lqInformationDao.insert(lqPlayer) == 1) {
-            return new Re(Code.STATUS_OK, null, "报名成功");
+    public Re addPlay(LqPlayer lqPlayer, Integer ok) {
+        int num = lqInformationDao.countByStudentIdAndItemId(lqPlayer.getUserId(), lqPlayer.getContestId());
+        if(num == 0) {
+            if (lqInformationDao.insert(lqPlayer) == 1) {
+                return new Re(Code.STATUS_OK, null, "报名成功");
+            }
+            return new Re(Code.DATABASE_ERROR, null, "系统异常");
+        } else {
+            if(ok == 1) {
+                if(lqInformationDao.update(lqPlayer) > 0) {
+                    return new Re(Code.STATUS_OK, null, "修改成功");
+                }
+                return new Re(Code.DATABASE_ERROR, null, "系统异常");
+            }
+            return new Re(Code.RESOURCE_DISABLE, num, "存有已有的填写记录，是否覆盖？");
         }
-        return new Re(Code.DATABASE_ERROR, null, "系统异常");
     }
 
     public byte[] downloadForms(HttpServletResponse request, Integer id) throws IOException {
