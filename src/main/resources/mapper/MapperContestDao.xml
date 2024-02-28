@@ -20,7 +20,10 @@
                 gxucpc.mapper_contest.url = #{url},
             </if>
             <if test="isSpider == true">
-                gxucpc.mapper_contest.is_spider = #{isSpider}
+                gxucpc.mapper_contest.is_spider = #{isSpider},
+            </if>
+            <if test="faultTime != null">
+                gxucpc.mapper_contest.fault_time = #{faultTime}
             </if>
         </set>
         where gxucpc.mapper_contest.register_contest = #{registerContest}

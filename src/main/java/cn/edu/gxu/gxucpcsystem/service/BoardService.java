@@ -6,6 +6,7 @@ import cn.edu.gxu.gxucpcsystem.domain.Board;
 import cn.edu.gxu.gxucpcsystem.utils.BoardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,5 +32,14 @@ public class BoardService {
             list.get(i).setTeamId(null);
         }
         return list;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateBoard(Integer contestId, List<Board> boards) {
+        boardDao.deleteByContestId(contestId);
+        for(Board board : boards) {
+            boardDao.insertBoard(board);
+        }
+        return true;
     }
 }

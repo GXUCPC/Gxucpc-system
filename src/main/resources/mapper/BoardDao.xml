@@ -8,4 +8,12 @@
         where contest_id = #{id}
         order by `rank`
     </select>
+    <insert id="insertBoard">
+        insert into scoreboard
+            (`contest_id`,`content`, `rank`,`team_id`,`num_solved`,`total_time`)
+        values(#{contestId}, #{content}, #{rank}, #{teamId}, #{numSolved}, #{totalTime})
+    </insert>
+    <delete id="deleteByContestId">
+        delete from scoreboard where `contest_id`=#{contestId}
+    </delete>
 </mapper>
