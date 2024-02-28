@@ -44,7 +44,7 @@ services:
     command: mongod
 
   gxucpc:
-    image: cityts/gxucpc:0.9.4
+    image: cityts/gxucpc:2.0.3
     container_name: gxucpc
     restart: always
     expose:
