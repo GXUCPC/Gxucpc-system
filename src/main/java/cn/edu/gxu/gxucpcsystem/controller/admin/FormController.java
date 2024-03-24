@@ -58,7 +58,7 @@ public class FormController {
      * @param id 表单id
      * @return
      */
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public Re deleteForm(HttpServletRequest request, @PathVariable Integer id) {
         if(playerService.deletePlayer(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了报名表单：" + id);

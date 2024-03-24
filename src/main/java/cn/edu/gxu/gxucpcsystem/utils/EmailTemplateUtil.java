@@ -46,7 +46,7 @@ public class EmailTemplateUtil {
             "\n" +
             "        background-color: #e3e3e3;\n" +
             "\n" +
-            "        width: 100%;\n" +
+            "        width: 100%%;\n" +
             "\n" +
             "        -webkit-text-size-adjust: none !important;\n" +
             "\n" +
@@ -66,9 +66,9 @@ public class EmailTemplateUtil {
             "\n" +
             "        cellspacing=\"0\"\n" +
             "\n" +
-            "        height=\"100%\"\n" +
+            "        height=\"100%%\"\n" +
             "\n" +
-            "        width=\"100%\"\n" +
+            "        width=\"100%%\"\n" +
             "\n" +
             "      >\n" +
             "\n" +
@@ -100,7 +100,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                border-radius: 6px !important;\n" +
             "\n" +
-            "                width: 100%;\n" +
+            "                width: 100%%;\n" +
             "\n" +
             "                max-width: 680px;\n" +
             "\n" +
@@ -122,7 +122,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                    cellspacing=\"0\"\n" +
             "\n" +
-            "                    width=\"100%\"\n" +
+            "                    width=\"100%%\"\n" +
             "\n" +
             "                    id=\"template_header\"\n" +
             "\n" +
@@ -146,7 +146,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                      font-weight: bold;\n" +
             "\n" +
-            "                      line-height: 100%;\n" +
+            "                      line-height: 100%%;\n" +
             "\n" +
             "                      vertical-align: middle;\n" +
             "\n" +
@@ -178,7 +178,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                            text-align: center;\n" +
             "\n" +
-            "                            line-height: 150%;\n" +
+            "                            line-height: 150%%;\n" +
             "\n" +
             "                          \"\n" +
             "\n" +
@@ -190,7 +190,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                            style=\"color: #f1f1f1; text-decoration: none\"\n" +
             "\n" +
-            "                            href=\"https://gxucpc.gxuca.team\"\n" +
+            "                            href=\"https://acm.gxu.edu.cn\"\n" +
             "\n" +
             "                            title=\"广西大学程序设计竞赛\"\n" +
             "\n" +
@@ -226,7 +226,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                    cellspacing=\"0\"\n" +
             "\n" +
-            "                    width=\"100%\"\n" +
+            "                    width=\"100%%\"\n" +
             "\n" +
             "                    id=\"template_body\"\n" +
             "\n" +
@@ -254,7 +254,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                          cellspacing=\"0\"\n" +
             "\n" +
-            "                          width=\"100%\"\n" +
+            "                          width=\"100%%\"\n" +
             "\n" +
             "                        >\n" +
             "\n" +
@@ -272,7 +272,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                                  font-size: 14px;\n" +
             "\n" +
-            "                                  line-height: 150%;\n" +
+            "                                  line-height: 150%%;\n" +
             "\n" +
             "                                  text-align: left;\n" +
             "\n" +
@@ -296,7 +296,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                                <p style=\"text-indent:2em;\">祝:武运昌隆</p>\n" +
             "\n" +
-            "                                <a href=\"https://cpc.gxuca.team\">广西大学程序设计竞赛官方网站:https://cpc.gxuca.team</a>\n" +
+            "                                <a href=\"https://acm.gxu.edu.cn\">广西大学程序设计竞赛官方网站:https://acm.gxu.edu.cn</a>\n" +
             "\n" +
             "                                <p align = \"right\">广西大学程序设计竞赛组委会</p>\n" +
             "\n" +
@@ -338,7 +338,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                    cellspacing=\"0\"\n" +
             "\n" +
-            "                    width=\"100%\"\n" +
+            "                    width=\"100%%\"\n" +
             "\n" +
             "                    id=\"template_footer\"\n" +
             "\n" +
@@ -372,7 +372,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                          cellspacing=\"0\"\n" +
             "\n" +
-            "                          width=\"100%\"\n" +
+            "                          width=\"100%%\"\n" +
             "\n" +
             "                        >\n" +
             "\n" +
@@ -396,7 +396,7 @@ public class EmailTemplateUtil {
             "\n" +
             "                                font-size: 12px;\n" +
             "\n" +
-            "                                line-height: 125%;\n" +
+            "                                line-height: 125%%;\n" +
             "\n" +
             "                                text-align: center;\n" +
             "\n" +

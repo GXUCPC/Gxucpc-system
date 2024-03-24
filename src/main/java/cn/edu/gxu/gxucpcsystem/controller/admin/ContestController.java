@@ -68,7 +68,7 @@ public class ContestController {
      * @param id 比赛ID
      * @return
      */
-    @DeleteMapping
+    @PutMapping("/delete")
     public Re delContest(HttpServletRequest request, Integer id, String name) {
         if (contestService.delContest(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了比赛《" + name + "》");

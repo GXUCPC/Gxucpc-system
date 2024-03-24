@@ -48,7 +48,7 @@ public class UserController {
      * @param id 管理员ID
      * @return
      */
-    @DeleteMapping
+    @PutMapping("/delete")
     public Re delUser(HttpServletRequest request, Integer id, String name) {
         if(adminService.delAdmin(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了管理员：" + name);

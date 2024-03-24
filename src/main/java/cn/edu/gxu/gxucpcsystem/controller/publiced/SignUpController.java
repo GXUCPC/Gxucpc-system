@@ -12,6 +12,7 @@ import cn.edu.gxu.gxucpcsystem.exception.EmailException;
 import cn.edu.gxu.gxucpcsystem.utils.EmailTemplateUtil;
 import cn.edu.gxu.gxucpcsystem.utils.MailUtil;
 import cn.edu.gxu.gxucpcsystem.utils.Re;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/public/signup")
 @CrossOrigin
+@Slf4j
 public class SignUpController {
     @Autowired
     private PlayerService playerService;
@@ -90,7 +92,8 @@ public class SignUpController {
             } catch (EmailException e) {
                 throw e;
             } catch (Exception e) {
-                return new Re(Code.RESOURCE_DISABLE, null, "无效的邮箱");
+                log.error(e.toString());
+                return new Re(Code.RESOURCE_DISABLE, null, e.toString());
             }
             return new Re(Code.STATUS_OK, null, "报名成功!请检查邮箱是否接收到信息确认邮件，并将赛事邮箱加入白名单，以防错过赛事通知！");
         } else {
@@ -176,7 +179,7 @@ public class SignUpController {
      * @param id      表单id
      * @return
      */
-    @DeleteMapping("/history")
+    @PutMapping("/history/cancel")
     public Re cancelRegistration(HttpServletRequest request, Integer itemID, Integer id) {
         Contest contest = contestService.getById(itemID);
         if (contest.getSignUpEndTime() < System.currentTimeMillis()) {

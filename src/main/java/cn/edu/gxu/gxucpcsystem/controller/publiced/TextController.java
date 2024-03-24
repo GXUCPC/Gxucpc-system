@@ -121,7 +121,7 @@ public class TextController {
      * @param id 文章id
      * @return
      */
-    @DeleteMapping("/admin/text")
+    @PutMapping("/admin/text/delete")
     public Re deleteById(HttpServletRequest request, Integer id) {
         if(textService.deleteByID(id)) {
             LogsUtil.logOfOperation(request.getHeader("username"), "删除了文章：id=" + id);

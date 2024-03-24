@@ -29,4 +29,18 @@ public class MailTest {
     public void test2() {
         System.out.println(System.currentTimeMillis());
     }
+
+    @Test
+    public void test3() {
+        System.out.println(String.format(EmailTemplateUtil.DongXinSignUpSuccessTem,
+                "大苏打",
+                "大苏打",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""));
+    }
 }
