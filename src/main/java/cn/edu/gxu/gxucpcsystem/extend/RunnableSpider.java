@@ -49,7 +49,7 @@ public class RunnableSpider implements Runnable {
         if (contest.getFaultTime() >= 10) return;
         try {
             log.info("开启更新任务");
-            boardService.updateBoard(contest.getId(), domjudgeAPI(contest.getUrl()));
+            boardService.updateBoard(contest.getId(), domjudgeAPI(contest.getUrl(), contest.getId()));
         } catch (Exception e) {
             log.error("爬虫出现异常: " + e.getMessage());
             this.status = 0;
@@ -60,7 +60,7 @@ public class RunnableSpider implements Runnable {
 
     }
 
-    private List<Board> domjudgeAPI(String api) throws IOException {
+    private List<Board> domjudgeAPI(String api, Integer contestId) throws IOException {
         List<Board> boards = Lists.newArrayList();
         URL url = new URL(api);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -91,6 +91,7 @@ public class RunnableSpider implements Runnable {
                 board.setNumSolved(numSolved);
                 board.setTotalTime(totalTime);
                 board.setContent(problems);
+                board.setContestId(contestId);
 
                 boards.add(board);
             }
