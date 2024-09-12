@@ -11,6 +11,7 @@ package cn.edu.gxu.gxucpcsystem.utils;
 
 import cn.edu.gxu.gxucpcsystem.domain.LqPlayer;
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
+import cn.edu.gxu.gxucpcsystem.domain.NnTeam;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -37,12 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * ExcelHandle
- *
- * @author gongweixin
- * @date 2021/3/15
- */
 @Slf4j
 public class ExcelHandle {
 
@@ -51,6 +46,7 @@ public class ExcelHandle {
     static {
         heads.put(1, Lists.newArrayList("编号", "学号", "姓名", "性别", "学院", "班级", "QQ", "邮箱", "手机号", "是否打星", "组别"));
         heads.put(2, Lists.newArrayList("编号", "学号", "姓名", "性别", "学院", "班级", "QQ", "邮箱", "手机号", "折扣", "转账截图"));
+        heads.put(3, Lists.newArrayList("编号", "队伍名", "队员1", "队员2", "队员3", "学校", "邮箱", "指导老师", "专业", "年级"));
     }
 
     /**
@@ -126,6 +122,58 @@ public class ExcelHandle {
 
     }
 
+    public static void exportExcelNanNing(HttpServletResponse response, List<NnTeam> excelData, String sheetName, String fileName, int columnWidth) throws IOException {
+        fileName += ".xls";
+        setResponseHeader(response, fileName);
+        //声明一个工作簿
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        //生成一个表格，设置表格名称
+        HSSFSheet sheet = workbook.createSheet(sheetName);
+        //设置表格列宽度
+        sheet.setDefaultColumnWidth(columnWidth);
+        //写入List<List<String>>中的数据
+        int rowIndex = 0;
+        HSSFRow r = sheet.createRow(rowIndex++);
+
+        List<String> head = heads.get(2);
+        for (int i = 0; i < head.size(); i++) {
+            HSSFCell cell = r.createCell(i);
+            HSSFRichTextString text = new HSSFRichTextString(head.get(i));
+            cell.setCellValue(text);
+        }
+
+        for (NnTeam data : excelData) {
+            //创建一个row行，然后自增1
+            r = sheet.createRow(rowIndex++);
+            HSSFCell cell = r.createCell(0);
+            cell.setCellValue(new HSSFRichTextString(String.valueOf(rowIndex)));
+            cell = r.createCell(1);
+            cell.setCellValue(new HSSFRichTextString(data.getTeam()));
+            cell = r.createCell(2);
+            cell.setCellValue(new HSSFRichTextString(data.getMember1()));
+            cell = r.createCell(3);
+            cell.setCellValue(new HSSFRichTextString(data.getMember2()));
+            cell = r.createCell(4);
+            cell.setCellValue(new HSSFRichTextString(data.getMember3()));
+            cell = r.createCell(5);
+            cell.setCellValue(new HSSFRichTextString(data.getSchool()));
+            cell = r.createCell(6);
+            cell.setCellValue(new HSSFRichTextString(data.getEmail()));
+            cell = r.createCell(7);
+            cell.setCellValue(new HSSFRichTextString(data.getTeacher()));
+            cell = r.createCell(8);
+            cell.setCellValue(new HSSFRichTextString(data.getSubject()));
+            cell = r.createCell(9);
+            cell.setCellValue(new HSSFRichTextString(data.getGrade()));
+        }
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        workbook.write(byteArrayOutputStream);
+
+        workbook.write(response.getOutputStream());
+
+        workbook.close();
+    }
 
     public static void exportExcelLQ(HttpServletResponse response, List<LqPlayer> excelData, Map<String, byte[]> imgs, String sheetName, String fileName, int columnWidth) throws IOException {
         fileName += ".xls";

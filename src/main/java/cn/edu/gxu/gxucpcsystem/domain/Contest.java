@@ -44,9 +44,12 @@ public class Contest {
 
     /**
      * 适配的比赛类型
+     * 1: 广西大学校赛
+     * 2: 蓝桥杯
+     * 3: 南宁市赛
      */
     @JsonIgnore
-    private final Set<Integer> types = Sets.newHashSet(1, 2);
+    private final Set<Integer> types = Sets.newHashSet(1, 2, 3);
 
     public String checkIntegrityCreate() {
         if(name == null || name.isEmpty() || name.length() > nameLength) {

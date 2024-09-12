@@ -1,10 +1,8 @@
 package cn.edu.gxu.gxucpcsystem.controller.publiced;
 
 import cn.edu.gxu.gxucpcsystem.domain.LqPlayer;
-import cn.edu.gxu.gxucpcsystem.service.ContestService;
-import cn.edu.gxu.gxucpcsystem.service.DomjudgeService;
-import cn.edu.gxu.gxucpcsystem.service.LanQiaoService;
-import cn.edu.gxu.gxucpcsystem.service.PlayerService;
+import cn.edu.gxu.gxucpcsystem.domain.NnTeam;
+import cn.edu.gxu.gxucpcsystem.service.*;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
@@ -36,11 +34,9 @@ public class SignUpController {
     private ContestService contestService;
 
     @Autowired
-    private DomjudgeService domjudgeService;
-
-    @Autowired
     private LanQiaoService lanQiaoService;
-
+    @Autowired
+    private NanNingService nanNingService;
 
     /**
      * 报名
@@ -105,6 +101,12 @@ public class SignUpController {
     public Re lqSignUp(@RequestBody LqPlayer player, @PathVariable Integer itemID, Integer ok) {
         player.setContestId(itemID);
         return lanQiaoService.addPlay(player, ok);
+    }
+
+    @PostMapping("/nn/{itemID}")
+    public Re nnSignUp(@RequestBody NnTeam team, @PathVariable Integer itemID) {
+        team.setContestId(itemID);
+        return nanNingService.addTeam(team);
     }
 
     /**
