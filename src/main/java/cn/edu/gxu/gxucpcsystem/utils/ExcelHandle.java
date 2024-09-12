@@ -46,7 +46,7 @@ public class ExcelHandle {
     static {
         heads.put(1, Lists.newArrayList("编号", "学号", "姓名", "性别", "学院", "班级", "QQ", "邮箱", "手机号", "是否打星", "组别"));
         heads.put(2, Lists.newArrayList("编号", "学号", "姓名", "性别", "学院", "班级", "QQ", "邮箱", "手机号", "折扣", "转账截图"));
-        heads.put(3, Lists.newArrayList("编号", "队伍名", "队员1", "队员2", "队员3", "学校", "邮箱", "指导老师", "专业", "年级"));
+        heads.put(3, Lists.newArrayList("编号", "队伍名", "队员1", "队员2", "队员3", "学校", "邮箱", "指导老师"));
     }
 
     /**
@@ -161,10 +161,6 @@ public class ExcelHandle {
             cell.setCellValue(new HSSFRichTextString(data.getEmail()));
             cell = r.createCell(7);
             cell.setCellValue(new HSSFRichTextString(data.getTeacher()));
-            cell = r.createCell(8);
-            cell.setCellValue(new HSSFRichTextString(data.getSubject()));
-            cell = r.createCell(9);
-            cell.setCellValue(new HSSFRichTextString(data.getGrade()));
         }
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

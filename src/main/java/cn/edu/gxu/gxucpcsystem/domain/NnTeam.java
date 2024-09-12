@@ -14,8 +14,6 @@ public class NnTeam {
     private String member1;
     private String member2;
     private String member3;
-    private String subject;
-    private String grade;
     private String email;
     private String teacher;
     private Integer contestId;

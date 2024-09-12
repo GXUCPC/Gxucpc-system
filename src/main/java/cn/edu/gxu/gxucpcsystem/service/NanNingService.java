@@ -35,7 +35,6 @@ public class NanNingService {
             return null;
         }
 
-
         ExcelHandle.exportExcelNanNing(response, teams,"报名表", contest.getName(), 15);
         return null;
     }

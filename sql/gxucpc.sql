@@ -52,8 +52,6 @@ create table if not exists nn_information
     member1    varchar(30) not null comment '队员1',
     member2    varchar(30) null comment '队员2',
     member3    varchar(30) null comment '队员3',
-    subject varchar(30) not null comment '专业',
-    grade   varchar(30) not null comment '年级',
     email   varchar(64) not null comment '邮箱',
     teacher varchar(30) not null comment '指导教师',
     contestId   int not null comment '比赛ID'
