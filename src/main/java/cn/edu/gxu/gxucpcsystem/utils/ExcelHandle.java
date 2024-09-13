@@ -135,7 +135,7 @@ public class ExcelHandle {
         int rowIndex = 0;
         HSSFRow r = sheet.createRow(rowIndex++);
 
-        List<String> head = heads.get(2);
+        List<String> head = heads.get(3);
         for (int i = 0; i < head.size(); i++) {
             HSSFCell cell = r.createCell(i);
             HSSFRichTextString text = new HSSFRichTextString(head.get(i));
@@ -146,7 +146,7 @@ public class ExcelHandle {
             //创建一个row行，然后自增1
             r = sheet.createRow(rowIndex++);
             HSSFCell cell = r.createCell(0);
-            cell.setCellValue(new HSSFRichTextString(String.valueOf(rowIndex)));
+            cell.setCellValue(new HSSFRichTextString(String.valueOf(rowIndex - 1)));
             cell = r.createCell(1);
             cell.setCellValue(new HSSFRichTextString(data.getTeam()));
             cell = r.createCell(2);
@@ -195,7 +195,7 @@ public class ExcelHandle {
             //创建一个row行，然后自增1
             r = sheet.createRow(rowIndex++);
             HSSFCell cell = r.createCell(0);
-            cell.setCellValue(new HSSFRichTextString(String.valueOf(rowIndex)));
+            cell.setCellValue(new HSSFRichTextString(String.valueOf(rowIndex - 1)));
             cell = r.createCell(1);
             cell.setCellValue(new HSSFRichTextString(data.getUserId()));
             cell = r.createCell(2);

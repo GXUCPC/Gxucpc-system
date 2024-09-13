@@ -35,6 +35,8 @@ public class ContestController {
 
     @Autowired
     LanQiaoService lanQiaoService;
+    @Autowired
+    NanNingService nanNingService;
 
     /**
      * 添加比赛
@@ -164,6 +166,12 @@ public class ContestController {
         } else if (contest.getType() == 2) {
             try {
                 return lanQiaoService.downloadForms(request, id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (contest.getType() == 3) {
+            try {
+                return nanNingService.downloadForms(request, id);
             } catch (IOException e) {
                 e.printStackTrace();
             }
