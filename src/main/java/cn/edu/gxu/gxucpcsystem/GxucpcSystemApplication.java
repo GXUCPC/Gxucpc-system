@@ -14,9 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableMongoRepositories("cn.edu.gxu.gxucpcsystem.dao.mongodb")
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 public class GxucpcSystemApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(GxucpcSystemApplication.class, args);
 	}
-
 }
