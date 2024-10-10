@@ -1,5 +1,6 @@
 package cn.edu.gxu.gxucpcsystem.controller.admin;
 
+import cn.edu.gxu.gxucpcsystem.domain.RegisterForm;
 import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import cn.edu.gxu.gxucpcsystem.controller.Code;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
@@ -67,6 +68,27 @@ public class FormController {
         return new Re(Code.DATABASE_ERROR, null, "删除失败");
     }
 
-
-
+    /**
+     * 添加一个自定义表单
+     *
+     * @param request HTTP请求头
+     * @param formObj 表单信息
+     * @return
+     */
+    @PostMapping("/add")
+    public Re addForm(HttpServletRequest request, @RequestBody RegisterForm formObj) {
+        String integrityData = formObj.checkIntegrityCreate();
+        if (integrityData != null) {
+            return new Re(Code.RESOURCE_DISABLE, null, "表单信息有误：" + integrityData);
+        }
+        if (playerService.createRegistrationForm(formObj)) {
+            Integer formId = playerService.queryRegistrationFormIdByTitle(formObj.getTitle());
+            if (formId == null) {
+                return new Re(Code.DATABASE_ERROR, null, "数据库错误，请联系管理员");
+            }
+            LogsUtil.logOfOperation(request.getHeader("username"), "创建了报名表单：" + formId);
+            return new Re(Code.STATUS_OK, formId, "表单创建成功");
+        }
+        return new Re(Code.DATABASE_ERROR, null, "表单创建失败");
+    }
 }

@@ -32,6 +32,10 @@
                 #{remark},
                 #{clientNo})
     </insert>
+    <insert id="insertRegistrationForm">
+        insert into registration_form(countPerUser, title, text, formItemList, footer)
+        VALUE (#{countPerUser}, #{title}, #{text}, #{formItemList}, #{footer})
+    </insert>
     <select id="queryByPage" resultType="cn.edu.gxu.gxucpcsystem.domain.Player">
         select *
         from gxucpc.information
@@ -170,5 +174,11 @@
         from information
         where contestId = #{contestId}
           and MOD(informationId, 1000) = #{teamId}
+    </select>
+
+    <select id="selectRegistrationFormIdByTitle" resultType="java.lang.Integer">
+        select registerFormId
+        from registration_form
+        where title = #{title}
     </select>
 </mapper>

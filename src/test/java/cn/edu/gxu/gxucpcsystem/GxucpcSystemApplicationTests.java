@@ -1,8 +1,11 @@
 package cn.edu.gxu.gxucpcsystem;
 
+import cn.edu.gxu.gxucpcsystem.controller.admin.FormController;
+import cn.edu.gxu.gxucpcsystem.domain.RegisterForm;
 import cn.edu.gxu.gxucpcsystem.service.MedalService;
 
 import cn.edu.gxu.gxucpcsystem.domain.Medal;
+import cn.edu.gxu.gxucpcsystem.service.PlayerService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +18,19 @@ class GxucpcSystemApplicationTests {
 	void contextLoads() {
 
 	}
-@Autowired
-	MedalService medalService;
-	@Test
-	public void createMg(){
-		Medal medal = new Medal();
-		medal.setContestId(123);
-		medal.setName("test");
-		medal.set_id("123");
-		medalService.addMedal(medal);
-	}
 
+	@Autowired
+	PlayerService playerService;
+
+	@Test
+	public void createNewRegisterForm() {
+		RegisterForm formObj = new RegisterForm();
+		formObj.setCountPerUser(1);
+		formObj.setTitle("114");
+		formObj.setText("514");
+		formObj.setFormItemList("");
+		formObj.setFooter("Submit!");
+
+		System.out.println(playerService.queryRegistrationFormIdByTitle("114514"));
+	}
 }

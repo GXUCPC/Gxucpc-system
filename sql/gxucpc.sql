@@ -176,3 +176,22 @@ create table if not exists scoreboard
     total_time int  null comment '罚时'
 );
 
+# 创建可自定义的报名信息表
+create table if not exists registration_form
+(
+    registerFormId INT AUTO_INCREMENT PRIMARY KEY ,
+
+    countPerUser INT             not null comment '每人可填写数量',
+    title        VARCHAR(200)    not null comment '表单标题',
+    text         VARCHAR(500)    null comment '表单说明',
+
+    formItemList JSON            not null comment '自定义表格对象',
+
+    footer       VARCHAR(50)     not null comment '表末按钮文本',
+
+    constraint registration_form_registerFormId_uindex
+        unique (registerFormId),
+    constraint registration_form_title_uindex
+        unique (title),
+    unique key check_registerFormId_title (registerFormId, title)
+) comment '可自定义的报名信息表';

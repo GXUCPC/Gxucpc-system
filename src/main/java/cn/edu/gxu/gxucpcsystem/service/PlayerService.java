@@ -6,6 +6,7 @@ import cn.edu.gxu.gxucpcsystem.dao.mysql.DomjudgeDao;
 import cn.edu.gxu.gxucpcsystem.dao.mysql.PlayerDao;
 import cn.edu.gxu.gxucpcsystem.domain.Contest;
 import cn.edu.gxu.gxucpcsystem.domain.Player;
+import cn.edu.gxu.gxucpcsystem.domain.RegisterForm;
 import cn.edu.gxu.gxucpcsystem.utils.ExcelHandle;
 import cn.edu.gxu.gxucpcsystem.utils.RandomPwdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,5 +163,29 @@ public class PlayerService {
      */
     public String queryNameByContestIdAndIdMod(Integer contestId, Integer teamId) {
         return playerDao.selectNameByContestIdAndIdMod(contestId, teamId);
+    }
+
+    /**
+     * 根据自定义表单信息创建表单项
+     * @param formObj
+     * @return
+     */
+    public boolean createRegistrationForm(RegisterForm formObj) {
+        return playerDao.insertRegistrationForm(
+                formObj.getCountPerUser(),
+                formObj.getTitle(),
+                formObj.getText(),
+                formObj.getFormItemList(),
+                formObj.getFooter()
+        ) == 1;
+    }
+
+    /**
+     * 根据自定义表单标题查找表单ID
+     * @param title
+     * @return
+     */
+    public Integer queryRegistrationFormIdByTitle(String title) {
+        return playerDao.selectRegistrationFormIdByTitle(title);
     }
 }

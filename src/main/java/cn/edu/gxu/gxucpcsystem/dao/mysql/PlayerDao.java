@@ -138,4 +138,22 @@ public interface PlayerDao {
      * @return
      */
     String selectNameByContestIdAndIdMod(Integer contestId, Integer teamId);
+
+    /**
+     * 根据自定义表单信息创建表单项
+     * @param countPerUser
+     * @param title
+     * @param text
+     * @param formItemList
+     * @param footer
+     * @return
+     */
+    Integer insertRegistrationForm(Integer countPerUser, String title, String text, String formItemList, String footer);
+
+    /**
+     * 根据自定义表单标题查找表单ID
+     * @param title
+     * @return
+     */
+    Integer selectRegistrationFormIdByTitle(String title);
 }
